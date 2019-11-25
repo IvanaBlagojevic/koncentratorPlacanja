@@ -1,25 +1,29 @@
-spring:
-  application:
-    name: config-server   
+spring:   
   datasource:
     url: jdbc:mysql://localhost:3306/megatravel?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: sifra
     driverClassName : com.mysql.jdbc.Driver
     initialization-mode: always
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform : org.hibernate.dialect.MySQL5Dialect
-    
-server:
-  port: 8090
-  
+  cloud:
+    config:
+      server:
+        git: #koristimo git kao server, pa moramo reci aplikaciji u kom repositorijumu da gleda 
+          uri: 'https://github.com/danicaMarkovic/SEP.git' #napravila sam novi rep
+          clone-on-start: true #server ce skinuti konfiguracione fajlove tokom startup-a posto sam stavila true
+          search-paths: 'config/{application}' # govori serveru gde se u rep nalaze konf. fajlovi
+
 eureka:
   client:
-    register-with-eureka: true
-    fetch-registry: false
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+    enabled: true
+    registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
+    instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
+    service-url:
+      default-zone: http://localhost:8761/eureka/
   instance:
-    hostname: localhost
+    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
+    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
+
+# Server properties
+server:
+  port: 8888
