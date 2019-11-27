@@ -4,11 +4,19 @@ spring:
 
 server:
   port: 8086
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: zuul
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
+   # clientAuth: want  #dodala
   
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: https://localhost:8761/eureka/
   instance:
     hostname: localhost
     nonSecurePortEnabled: false

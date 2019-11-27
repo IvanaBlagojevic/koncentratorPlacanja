@@ -4,6 +4,18 @@ spring:
     
 server:
   port: 8761
+  ssl:
+    enabled: true  
+    key-store-type: JKS
+    key-store-provider: SUN
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: eureka
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
+    protocol: TLS
+    enabled-protocols: TLSv1.2
+    client-auth: need
   
 eureka:
   instance:
@@ -11,11 +23,11 @@ eureka:
     nonSecurePortEnabled: false
     securePortEnabled: true
     securePort: ${server.port}
-    homePageUrl: http://${eureka.instance.hostname}:${server.port}/
-    statusPageUrl: http://${eureka.instance.hostname}:${server.port}/admin/info
+    homePageUrl: https://${eureka.instance.hostname}:${server.port}/
+    statusPageUrl: https://${eureka.instance.hostname}:${server.port}/admin/info
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      defaultZone: ${EUREKA_URI:https://localhost:8761/eureka}
     registerWithEureka: false
     fetchRegistry: false 
 

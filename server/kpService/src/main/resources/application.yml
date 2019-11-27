@@ -12,24 +12,36 @@ spring:
     
 server:
   port: 8085
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: kp
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}         
   
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: false
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    hostname: localhost
-
+  
 eureka:
   client:
-    enabled: true
-    registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
-    instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
+    register-with-eureka: true
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: https://localhost:8761/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
-    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
+    hostname: localhost
+    prefer-ip-address: false
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    securePort: ${server.port}
+
+#eureka:
+#  client:
+#    enabled: true
+#    registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
+#    instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
+#  instance:
+#    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
+#    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
 
 user-name: "Marko"
     

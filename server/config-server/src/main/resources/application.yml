@@ -13,17 +13,43 @@ spring:
           clone-on-start: true #server ce skinuti konfiguracione fajlove tokom startup-a posto sam stavila true
           search-paths: 'config/{application}' # govori serveru gde se u rep nalaze konf. fajlovi
 
+#eureka:
+#  client:
+#    enabled: true
+#    registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
+#    instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
+#    service-url:
+#      default-zone: http://localhost:8761/eureka/
+#  instance:
+#    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
+#    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
+
+# Server properties
+server:
+  port: 8888
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: cs
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}      
+    
 eureka:
   client:
     enabled: true
     registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
     instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
-    service-url:
-      default-zone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: https://localhost:8761/eureka/
   instance:
+    hostname: localhost
+    prefer-ip-address: false
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    securePort: ${server.port}   
     leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
     leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
-
-# Server properties
-server:
-  port: 8888
+    

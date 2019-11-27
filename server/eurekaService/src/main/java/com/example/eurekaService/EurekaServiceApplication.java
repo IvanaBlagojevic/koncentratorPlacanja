@@ -9,6 +9,12 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 public class EurekaServiceApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("KEY_STORE_CLASSPATH", "src/main/resources/eureka.jks");
+		System.setProperty("KEY_STORE_CLASSPATH_TRUST", "src/main/resources/eurekaTrusted.jks");
+		System.setProperty("KEY_STORE_PASSWORD", "password");
+		System.setProperty("KEY_STORE_TRUST_PASSWORD", "password");
+		System.setProperty("KEY_STORE_ALIAS", "eureka");
+		
 		SpringApplication.run(EurekaServiceApplication.class, args);
 	}
 
