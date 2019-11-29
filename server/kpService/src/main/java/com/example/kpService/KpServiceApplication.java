@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,10 @@ import com.netflix.discovery.shared.transport.jersey.EurekaJerseyClientImpl.Eure
 public class KpServiceApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("javax.net.ssl.trustStore","src/main/resources/kpTrusted.jks");
+        System.setProperty("javax.net.ssl.trustStorePassword","password");
+		
+		
 		System.setProperty("KEY_STORE_CLASSPATH", "src/main/resources/kp.jks");
 		System.setProperty("KEY_STORE_CLASSPATH_TRUST", "src/main/resources/kpTrusted.jks");
 		System.setProperty("KEY_STORE_PASSWORD", "password");
@@ -27,10 +32,6 @@ public class KpServiceApplication {
 		SpringApplication.run(KpServiceApplication.class, args);
 	}
 	
-	@Bean
-	public RestTemplate restTemplate() {
-	    return new RestTemplate();
-	}
 	
 	@Bean
 	public DiscoveryClient.DiscoveryClientOptionalArgs discoveryClientOptionalArgs() throws NoSuchAlgorithmException {

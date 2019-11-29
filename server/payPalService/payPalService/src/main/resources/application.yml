@@ -14,4 +14,11 @@ spring:
     
 server:
   port: 8087
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: pps
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
   

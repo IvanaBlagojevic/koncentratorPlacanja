@@ -17,6 +17,6 @@ public class TestConnectionController {
 	@GetMapping("/2")
 	public String test2() {
 		RestTemplate rt = new RestTemplate();
-		return rt.getForObject("http://localhost:8086/kpService/test/1", String.class);
+		return rt.getForObject("https://localhost:8086/kpService/test/1", String.class);
 	}
 }

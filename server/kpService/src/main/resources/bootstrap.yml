@@ -1,14 +1,14 @@
 spring:
   application:
     name: kpService 
-  cloud:
-    config:
-      discovery:
-        service-id: config-server #ime pod kojim je servis registrovan u eureci. Ovako smo podesili aplikaciju sa config serverom
-        enabled: true
-      fail-fast: true
+#  cloud:
+#    config:
+#      discovery:
+#        service-id: config-server #ime pod kojim je servis registrovan u eureci. Ovako smo podesili aplikaciju sa config serverom
+#        enabled: true
+#      fail-fast: true
 
-eureka:
-  client:
-    service-url:
-      default-zone: https://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: https://localhost:8761/eureka/
