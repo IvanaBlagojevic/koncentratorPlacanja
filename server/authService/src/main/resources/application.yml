@@ -27,7 +27,7 @@ server:
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: false
+    fetch-registry: true
     serviceUrl:
       defaultZone: https://localhost:8761/eureka/
   instance:
@@ -46,7 +46,7 @@ eureka:
 #    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
 #    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
 
-user-email: "nikola@yahoo.com" 
+user-email: "marko@google.com" 
 
 management:
   endpoints:

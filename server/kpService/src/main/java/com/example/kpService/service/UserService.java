@@ -18,11 +18,12 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Value("${user-name}")
+	@Value("${user-email}")
 	private String name;
 	
 	public List<User> findUserByEmail()
 	{
+		System.out.println("Trazi se korisnik sa imenom: " + name);
 		return userRepository.findAllByName(name);
 	}
 }

@@ -34,4 +34,15 @@ zuul:
     config-server:
       serviceId: config-server
       
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+               
+ribbon:
+  ReadTimeout: 60000
+      
    

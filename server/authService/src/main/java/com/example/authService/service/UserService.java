@@ -30,6 +30,7 @@ public class UserService {
 	
 	public List<User> findUserByEmail()
 	{
+		System.out.println("Trazi se korisnik sa emailom: " + email);
 		return userRepository.findAllByEmail(email);
 	}
 }

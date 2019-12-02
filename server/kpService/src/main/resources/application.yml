@@ -7,7 +7,7 @@ spring:
     initialization-mode: always
   jpa:
     hibernate:
-      ddl-auto: create-drop
+#      ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect 
     
 server:
@@ -43,7 +43,7 @@ eureka:
 #    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
 #    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
 
-user-name: "Marko"
+user-email: "Marko"
     
 management:
   endpoints:
