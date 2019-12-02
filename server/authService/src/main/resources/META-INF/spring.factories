@@ -1,1 +1,1 @@
-org.springframework.cloud.bootstrap.BootstrapConfiguration=com.example.kpService.configuration.CustomConfigServiceBootstrapConfiguration
+org.springframework.cloud.bootstrap.BootstrapConfiguration=com.example.authService.configuration.CustomConfigServiceBootstrapConfiguration
