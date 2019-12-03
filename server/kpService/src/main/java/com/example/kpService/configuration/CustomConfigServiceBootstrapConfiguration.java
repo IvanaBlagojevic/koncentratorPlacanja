@@ -1,4 +1,4 @@
-package configuration;
+package com.example.kpService.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.apache.http.client.HttpClient;
@@ -26,8 +26,8 @@ public class CustomConfigServiceBootstrapConfiguration {
     @Bean
     public ConfigServicePropertySourceLocator configServicePropertySourceLocator() {
         ConfigClientProperties clientProperties = new ConfigClientProperties(this.environment);
-        //clientProperties.setUri(new String[] { "https://localhost:8888" });
-        clientProperties.setUri(new String[] { "https://localhost:8086/config-server" });
+        clientProperties.setUri(new String[] { "https://localhost:8888" });
+        //clientProperties.setUri(new String[] { "https://localhost:8086/config-server" });
         ConfigServicePropertySourceLocator configServicePropertySourceLocator =  new ConfigServicePropertySourceLocator(clientProperties);
         configServicePropertySourceLocator.setRestTemplate(customRestTemplate());
         return configServicePropertySourceLocator;
