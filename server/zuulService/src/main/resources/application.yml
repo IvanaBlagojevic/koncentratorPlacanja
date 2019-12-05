@@ -11,7 +11,6 @@ server:
     key-alias: zuul
     trust-store: ${KEY_STORE_CLASSPATH_TRUST}
     trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
-   # clientAuth: want  #dodala
   
 eureka:
   client:
@@ -33,7 +32,12 @@ zuul:
       serviceId: authService
     config-server:
       serviceId: config-server
-      
+    bitcoinService:
+      serviceId: bitcoinService
+    bankService:
+      serviceId: bankService
+    payPalService:
+      serviceId: payPalService
 hystrix:
   command:
     default:

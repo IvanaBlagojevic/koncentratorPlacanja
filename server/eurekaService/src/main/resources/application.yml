@@ -15,7 +15,7 @@ server:
     trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
     protocol: TLS
     enabled-protocols: TLSv1.2
-   # client-auth: need
+    client-auth: need
   
 eureka:
   instance:
@@ -32,6 +32,7 @@ eureka:
     fetchRegistry: false 
 
 logging:
+  #config: classpath:logback.xml 
   level:
     com:
       netflix:
