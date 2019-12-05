@@ -5,8 +5,8 @@ spring:
     config:
       discovery:
         service-id: config-server #ime pod kojim je servis registrovan u eureci. Ovako smo podesili aplikaciju sa config serverom
-        enabled: true
-#      fail-fast: true
+#        enabled: true
+      fail-fast: true
 
 #eureka:
 #  client:

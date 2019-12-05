@@ -1,4 +1,4 @@
-package configuration;
+package com.example.authService.configuration;
 
 import java.io.InputStream;
 import java.security.KeyStore;

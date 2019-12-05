@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: payPalService  
   datasource:
     url: jdbc:mysql://localhost:3306/megatravel?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
@@ -39,4 +37,12 @@ eureka:
     nonSecurePortEnabled: false
     securePortEnabled: true
     securePort: ${server.port}
+    
+pomocna: "Pomocna 1"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "info", "refresh"]    
   
