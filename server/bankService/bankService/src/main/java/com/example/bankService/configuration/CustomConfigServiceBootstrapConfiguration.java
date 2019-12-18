@@ -1,6 +1,8 @@
-package com.example.kpService.configuration;
+package com.example.bankService.configuration;
 
-import org.springframework.context.annotation.Configuration;
+import java.io.InputStream;
+import java.security.KeyStore;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
@@ -9,13 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.config.client.ConfigClientProperties;
 import org.springframework.cloud.config.client.ConfigServicePropertySourceLocator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.InputStream;
-import java.security.KeyStore;
 
 @Configuration
 public class CustomConfigServiceBootstrapConfiguration {
@@ -32,7 +32,7 @@ public class CustomConfigServiceBootstrapConfiguration {
         configServicePropertySourceLocator.setRestTemplate(customRestTemplate());
         return configServicePropertySourceLocator;
     }
-
+    
     public RestTemplate customRestTemplate() {
 
         RestTemplate restTemplate = new RestTemplate();
@@ -42,12 +42,12 @@ public class CustomConfigServiceBootstrapConfiguration {
         HttpComponentsClientHttpRequestFactory requestFactory = null;
         try {
             keyStore = KeyStore.getInstance("JKS");
-            ClassPathResource classPathResource = new ClassPathResource("kp.jks");
+            ClassPathResource classPathResource = new ClassPathResource("bank.jks");
             InputStream inputStream = classPathResource.getInputStream();
             keyStore.load(inputStream, "password".toCharArray());
 
             trustStore = KeyStore.getInstance("JKS");
-            ClassPathResource classPathResourceTrust = new ClassPathResource("kpTrusted.jks");
+            ClassPathResource classPathResourceTrust = new ClassPathResource("bankTrusted.jks");
             InputStream trustInput = classPathResourceTrust.getInputStream();
             trustStore.load(trustInput, "password".toCharArray());
 

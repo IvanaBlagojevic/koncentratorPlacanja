@@ -1,6 +1,6 @@
 spring:
   application:
-    name: kpService 
+    name: bitcoinService 
   cloud:
     config:
       discovery:
@@ -8,16 +8,17 @@ spring:
 #        enabled: true
       fail-fast: true
 
-eureka:
-  client:
-    service-url:
-      default-zone: https://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: https://localhost:8761/eureka/
 
 server:
+  port: 8088
   ssl:
     enabled: true
     key-store: ${KEY_STORE_CLASSPATH}
     key-store-password: ${KEY_STORE_PASSWORD}
-    key-alias: kp
+    key-alias: bc
     trust-store: ${KEY_STORE_CLASSPATH_TRUST}
-    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD} 

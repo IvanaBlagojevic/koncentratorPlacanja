@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.shared.transport.jersey.EurekaJerseyClientImpl.EurekaJerseyClientBuilder;
 
-@RefreshScope
+//@RefreshScope
 @EnableEurekaClient
 @SpringBootApplication
 public class KpServiceApplication {
