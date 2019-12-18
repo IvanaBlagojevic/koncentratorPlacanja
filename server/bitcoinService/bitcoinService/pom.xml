@@ -32,6 +32,18 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		<dependency>
+		   <groupId>org.bitcoinj</groupId>
+		   <artifactId>bitcoinj-core</artifactId>
+		   <version>0.15</version>
+		   <scope>compile</scope>
+		</dependency>
+
+		<dependency>
+		   <groupId>com.google.guava</groupId>
+		   <artifactId>guava</artifactId>
+		   <version>27.1-jre</version>
+		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>

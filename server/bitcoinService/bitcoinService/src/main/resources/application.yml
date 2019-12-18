@@ -7,9 +7,15 @@ spring:
     initialization-mode: always
   jpa:
     hibernate:
-#      ddl-auto: create-drop
+      ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect 
     
+bitcoin:
+  network: testnet
+  file-prefix: my-wallet-service-testnet
+  file-location: src/main/resources
+
+
 server:
   port: 8088
   ssl:
