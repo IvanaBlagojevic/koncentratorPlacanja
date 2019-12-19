@@ -1,0 +1,1 @@
+INSERT INTO `merchant` (`id`,`merchant_id`,`merchant_password`) VALUES (1,'id','pass');
