@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.example.bankService.dto.PaymentDTO;
+
 @Entity
 public class Payment {
 	
@@ -12,9 +14,11 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-    @JoinColumn
-    private Merchant merchant;
+	@Column(nullable = false)
+    private String merchantId;
+	
+	@Column(nullable = false)
+    private String merchantPassword;
 	
 	@Column(nullable = false)
 	private double amount;
@@ -40,11 +44,15 @@ public class Payment {
 	@Column(nullable = false)
 	private String paymentId;
 	
-	@Column(nullable = false)
+	@Column
 	private Boolean status; // true - success, false - abortion
 
 	public Payment() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Payment(PaymentDTO paymentResponse) {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -56,12 +64,24 @@ public class Payment {
 		this.id = id;
 	}
 
-	public Merchant getMerchant() {
-		return merchant;
+	
+
+	
+
+	public String getMerchantId() {
+		return merchantId;
 	}
 
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(String merchantId) {
+		this.merchantId = merchantId;
+	}
+
+	public String getMerchantPassword() {
+		return merchantPassword;
+	}
+
+	public void setMerchantPassword(String merchantPassword) {
+		this.merchantPassword = merchantPassword;
 	}
 
 	public double getAmount() {

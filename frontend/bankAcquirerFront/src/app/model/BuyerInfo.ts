@@ -1,3 +1,12 @@
 export class BuyerInfo{
-    info:string;
+    
+    pan: String;
+	
+    securityCode: String;
+    
+    cardHolderName: String;
+	
+    dateTillExpired: Date;
+    
+    paymentId: String;
 }

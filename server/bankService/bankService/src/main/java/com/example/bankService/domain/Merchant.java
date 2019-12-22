@@ -18,10 +18,11 @@ public class Merchant {
 	private String merchantId;
 	
 	@Column(nullable = false)
+	private String username;
+	
+	@Column(nullable = false)
 	private String merchantPassword;
 	
-	@OneToMany(mappedBy = "merchant")
-    protected List<Payment> payments = new ArrayList<Payment>();
 
 	public Merchant() {
 		super();
@@ -59,12 +60,14 @@ public class Merchant {
 		this.merchantPassword = merchantPassword;
 	}
 
-	public List<Payment> getPayments() {
-		return payments;
+	
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setPayments(List<Payment> payments) {
-		this.payments = payments;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	

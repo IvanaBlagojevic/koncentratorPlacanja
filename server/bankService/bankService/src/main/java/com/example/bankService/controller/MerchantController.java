@@ -30,6 +30,8 @@ public class MerchantController {
 	@Autowired
 	private MerchantService merchantService;
 	
+	private String address = "http://localhost:8090/payment/";
+	
 	@RequestMapping(value = "/add",method=RequestMethod.POST,consumes="application/json")
 	public ResponseEntity<?> newUser(@RequestBody MerchantDTO merchant)
 	{
@@ -50,7 +52,7 @@ public class MerchantController {
 
         HttpEntity<MerchantDTO> responseMerchant = new HttpEntity<>(merchant ,headers);
         try {
-            Boolean valid = temp.postForObject("http://localhost:8090/payment/validate", responseMerchant, Boolean.class);
+            Boolean valid = temp.postForObject(address+"validate", responseMerchant, Boolean.class);
             if (!valid) {
                 return new ResponseEntity<>("Data is not valid!", HttpStatus.BAD_REQUEST);
             }

@@ -20,7 +20,6 @@ public class PaymentDTO {
 
 	private String errorUrl;
 	
-	private String paymentUrl;
 
 	public PaymentDTO() {
 		super();
@@ -91,13 +90,6 @@ public class PaymentDTO {
 		this.errorUrl = errorUrl;
 	}
 
-	public String getPaymentUrl() {
-		return paymentUrl;
-	}
-
-	public void setPaymentUrl(String paymentUrl) {
-		this.paymentUrl = paymentUrl;
-	}
 	
 	
 

@@ -6,11 +6,10 @@ import { BuyerInfo } from 'src/app/model/BuyerInfo';
   providedIn: 'root'
 })
 export class BuyerInfoService {
-
   constructor(private http:HttpClient) { }
 
-  getTest(){
-    return this.http.get<BuyerInfo>('http://localhost:8090/payment/getTest');
+  createBuyer(buyer: BuyerInfo){
+    return this.http.post('http://localhost:8090/payment/addBuyerInfo/',buyer);
   }
 
 }

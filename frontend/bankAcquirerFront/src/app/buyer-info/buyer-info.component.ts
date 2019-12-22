@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BuyerInfoService } from '../service/buyerInfo/buyer-info.service';
 import { ActivatedRoute } from '@angular/router';
+import { BuyerInfo } from '../model/BuyerInfo';
 
 @Component({
   selector: 'app-buyer-info',
@@ -9,14 +10,30 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BuyerInfoComponent implements OnInit {
 
-  constructor(private router: ActivatedRoute,private buyerInfoService: BuyerInfoService) {
-    this.buyerInfoService.getTest().subscribe(data =>{
-      alert("Connection is "+data.info);
-    })
-   }
+  buyer : BuyerInfo = new BuyerInfo();
+  errorMessage = '';
+  id: String;
+
+  constructor(private router: ActivatedRoute,private buyerService: BuyerInfoService) { 
+    this.id = this.router.snapshot.params.id
+    this.buyer.paymentId=this.id;
+
+  }
 
   ngOnInit() {
+  }
+
+  sign(){
+    this.buyerService.createBuyer(this.buyer).subscribe(
+      data =>{
+        alert("Merchant "+this.buyer.pan+ " successfully registered!");
+      },
+      error => {
+        console.log(error);
+        this.errorMessage = error.error.message;
     
+      }
+    );
   }
 
 }

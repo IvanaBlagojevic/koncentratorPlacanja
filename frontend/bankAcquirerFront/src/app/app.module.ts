@@ -10,7 +10,7 @@ import { BuyerInfoComponent } from './buyer-info/buyer-info.component';
 
 
 const appRoutes: Routes = [
-  {path: 'buyerInfo', component : BuyerInfoComponent}
+  {path: 'payment/:id', component : BuyerInfoComponent}
 ]
 
 @NgModule({
