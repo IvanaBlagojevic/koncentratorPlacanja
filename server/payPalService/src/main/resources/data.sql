@@ -1,0 +1,1 @@
+insert into user_pay_pal(username,client_id,client_secret) values ("petarperic23252@gmail.com","AboVa2o5REedvjt-AO-30c84Mken1J-bQ5_YgoOWd1lJzFgDt8GzVo5OG9omfgae8idotWlLmXk1tHNQ","EFA16-8S9eYP1i7GTtkgEcZLrS30UWCCN90Hm4EHqx33KBCC-7ZHrIzFiNH-cLW9cUl6oLxzGaxLttpx");
