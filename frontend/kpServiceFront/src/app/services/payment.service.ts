@@ -10,17 +10,18 @@ export class PaymentService {
 
   constructor(private http : HttpClient) { }
 
-  payPal_url = "https://localhost:8087/paypal";
+  zuul_url = "https://localhost:8086/";
 
-  payPalCreatePayment(paymentInfo : PaymentDTO){
-
-    return this.http.post(this.payPal_url + "/complete", paymentInfo);
+  //payPalService
+  payPalCreatePayment(paymentInfo : PaymentDTO, paymentMethod : String) : Observable<any>{ 
+    
+    return this.http.post(this.zuul_url + "/" + paymentMethod + "/create", paymentInfo, { responseType: 'text'} );
   }
 
-  payPalCompletePayment(paymentId : String, payerId : String, username : String) : Observable<any>{
+  payPalCompletePayment(paymentId : String, payerId : String, username : String, paymentMethod : String) : Observable<any>{
 
     console.log("pokusava da je pozoveeeee");
-    return this.http.get(this.payPal_url + "/complete/"+paymentId + "/"+payerId + "/" + username); 
+    return this.http.get(this.zuul_url + "/" + paymentMethod + "/complete/"+paymentId + "/"+payerId + "/" + username,  { responseType: 'text'} ); 
   }
 
 }

@@ -23,7 +23,7 @@ server:
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: false
+    fetch-registry: true
     enabled: true
     registryFetchIntervalSeconds: 10 # how often to fetch the registry from Eureka server
     instanceInfoReplicationIntervalSeconds: 10 # how often to replicate instance changes to be replicated to Eureka server
@@ -37,6 +37,10 @@ eureka:
     nonSecurePortEnabled: false
     securePortEnabled: true
     securePort: ${server.port}
+    
+ribbon:
+  eureka:
+    enabled: false
     
 pomocna: "Pomocna 1"
 

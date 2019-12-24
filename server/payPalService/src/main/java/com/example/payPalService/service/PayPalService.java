@@ -32,6 +32,7 @@ import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 
+
 @Service
 public class PayPalService {
 	
@@ -41,16 +42,13 @@ public class PayPalService {
 	@Autowired
 	private OrderService orderService;
 	
-	//podaci business account-a, koji je trgovac, a logujem se na personal account prilikom uplate (kupac)
-	public String clientId = "AboVa2o5REedvjt-AO-30c84Mken1J-bQ5_YgoOWd1lJzFgDt8GzVo5OG9omfgae8idotWlLmXk1tHNQ";
-	public String clientSecret = "EFA16-8S9eYP1i7GTtkgEcZLrS30UWCCN90Hm4EHqx33KBCC-7ZHrIzFiNH-cLW9cUl6oLxzGaxLttpx";
-
+	
 	public Map<String,Object> createPayment(PaymentDTO paymentDTO){
 		
 		//dobavljanje odgovarajuce korisnika
 		UserPayPal user = userService.getUserByUsername(paymentDTO.getMerchantEmail());
 		Amount amount = new Amount("USD",Double.toString(paymentDTO.getAmount())); //kreira se objekat koji nosi info o valuti i iznosu
-								//par dva je iznos koji se isplacuje od strane payer-a
+								
 		
 		Transaction transaction = new Transaction(); //sadzi sve potrebne info o transakciji
 		transaction.setAmount(amount);
@@ -68,25 +66,24 @@ public class PayPalService {
 		
 		RedirectUrls redirectUrl = new RedirectUrls();
 		redirectUrl.setCancelUrl("https://localhost:1234/error");
-	    //redirectUrl.setReturnUrl("https://localhost:8087/paypal/complete?username="+username); 
-		redirectUrl.setReturnUrl("https://localhost:1234/ppsuccess?username="+user.getUsername()); //iz fronta kp se mora redirektovati na complete metodu
+		redirectUrl.setReturnUrl("https://localhost:1234/ppsuccess?username="+user.getUsername());
 	    payment.setRedirectUrls(redirectUrl);
 	    
 	    Payment createdPayment;
 	    Map<String, Object> response = new HashMap<String, Object>();
 	    try 
 	    {
-	    	String redirectionUrl = ""; //podaci o trgovcu
+	    	String redirectionUrl = ""; 
 	    	APIContext context = new APIContext(user.getClientId(), user.getClientSecret(), "sandbox");
 	    	createdPayment = payment.create(context);
 	    	
-	    	//sacuvati porudzbinuuuuuuu
+	    	
 	    	double a =   Double.parseDouble(createdPayment.getTransactions().get(0).getAmount().getTotal());
 	    	
 	    	Date today = new Date();
 	    	
 	    	Order order = new Order(createdPayment.getId(),paymentDTO.getMerchantEmail(),paymentDTO.getAmount()
-	    			,PaymentStatus.CREATED,OrderState.NOT_RETURNED,today,null,"https://localhost:1234/error");
+	    			,PaymentStatus.CREATED,OrderState.NOT_PAYED,today,null,"https://localhost:1234/error2");
 	    	this.orderService.saveOrder(order);
 	    	
 	    	if(createdPayment!=null){
@@ -124,23 +121,32 @@ public class PayPalService {
 		try {
 			
 			APIContext context = new APIContext(user.getClientId(),user.getClientSecret(),"sandbox");
-			Payment createdPayment = payment.execute(context, payExecution); //izvrsavanje bi trebalo da je ovoooooo
+			payment.execute(context, payExecution); //izvrsavanje bi trebalo da je ovoooooo
 			
-			if(createdPayment != null)
-			{
-				order = this.orderService.getByPaymentId(idPayment).get();
-				order.setStatus(PaymentStatus.APPROVED);
-				order.setCompleteDate(new Date());
-				
-				this.orderService.saveOrder(order);
-				response.put("status", "success");
-				response.put("payment", createdPayment);
-			}
+			order = this.orderService.getByPaymentId(idPayment).get();
+			order.setStatus(PaymentStatus.APPROVED);
+			order.setCompleteDate(new Date());
+			order.setState(OrderState.PAYED);
+			
+			this.orderService.saveOrder(order);
+			
 			
 		}catch(PayPalRESTException e) {
 			
 			throw new BadRequest("Error happened during payment complete");
 		}
+		
+		/*RestTemplate rt = new RestTemplate();
+	    try {
+			ResponseEntity<String> res = rt.getForEntity(order.getCallbackUrl(), String.class);
+			order.setState(OrderState.PAYED);
+			this.orderService.saveOrder(order);
+		} catch (HttpStatusCodeException exception) {
+			System.out.println("Greska prilikom javaljanja naucnoj centrali!");
+			exception.printStackTrace();
+	    }*/
+	    
+	    response.put("redirect_url", "https://localhost:1234/redirection");
 		
 		return response;
 	}

@@ -50,14 +50,18 @@
             <div class="col">
               <div class="row justify-content-center">
                 <div class="col-xl-8 col-md-10">
-                  <form class="position-relative d-block aos-init aos-animate" data-aos="fade-up">
+                  <form class="position-relative d-block aos-init aos-animate" data-aos="fade-up" method="POST" (ngSubmit)="createPayment()">
                     <div class="form-group">
                       <label class="text-white" for="course-name-1">Merchant id:</label>
-                      <input name="course-name" id="course-name-1" type="text" class="form-control form-control-lg" placeholder="Type your id">
+                      <input name="course-name" id="course-name-1" type="text" class="form-control form-control-lg" placeholder="Type your id" [(ngModel)]="payment.merchantId">
                     </div>
                     <div class="form-group">
                       <label class="text-white" for="course-email-1">Merchant email</label>
-                      <input name="course-email" id="course-email-1" type="email" class="form-control form-control-lg" placeholder="Type your email">
+                      <input name="course-email" id="course-email-1" type="email" class="form-control form-control-lg" placeholder="Type your email" [(ngModel)]="payment.merchantEmail">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-white" for="course-name-1">Amount:</label>
+                      <input name="course-name" id="course-name-1" type="text" class="form-control form-control-lg" placeholder="Type amount:"  [(ngModel)]="payment.amount">
                     </div>
                     <div class="form-group">
                       <div class="row">
@@ -85,7 +89,7 @@
                         <div class="col">
                           <div class="form-group rounded bg-white p-2 border">
                             <div class="custom-control custom-radio">
-                              <input type="radio" id="course-radio-advanced-1" name="course-radio-1" class="custom-control-input">
+                              <input type="radio" id="course-radio-advanced-1" name="course-radio-1" class="custom-control-input" (click)="payPalChoosen = true">
                               <label class="custom-control-label" for="course-radio-advanced-1">PayPal</label>
                             </div>
                           </div>
