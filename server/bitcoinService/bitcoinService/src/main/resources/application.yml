@@ -1,6 +1,8 @@
 spring:
+  application:
+    name: bitcoinService
   datasource:
-    url: jdbc:mysql://localhost:3306/megatravel?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/bc?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: sifra
     driverClassName : com.mysql.jdbc.Driver
@@ -10,10 +12,10 @@ spring:
       ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect 
     
-bitcoin:
-  network: testnet
-  file-prefix: my-wallet-service-testnet
-  file-location: src/main/resources
+#bitcoin:
+ # network: testnet
+  #file-prefix: my-wallet-service-testnet
+  #file-location: src/main/resources
 
 
 server:
@@ -53,3 +55,6 @@ management:
       exposure:
         include: ["health", "info", "refresh"]
 
+ribbon:
+  eureka:
+    enabled: false

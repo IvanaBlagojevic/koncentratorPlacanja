@@ -8,26 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.bitcoinService.MyWallet;
-
 @RefreshScope
 @RestController
 @RequestMapping("test")
 public class TestController {
 	
-	@Autowired
-    private MyWallet myWallet;
+	//@Autowired
+   // private MyWallet myWallet;
 
     @RequestMapping
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @RequestMapping(value = "/send")
+    /*@RequestMapping(value = "/send")
     public String send(@RequestParam String amount, @RequestParam String address) {
         myWallet.send(amount, address);
         return "Done!";
-    }
+    }*/
     
     @Value("${proba}")
 	private String proba;

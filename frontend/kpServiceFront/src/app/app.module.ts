@@ -6,16 +6,22 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { PayPalSuccessComponent } from './pay-pal-success/pay-pal-success.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BitcoinSuccessComponent } from './bitcoin-success/bitcoin-success.component';
+import { BitcoinCancelComponent } from './bitcoin-cancel/bitcoin-cancel.component';
 
 const appRoutes: Routes = [ {path: '', component : HomepageComponent},
-                            {path : 'ppsuccess', component : PayPalSuccessComponent}
+                            {path : 'ppsuccess', component : PayPalSuccessComponent},
+                            {path : 'bitcoinCancel/:oid', component : BitcoinCancelComponent},
+                            {path : 'bitcoinSuccess/:oid', component : BitcoinSuccessComponent}
  ]
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    PayPalSuccessComponent
+    PayPalSuccessComponent,
+    BitcoinSuccessComponent,
+    BitcoinCancelComponent
   ],
   imports: [
     BrowserModule,

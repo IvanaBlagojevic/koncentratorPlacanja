@@ -3,6 +3,7 @@ package com.example.bitcoinService;
 import java.security.NoSuchAlgorithmException;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.shared.transport.jersey.EurekaJerseyClientImpl.EurekaJerseyClientBuilder;
 
 @EnableEurekaClient
+@EnableAutoConfiguration
 @SpringBootApplication
 public class BitcoinServiceApplication {
 
