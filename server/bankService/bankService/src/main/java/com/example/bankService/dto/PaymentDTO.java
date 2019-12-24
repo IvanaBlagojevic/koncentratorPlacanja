@@ -2,6 +2,10 @@ package com.example.bankService.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
+
 public class PaymentDTO {
 	
     private String merchantId;
@@ -10,7 +14,7 @@ public class PaymentDTO {
 	
 	private double amount;
 	
-	private String merchantOrderId;
+	private Long merchantOrderId;
 
 	private Date merchantTimestamp;
 	
@@ -50,11 +54,11 @@ public class PaymentDTO {
 		this.amount = amount;
 	}
 
-	public String getMerchantOrderId() {
+	public Long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(Long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 

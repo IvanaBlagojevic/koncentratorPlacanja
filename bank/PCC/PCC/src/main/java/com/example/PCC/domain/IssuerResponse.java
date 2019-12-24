@@ -17,7 +17,7 @@ public class IssuerResponse {
 	private Long id;
 
 	@Column
-	private String acquirerOrderId;
+	private Long acquirerOrderId;
     
 	@Column
 	private Date acquirerTimestamp;
@@ -49,7 +49,7 @@ public class IssuerResponse {
 		this.transactionStatus = dtoIP.getTransactionStatus();
 	}
 
-	public IssuerResponse(Long id, String acquirerOrderId, Date acquirerTimestamp, String issuerOrderId,
+	public IssuerResponse(Long id, Long acquirerOrderId, Date acquirerTimestamp, String issuerOrderId,
 			Date issuerTimestamp, String account, String transactionStatus) {
 		super();
 		this.id = id;
@@ -69,11 +69,11 @@ public class IssuerResponse {
 		this.id = id;
 	}
 
-	public String getAcquirerOrderId() {
+	public Long getAcquirerOrderId() {
 		return acquirerOrderId;
 	}
 
-	public void setAcquirerOrderId(String acquirerOrderId) {
+	public void setAcquirerOrderId(Long acquirerOrderId) {
 		this.acquirerOrderId = acquirerOrderId;
 	}
 

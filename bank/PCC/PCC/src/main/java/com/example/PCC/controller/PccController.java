@@ -43,7 +43,8 @@ public class PccController {
 		IssuerResponse toSave = new IssuerResponse(dtoIP);
 		this.pccService.saveResponse(toSave);
 	        
-		InterbankResponseDTO response = new InterbankResponseDTO(dtoIP.getAccount(), dtoIP.getTransactionStatus());
+		InterbankResponseDTO response = new InterbankResponseDTO(dtoIP.getAccount(), dtoIP.getTransactionStatus(),
+				dtoIP.getAcquirerOrderId(), dtoIP.getAcquirerTimestamp(),dtoIP.getIssuerOrderId(), dtoIP.getIssuerTimestamp());
 		
 		
         return new ResponseEntity<InterbankResponseDTO>(response, HttpStatus.OK);

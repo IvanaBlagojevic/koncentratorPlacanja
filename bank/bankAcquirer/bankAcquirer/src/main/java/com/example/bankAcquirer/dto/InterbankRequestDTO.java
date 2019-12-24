@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class InterbankRequestDTO {
 	
-	private String acquirerOrderId;
+	private Long acquirerOrderId;
 	
 	private Date acquirerTimestamp;
 	
@@ -20,18 +20,18 @@ public class InterbankRequestDTO {
 	
 	private Date dateTillExpired;
 	
-	private String paymentId;
+	private Long paymentId;
 
 	public InterbankRequestDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getAcquirerOrderId() {
+	public Long getAcquirerOrderId() {
 		return acquirerOrderId;
 	}
 
-	public void setAcquirerOrderId(String acquirerOrderId) {
+	public void setAcquirerOrderId(Long acquirerOrderId) {
 		this.acquirerOrderId = acquirerOrderId;
 	}
 
@@ -91,11 +91,11 @@ public class InterbankRequestDTO {
 		this.dateTillExpired = dateTillExpired;
 	}
 
-	public String getPaymentId() {
+	public Long getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(String paymentId) {
+	public void setPaymentId(Long paymentId) {
 		this.paymentId = paymentId;
 	}
 	

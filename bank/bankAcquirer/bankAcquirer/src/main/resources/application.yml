@@ -14,3 +14,11 @@ spring:
 
 server:
   port: 8090
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: bankacquirer
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}         
+  

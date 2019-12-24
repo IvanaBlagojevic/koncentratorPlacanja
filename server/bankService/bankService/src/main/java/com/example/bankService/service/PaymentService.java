@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.bankService.domain.Merchant;
 import com.example.bankService.domain.Payment;
+import com.example.bankService.domain.ResponseToKP;
 import com.example.bankService.domain.Transaction;
 import com.example.bankService.dto.PaymentDTO;
 import com.example.bankService.dto.TransactionDTO;
 import com.example.bankService.repository.MerchantRepository;
 import com.example.bankService.repository.PaymentRepository;
+import com.example.bankService.repository.ResponseToKPRepository;
 import com.example.bankService.repository.TransactionRepository;
 
 @Service
@@ -27,9 +30,13 @@ public class PaymentService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
-	private String address ="http://localhost:4200/";
+	private String address ="https://localhost:4200/";
 	
-	private String addressBank = "http://localhost:8090/payment/";
+	@Autowired
+	private ResponseToKPRepository responseRepository;
+	
+	
+	private String addressBank = "https://localhost:8090/payment/";
 
 	public String createPayment(PaymentDTO payment) {
 		       
@@ -57,6 +64,10 @@ public class PaymentService {
         return null;
     }
 	
-
+	public ResponseToKP saveResponse(ResponseToKP entity) 
+	{
+		
+		return this.responseRepository.save(entity);
+	}
 
 }

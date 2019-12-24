@@ -24,7 +24,7 @@ public class Payment {
 	private double amount;
 	
 	@Column(nullable = false)
-	private String merchantOrderId;
+	private Long merchantOrderId;
 
 	@Column(nullable = false)
 	private Date merchantTimestamp;
@@ -45,7 +45,7 @@ public class Payment {
 	private String paymentId;
 	
 	@Column
-	private Boolean status; // true - success, false - abortion
+	private StatusOfPayment status; // true - success, false - abortion
 
 	public Payment() {
 		super();
@@ -92,11 +92,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public String getMerchantOrderId() {
+	public Long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(Long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 
@@ -148,11 +148,11 @@ public class Payment {
 		this.paymentId = paymentId;
 	}
 
-	public Boolean getStatus() {
+	public StatusOfPayment getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(StatusOfPayment status) {
 		this.status = status;
 	}
 

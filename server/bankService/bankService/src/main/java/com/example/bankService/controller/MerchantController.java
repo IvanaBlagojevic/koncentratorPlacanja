@@ -1,5 +1,7 @@
 package com.example.bankService.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpEntity;
@@ -24,16 +26,16 @@ import com.example.bankService.service.MerchantService;
 @RefreshScope
 @RestController
 @RequestMapping("merchant")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200")
 public class MerchantController {
 	
 	@Autowired
 	private MerchantService merchantService;
 	
-	private String address = "http://localhost:8090/payment/";
+	private String address = "https://localhost:8090/payment/";
 	
 	@RequestMapping(value = "/add",method=RequestMethod.POST,consumes="application/json")
-	public ResponseEntity<?> newUser(@RequestBody MerchantDTO merchant)
+	public ResponseEntity<?> newUser(@Valid @RequestBody MerchantDTO merchant)
 	{
 		System.out.println("add merchent");
 		RestTemplate temp = new RestTemplate();
@@ -54,7 +56,7 @@ public class MerchantController {
         try {
             Boolean valid = temp.postForObject(address+"validate", responseMerchant, Boolean.class);
             if (!valid) {
-                return new ResponseEntity<>("Data is not valid!", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Merchant data is not valid!", HttpStatus.BAD_REQUEST);
             }
         } catch (HttpStatusCodeException exception) {
             System.out.println("Error validating payment card data!");

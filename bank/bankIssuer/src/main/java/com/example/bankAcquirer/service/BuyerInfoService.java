@@ -105,13 +105,13 @@ public class BuyerInfoService {
 		// TODO Auto-generated method stub
 		InterbankRequestDTO irDTO = new InterbankRequestDTO();
 		irDTO.setAcquirerAccount(request.getAccountPayer());
-		irDTO.setAcquirerOrderId(request.getId().toString());
+		irDTO.setAcquirerOrderId(request.getId());
 		irDTO.setAcquirerTimestamp(request.getTimestamp());
 		irDTO.setAmount(request.getAmount());
 		irDTO.setCardHolderName(buyerInfo.getCardHolderName());
 		irDTO.setDateTillExpired(buyerInfo.getDateTillExpired());
 		irDTO.setPan(buyerInfo.getPan());
-		irDTO.setPaymentId(request.getPayment().getId().toString());
+		irDTO.setPaymentId(request.getPayment().getId());
 		irDTO.setSecurityCode(buyerInfo.getSecurityCode());
 		
 		RestTemplate temp = new RestTemplate();

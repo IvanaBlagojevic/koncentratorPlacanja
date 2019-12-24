@@ -17,7 +17,7 @@ public class Merchant {
 	@Column(nullable = false)
 	private String merchantId;
 	
-	@Column(nullable = false)
+	@Column//(nullable = false) //sa sada
 	private String username;
 	
 	@Column(nullable = false)

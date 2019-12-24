@@ -6,13 +6,14 @@ import java.util.Optional;
 import com.example.bankAcquirer.domain.Payment;
 
 public class PaymentDTO {
+	
 	private String merchantId;
     
     private String merchantPassword;
 	
 	private double amount;
 	
-	private String merchantOrderId;
+	private Long merchantOrderId;
 
 	private Date merchantTimestamp;
 	
@@ -24,7 +25,7 @@ public class PaymentDTO {
 	
 	private String paymentUrl;
 
-    private String paymentId;
+    private Long paymentId;
 
 	public PaymentDTO() {
 		super();
@@ -45,9 +46,9 @@ public class PaymentDTO {
 		this.merchantPassword= payment.get().getMerchantPassword();
 	}
 
-	public PaymentDTO(String merchantId, String merchantPassword, double amount, String merchantOrderId,
+	public PaymentDTO(String merchantId, String merchantPassword, double amount, Long merchantOrderId,
 			Date merchantTimestamp, String successUrl, String failedUrl, String errorUrl, String paymentUrl,
-			String paymentId) {
+			Long paymentId) {
 		super();
 		this.merchantId = merchantId;
 		this.merchantPassword = merchantPassword;
@@ -69,11 +70,11 @@ public class PaymentDTO {
 		this.merchantId = merchantId;
 	}
 
-	public String getPaymentId() {
+	public Long getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(String paymentId) {
+	public void setPaymentId(Long paymentId) {
 		this.paymentId = paymentId;
 	}
 
@@ -93,11 +94,11 @@ public class PaymentDTO {
 		this.amount = amount;
 	}
 
-	public String getMerchantOrderId() {
+	public Long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(Long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 

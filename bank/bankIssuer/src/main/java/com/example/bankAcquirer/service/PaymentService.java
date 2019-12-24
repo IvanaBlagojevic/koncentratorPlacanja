@@ -68,7 +68,7 @@ public class PaymentService {
 		
 		Payment entity = new Payment(payment);
 		List<Payment> listofAll=paymentRepository.findAll();
-		entity.setPaymentId(Integer.toString(listofAll.size()+1));
+		entity.setPaymentId( Long.valueOf(listofAll.size()+1));
 		entity.setPaymentUrl(this.frontUrl + "payment/" + entity.getPaymentId());
 		Payment savedEntity= this.paymentRepository.save(entity);
 		
@@ -115,13 +115,13 @@ public class PaymentService {
 					}
 					
 				}else {
-					transaction.setStatus("failed1");
+					transaction.setStatus("failed");
 				}
 			}else {
-				transaction.setStatus("failed2");
+				transaction.setStatus("failed");
 			}
 		}else {
-			transaction.setStatus("failed3");
+			transaction.setStatus("failed");
 		}
 		
 		Transaction entity = this.transactionRepository.save(transaction);

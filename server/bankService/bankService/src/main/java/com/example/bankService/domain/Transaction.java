@@ -14,10 +14,10 @@ public class Transaction {
     private Long id;
 
     @Column(nullable = false)
-    private String merchantOrderId;
+    private Long merchantOrderId;
 
     @Column(nullable = false)
-    private String acquirerOrderId;
+    private Long acquirerOrderId;
 
     @Column(nullable = false)
     private Date acquirerTimestamp;
@@ -52,19 +52,19 @@ public class Transaction {
 		this.id = id;
 	}
 
-	public String getMerchantOrderId() {
+	public Long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(Long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 
-	public String getAcquirerOrderId() {
+	public Long getAcquirerOrderId() {
 		return acquirerOrderId;
 	}
 
-	public void setAcquirerOrderId(String acquirerOrderId) {
+	public void setAcquirerOrderId(Long acquirerOrderId) {
 		this.acquirerOrderId = acquirerOrderId;
 	}
 

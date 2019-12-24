@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class IssuerResponseDTO {
 
-	private String acquirerOrderId;
+	private Long acquirerOrderId;
     
 	private Date acquirerTimestamp;
     
@@ -21,11 +21,11 @@ public class IssuerResponseDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getAcquirerOrderId() {
+	public Long getAcquirerOrderId() {
 		return acquirerOrderId;
 	}
 
-	public void setAcquirerOrderId(String acquirerOrderId) {
+	public void setAcquirerOrderId(Long acquirerOrderId) {
 		this.acquirerOrderId = acquirerOrderId;
 	}
 

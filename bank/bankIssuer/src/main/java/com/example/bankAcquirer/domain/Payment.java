@@ -30,7 +30,7 @@ public class Payment {
 	private double amount;
 	
 	@Column(nullable = false)
-	private String merchantOrderId;
+	private Long merchantOrderId;
 
 	@Column(nullable = false)
 	private Date merchantTimestamp;
@@ -48,7 +48,7 @@ public class Payment {
 	private String paymentUrl;
 	
 	@Column(nullable = false)
-	private String paymentId;
+	private Long paymentId;
 	
 	@Column
 	private Boolean status; // true - success, false - abortion
@@ -91,11 +91,11 @@ public class Payment {
 		this.amount = amount;
 	}
 
-	public String getMerchantOrderId() {
+	public Long getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
-	public void setMerchantOrderId(String merchantOrderId) {
+	public void setMerchantOrderId(Long merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
 	}
 
@@ -139,11 +139,11 @@ public class Payment {
 		this.paymentUrl = paymentUrl;
 	}
 
-	public String getPaymentId() {
+	public Long getPaymentId() {
 		return paymentId;
 	}
 
-	public void setPaymentId(String paymentId) {
+	public void setPaymentId(Long paymentId) {
 		this.paymentId = paymentId;
 	}
 

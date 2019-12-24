@@ -10,6 +10,6 @@ import com.example.bankAcquirer.domain.Payment;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-	Optional<Payment> findByPaymentId(String id);
+	Optional<Payment> findByPaymentId(Long id);
 
 }

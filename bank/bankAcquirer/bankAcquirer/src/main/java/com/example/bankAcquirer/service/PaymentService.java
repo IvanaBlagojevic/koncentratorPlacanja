@@ -50,7 +50,7 @@ public class PaymentService {
 		
 		Payment entity = new Payment(payment);
 		List<Payment> listofAll=paymentRepository.findAll();
-		entity.setPaymentId(Integer.toString(listofAll.size()+1));
+		entity.setPaymentId(Long.valueOf(listofAll.size()+1));
 		entity.setPaymentUrl(this.frontUrl + "payment/" + entity.getPaymentId());
 		Payment savedEntity= this.paymentRepository.save(entity);
 		
@@ -59,7 +59,7 @@ public class PaymentService {
 		return savedEntity;
 	}
 
-	public Optional<Payment> findByPaymentId(String id) {
+	public Optional<Payment> findByPaymentId(Long id) {
 		// TODO Auto-generated method stub
 		return this.paymentRepository.findByPaymentId(id);
 	}

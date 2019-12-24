@@ -11,9 +11,9 @@ import com.example.bankService.domain.StatusOfPayment;
 
 public class TransactionDTO {
 	 
-	    private String merchantOrderId;
+	    private Long merchantOrderId;
 
-	    private String acquirerOrderId;
+	    private Long acquirerOrderId;
 
 	    private Date acquirerTimestamp;
 
@@ -26,19 +26,19 @@ public class TransactionDTO {
 			// TODO Auto-generated constructor stub
 		}
 
-		public String getMerchantOrderId() {
+		public Long getMerchantOrderId() {
 			return merchantOrderId;
 		}
 
-		public void setMerchantOrderId(String merchantOrderId) {
+		public void setMerchantOrderId(Long merchantOrderId) {
 			this.merchantOrderId = merchantOrderId;
 		}
 
-		public String getAcquirerOrderId() {
+		public Long getAcquirerOrderId() {
 			return acquirerOrderId;
 		}
 
-		public void setAcquirerOrderId(String acquirerOrderId) {
+		public void setAcquirerOrderId(Long acquirerOrderId) {
 			this.acquirerOrderId = acquirerOrderId;
 		}
 

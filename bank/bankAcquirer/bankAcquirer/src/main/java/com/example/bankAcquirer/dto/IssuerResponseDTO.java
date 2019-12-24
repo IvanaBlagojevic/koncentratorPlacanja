@@ -3,7 +3,8 @@ package com.example.bankAcquirer.dto;
 import java.util.Date;
 
 public class IssuerResponseDTO {
-private String acquirerOrderId;
+
+	private String acquirerOrderId;
     
 	private Date acquirerTimestamp;
     

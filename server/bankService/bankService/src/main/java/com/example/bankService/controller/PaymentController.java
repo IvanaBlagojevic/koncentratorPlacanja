@@ -1,18 +1,23 @@
 package com.example.bankService.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.bankService.domain.Merchant;
+import com.example.bankService.domain.ResponseToKP;
 import com.example.bankService.dto.MerchantDTO;
 import com.example.bankService.dto.PaymentDTO;
+import com.example.bankService.dto.ResponseToKPDTO;
 import com.example.bankService.service.MerchantService;
 import com.example.bankService.service.PaymentService;
 
@@ -30,44 +35,33 @@ public class PaymentController {
 	
 	@RequestMapping(value = "/add",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity paying(@RequestBody PaymentDTO pdto) {
+    public ResponseEntity paying(@Valid @RequestBody PaymentDTO pdto) {
 
         String paymentUrl = this.paymentService.createPayment(pdto);
 
         return new ResponseEntity<String>(paymentUrl, HttpStatus.OK);
     }
 
-   /* @GetMapping(
-            path = "/success/{token}",
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
-    public ResponseEntity success(@PathVariable("token") String token) {
-
-        String retVal = this.paymentCardService.completePayment(token);
-
-        return new ResponseEntity<>(retVal, HttpStatus.FOUND);
-    }
-
-    @GetMapping(
-            path = "/error/{token}",
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
-    public ResponseEntity error(@PathVariable("token") String token) {
-
-        String retVal = this.paymentCardService.errorPayment(token);
-
-        return new ResponseEntity<>(retVal, HttpStatus.OK);
-    }
-
-    @GetMapping(
-            path = "/failed/{token}",
-            produces = MediaType.TEXT_PLAIN_VALUE
-    )
-    public ResponseEntity failed(@PathVariable("token") String token) {
-
-        String retVal = this.paymentCardService.failedPayment(token);
-
-        return new ResponseEntity<>(retVal, HttpStatus.OK);
-    }
-*/
+	/*@RequestMapping(value = "/saveResponse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseToKPDTO> saveData(@RequestBody ResponseToKPDTO dto) {
+		System.out.println("Response u kp-u ");
+		
+		
+		//ResponseToKP valid = this.paymentService.saveResponse(dto);
+		
+		
+		return new ResponseEntity<ResponseToKPDTO>(dto, HttpStatus.OK);
+	}*/
+	@RequestMapping(value = "/saveResponse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> validate (@Valid @RequestBody ResponseToKPDTO dto, BindingResult bindingResult) {
+		System.out.println("Validacija ");
+		if(bindingResult.hasErrors()) {
+			return new ResponseEntity<String>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
+		}
+		ResponseToKP toSave = new ResponseToKP(dto);
+		ResponseToKP valid = this.paymentService.saveResponse(toSave);
+		System.out.println("Validacija "+valid);
+		
+		return new ResponseEntity<ResponseToKPDTO>(dto,HttpStatus.OK);
+	}
 }

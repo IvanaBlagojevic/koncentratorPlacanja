@@ -1,11 +1,19 @@
 package com.example.bankService.dto;
 
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
+
 public class MerchantDTO {
 	
 	private Long id;
 	
+	@NotNull
+	@Size(min=2, max=20)
 	private String merchantId;
 	
+	@NotNull
+	@Size(min=4, max=20)
 	private String merchantPassword;
 
 	public MerchantDTO() {
