@@ -1,13 +1,10 @@
-<<<<<<< Updated upstream
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BitcoinDTO } from '../model/BitcoinDTO';
 import { BitcoinServiceService } from '../services/bitcoinService/bitcoin-service.service';
-=======
-import { Component, OnInit, NgZone } from '@angular/core';
 import { PaymentService } from '../services/payment.service';
 import { PaymentDTO } from '../model/PaymentDTO';
->>>>>>> Stashed changes
+import { MethodOfPaymentDTO } from '../model/MethodOfPaymentDTO';
 
 @Component({
   selector: 'app-homepage',
@@ -16,20 +13,28 @@ import { PaymentDTO } from '../model/PaymentDTO';
 })
 export class HomepageComponent implements OnInit {
 
-<<<<<<< Updated upstream
   bitcoin : BitcoinDTO = new BitcoinDTO();
-
-  constructor(private router: ActivatedRoute, private bs: BitcoinServiceService) { }
-=======
   payPalChoosen : Boolean;
   payment : PaymentDTO =  new PaymentDTO();
+  amount : number;
+  email : string;
 
+  paymentMethods: Array<MethodOfPaymentDTO>;
+  
+  constructor(private service : PaymentService, private zone : NgZone, private router: ActivatedRoute, private bs: BitcoinServiceService) {
 
-  constructor(private service : PaymentService, private zone : NgZone) { }
->>>>>>> Stashed changes
+    this.email = this.router.snapshot.params.id1;
+    this.amount = this.router.snapshot.params.id2;
+    this.payment.merchantEmail = this.email;
+    this.payment.amount = this.amount;
+
+   }
 
   ngOnInit() {
-      this.bitcoin.amount=1;
+    console.log("email " + this.email);
+    console.log("amount " + this.amount);
+
+      /*this.bitcoin.amount=1;
       this.bitcoin.currency="USD";
       this.bitcoin.merchantEmail="ivana";
       this.bitcoin.merchantOrderId="2";
@@ -42,26 +47,38 @@ export class HomepageComponent implements OnInit {
         console.log("bitcoin payment");
         console.log("data"+data);
         window.location.href = data;
-      })
-  }
+      });*/
 
-  createPayment() {
+      this.service.getPaymentMethods().subscribe(data => {
+          this.paymentMethods = data;
 
-    if(this.payPalChoosen == true)
-    {
-      let redirectUrl;
-      this.service.payPalCreatePayment(this.payment, "payPalService").subscribe(data => {
-        
-        console.log("Podaciii: " + data);
-        redirectUrl = data;
-
-        this.zone.runOutsideAngular(() => {
-          window.location.href = "" + redirectUrl;
-        });
-        
+          this.paymentMethods.forEach(element => {
+            if (element.name == "Card")
+            {
+              element.img = "../assets/image/visa.png"
+            }else if(element.name == "PayPal")
+            {
+              element.img = "../assets/image/paypal.png"
+            }else //bitcoin
+            {
+              element.img = "../assets/image/atm.png"
+            }
+          });
       });
-    }
   }
+  
+  pay(path : String)
+  {
+    let redirectUrl;
+    this.service.payPalCreatePayment(this.payment, path).subscribe(data => {
 
+      redirectUrl = data;
+
+      this.zone.runOutsideAngular(() => {
+          window.location.href = "" + redirectUrl;
+      });
+
+    });
+  }
 }
 

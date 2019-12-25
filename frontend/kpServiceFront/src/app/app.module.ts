@@ -8,13 +8,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BitcoinSuccessComponent } from './bitcoin-success/bitcoin-success.component';
 import { BitcoinCancelComponent } from './bitcoin-cancel/bitcoin-cancel.component';
-import { PayPalErrorComponent } from './pay-pal-error/pay-pal-error.component';
-import { RedirectionComponent } from './redirection/redirection.component';
 
-const appRoutes: Routes = [ {path: '', component : HomepageComponent},
+const appRoutes: Routes = [ {path: ':id1/:id2', component : HomepageComponent},
                             {path : 'ppsuccess', component : PayPalSuccessComponent},
-                            {path :  'error', component : PayPalErrorComponent},
-                            {path : 'redirection', component : RedirectionComponent},
                             {path : 'bitcoinCancel/:oid', component : BitcoinCancelComponent},
                             {path : 'bitcoinSuccess/:oid', component : BitcoinSuccessComponent}
  ]
@@ -25,9 +21,7 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
     HomepageComponent,
     PayPalSuccessComponent,
     BitcoinSuccessComponent,
-    BitcoinCancelComponent,
-    PayPalErrorComponent,
-    RedirectionComponent
+    BitcoinCancelComponent
   ],
   imports: [
     BrowserModule,

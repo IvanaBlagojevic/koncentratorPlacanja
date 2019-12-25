@@ -15,8 +15,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.payPalService.domain.Order;
-import com.example.payPalService.domain.OrderState;
-import com.example.payPalService.domain.PaymentStatus;
+import com.example.payPalService.domain.OrderStatus;
 import com.example.payPalService.domain.UserPayPal;
 import com.example.payPalService.dto.PaymentDTO;
 import com.example.payPalService.exceptions.BadRequest;
@@ -65,7 +64,7 @@ public class PayPalService {
 		payment.setTransactions(transactions);
 		
 		RedirectUrls redirectUrl = new RedirectUrls();
-		redirectUrl.setCancelUrl("https://localhost:1234/error");
+		redirectUrl.setCancelUrl("https://localhost:4202/error"); //nazad naucnoj centrali
 		redirectUrl.setReturnUrl("https://localhost:1234/ppsuccess?username="+user.getUsername());
 	    payment.setRedirectUrls(redirectUrl);
 	    
@@ -83,7 +82,8 @@ public class PayPalService {
 	    	Date today = new Date();
 	    	
 	    	Order order = new Order(createdPayment.getId(),paymentDTO.getMerchantEmail(),paymentDTO.getAmount()
-	    			,PaymentStatus.CREATED,OrderState.NOT_PAYED,today,null,"https://localhost:1234/error2");
+	    			,OrderStatus.CREATED,today,null,"https://localhost:4202/error",user.getUsername());
+	    	
 	    	this.orderService.saveOrder(order);
 	    	
 	    	if(createdPayment!=null){
@@ -124,9 +124,8 @@ public class PayPalService {
 			payment.execute(context, payExecution); //izvrsavanje bi trebalo da je ovoooooo
 			
 			order = this.orderService.getByPaymentId(idPayment).get();
-			order.setStatus(PaymentStatus.APPROVED);
 			order.setCompleteDate(new Date());
-			order.setState(OrderState.PAYED);
+			order.setState(OrderStatus.PAYED);
 			
 			this.orderService.saveOrder(order);
 			
@@ -136,17 +135,8 @@ public class PayPalService {
 			throw new BadRequest("Error happened during payment complete");
 		}
 		
-		/*RestTemplate rt = new RestTemplate();
-	    try {
-			ResponseEntity<String> res = rt.getForEntity(order.getCallbackUrl(), String.class);
-			order.setState(OrderState.PAYED);
-			this.orderService.saveOrder(order);
-		} catch (HttpStatusCodeException exception) {
-			System.out.println("Greska prilikom javaljanja naucnoj centrali!");
-			exception.printStackTrace();
-	    }*/
 	    
-	    response.put("redirect_url", "https://localhost:1234/redirection");
+	    response.put("redirect_url", "https://localhost:4202/success");
 		
 		return response;
 	}

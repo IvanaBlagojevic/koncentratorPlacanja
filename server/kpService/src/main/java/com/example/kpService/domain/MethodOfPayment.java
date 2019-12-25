@@ -17,17 +17,18 @@ public class MethodOfPayment {
     private String name;
 
     @Column(nullable = false)
-    private String url;
+    private String path;
 
 	public MethodOfPayment() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public MethodOfPayment(String name, String url) {
+	public MethodOfPayment(Long id, String name, String path) {
 		super();
+		this.id = id;
 		this.name = name;
-		this.url = url;
+		this.path = path;
 	}
 
 	public Long getId() {
@@ -46,13 +47,12 @@ public class MethodOfPayment {
 		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getPath() {
+		return path;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setPath(String path) {
+		this.path = path;
 	}
-
-    
+	
 }

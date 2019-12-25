@@ -52,52 +52,11 @@
                 <div class="col-xl-8 col-md-10">
                   <form class="position-relative d-block aos-init aos-animate" data-aos="fade-up" method="POST" (ngSubmit)="createPayment()">
                     <div class="form-group">
-                      <label class="text-white" for="course-name-1">Merchant id:</label>
-                      <input name="course-name" id="course-name-1" type="text" class="form-control form-control-lg" placeholder="Type your id" [(ngModel)]="payment.merchantId">
-                    </div>
-                    <div class="form-group">
-                      <label class="text-white" for="course-email-1">Merchant email</label>
-                      <input name="course-email" id="course-email-1" type="email" class="form-control form-control-lg" placeholder="Type your email" [(ngModel)]="payment.merchantEmail">
-                    </div>
-                    <div class="form-group">
-                      <label class="text-white" for="course-name-1">Amount:</label>
-                      <input name="course-name" id="course-name-1" type="text" class="form-control form-control-lg" placeholder="Type amount:"  [(ngModel)]="payment.amount">
-                    </div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="form-group mb-1">
-                            <label class="text-white">Payment method:</label>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-group rounded bg-white p-2 border">
-                            <div class="custom-control custom-radio">
-                              <input type="radio" id="course-radio-beginner-1" name="course-radio-1" class="custom-control-input">
-                              <label class="custom-control-label" for="course-radio-beginner-1">Card</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-group rounded bg-white p-2 border">
-                            <div class="custom-control custom-radio">
-                              <input type="radio" id="course-radio-beginner-1" name="course-radio-1" class="custom-control-input">
-                              <label class="custom-control-label" for="course-radio-beginner-1">Bitcoin</label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-group rounded bg-white p-2 border">
-                            <div class="custom-control custom-radio">
-                              <input type="radio" id="course-radio-advanced-1" name="course-radio-1" class="custom-control-input" (click)="payPalChoosen = true">
-                              <label class="custom-control-label" for="course-radio-advanced-1">PayPal</label>
-                            </div>
-                          </div>
-                        </div>
+                      <label id = "pay" class="slika">Choose payment method:</label>
+                      <div class="paymentMethod" *ngFor = "let item of paymentMethods"  >
+                        <img  class="slika" id={{item.name}} (click)="pay(item.path)" width="100px" height="100px" src="{{item.img}}" />
+                        <p  class="slika" id = "pay">Pay with {{item.name}}</p>
                       </div>
-                    </div>
-                    <div class="form-group text-center">
-                      <button class="btn btn-lg btn-success btn-block mb-2" type="submit">Start payment procedure</button>
                     </div>
                   </form>
                 </div>

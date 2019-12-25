@@ -6,15 +6,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MainPageComponent } from './main-page/main-page.component';
 import { AppComponent } from './app.component';
+import { PaymentErrorComponent } from './payment-error/payment-error.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
 
 const appRoutes: Routes = [
   {path: '', component : MainPageComponent},
+  {path: 'error', component : PaymentErrorComponent},
+  {path: 'success', component : PaymentSuccessComponent}
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainPageComponent
+    MainPageComponent,
+    PaymentErrorComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,

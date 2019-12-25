@@ -28,10 +28,24 @@ export class MainPageComponent implements OnInit {
 
   
   sign(){
-    this.paymentService.createPayment(this.payment).subscribe(
-        data =>{
-         alert("Payment successfully registered!");
-        },error =>{this.handleAuthError(error)});
+   // this.paymentService.createPayment(this.payment).subscribe(
+   //     data =>{
+   //      alert("Payment successfully registered!");
+   //     },error =>{this.handleAuthError(error)});
+   console.log(this.payment.merchantEmail);
+   console.log(this.payment.amount);
+
+   if(this.isBlank(this.payment.merchantEmail))
+   {
+     alert("Fill email field");
+   }else if (this.isBlank(this.payment.amount))
+   {
+     alert("Fill amount field");
+   }else
+   {
+    window.location.href = "https://localhost:1234/"+ this.payment.merchantEmail + "/" + this.payment.amount;
+   }
+
   }    
   
 
@@ -43,6 +57,10 @@ export class MainPageComponent implements OnInit {
     {
       alert("Problem");
     }
+  }
+
+  isBlank(str) {
+    return (!str || /^\s*$/.test(str));
   }
 
   

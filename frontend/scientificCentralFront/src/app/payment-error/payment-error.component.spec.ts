@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RedirectionComponent } from './redirection.component';
+import { PaymentErrorComponent } from './payment-error.component';
 
-describe('RedirectionComponent', () => {
-  let component: RedirectionComponent;
-  let fixture: ComponentFixture<RedirectionComponent>;
+describe('PaymentErrorComponent', () => {
+  let component: PaymentErrorComponent;
+  let fixture: ComponentFixture<PaymentErrorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RedirectionComponent ]
+      declarations: [ PaymentErrorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RedirectionComponent);
+    fixture = TestBed.createComponent(PaymentErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
