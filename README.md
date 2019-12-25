@@ -1,4 +1,4 @@
 # koncentratorPlacanja
 
-komanda za start graylog managementa
+komanda za start graylog managementa - 
 docker-compose up -d 
