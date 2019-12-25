@@ -38,6 +38,10 @@ eureka:
     nonSecurePortEnabled: false
     securePortEnabled: true
     securePort: ${server.port}
+    
+ribbon:
+  eureka:
+    enabled: false
 
 vrednost: "Neka vrednost"
 

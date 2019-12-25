@@ -21,3 +21,7 @@ server:
     key-alias: kp
     trust-store: ${KEY_STORE_CLASSPATH_TRUST}
     trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
+    
+ribbon:
+  eureka:
+    enabled: false

@@ -8,11 +8,14 @@ import java.util.Map;
 
 import javax.swing.Spring;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
 
 import com.example.payPalService.domain.Order;
 import com.example.payPalService.domain.OrderStatus;
@@ -41,6 +44,7 @@ public class PayPalService {
 	@Autowired
 	private OrderService orderService;
 	
+	private static final Logger logger  = LoggerFactory.getLogger(PayPalService.class);
 	
 	public Map<String,Object> createPayment(PaymentDTO paymentDTO){
 		
@@ -97,9 +101,12 @@ public class PayPalService {
 	            }
 	            response.put("status", "success");
 	            response.put("redirect_url", redirectionUrl);
+	            //fali ko - 5 1 ko
+	            logger.info("5 1 4 0");
 	        }
 	    }catch (PayPalRESTException e) {
 	        System.out.println("Error happened during payment creation!");
+	        logger.info("5 1 4 1");
 	    }
 		
 		return response;
@@ -128,10 +135,10 @@ public class PayPalService {
 			order.setState(OrderStatus.PAYED);
 			
 			this.orderService.saveOrder(order);
-			
+			logger.info("5 2 4 1");
 			
 		}catch(PayPalRESTException e) {
-			
+			logger.info("5 2 4 0");
 			throw new BadRequest("Error happened during payment complete");
 		}
 		

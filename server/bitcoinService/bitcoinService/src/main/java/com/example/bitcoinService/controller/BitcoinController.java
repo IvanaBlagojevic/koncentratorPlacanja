@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.bitcoinService.domain.BitcoinUser;
@@ -30,8 +31,11 @@ import com.example.bitcoinService.dto.PaymentResponseDTO;
 import com.example.bitcoinService.services.BitcoinUserService;
 import com.example.bitcoinService.services.OrderService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
-@RequestMapping("bitcoin")
+//@RequestMapping("bitcoin")
 @CrossOrigin(origins = "https://localhost:1234")
 public class BitcoinController {
 	
@@ -40,16 +44,20 @@ public class BitcoinController {
 	
 	@Autowired
 	BitcoinUserService bus;
+	
+	private static final Logger logger  = LoggerFactory.getLogger(BitcoinController.class);
 
 
-	@RequestMapping(value="/createPayment", method = RequestMethod.POST, produces="text/plain")
+	@RequestMapping(value="/create", method = RequestMethod.POST, produces="text/plain")
 	@ResponseBody
     public String send(@RequestBody PaymentRequestDTO pr) {
 		String payFormUrl = "";
 		BitcoinUser bu = bus.findOneByUsername(pr.getMerchantEmail());
 		if (bu == null) {
 			System.out.println("Merchant with this username does not exists!");
-	 		return null;
+	 		//dodati ko je izvrsio-koji nalog usera 6 1 ko
+			logger.error(" 6 11 4 1");
+			return null;
 		}
 		
 		RestTemplate temp = new RestTemplate();
@@ -60,10 +68,10 @@ public class BitcoinController {
 		String uniqueID = UUID.randomUUID().toString();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("order_id", pr.getMerchantOrderId().toString());
+		map.put("order_id", uniqueID);
 		map.put("price_amount", pr.getAmount());
-		map.put("price_currency", pr.getCurrency());
-		map.put("receive_currency", pr.getCurrency());
+		map.put("price_currency", "USD");
+		map.put("receive_currency", "USD");
 		map.put("title", "bitcoin payment");
 		map.put("description", "bitcoin payment");
 		map.put("callback_url","https://localhost:1234");
@@ -71,20 +79,19 @@ public class BitcoinController {
 		map.put("success_url", "https://localhost:1234/bitcoinSuccess/"+uniqueID);
 		
 		HttpEntity<Map<String,Object>> request = new HttpEntity<>(map,headers);
-		PaymentResponseDTO response = temp.postForObject("https://api-sandbox.coingate.com/v2/orders", request, PaymentResponseDTO.class);
-		payFormUrl = response.getPayment_url();
-		System.out.println(payFormUrl);
 		
-		MyOrder o = new MyOrder (response.getId().toString(), bu.getUsername(), new Date(), null, Double.parseDouble(response.getPrice_amount()), 
-				response.getPrice_currency(), OrderStatusEnum.NEW , uniqueID);
-		//id from coinbase
-		//o.setPaymentId(response.getId().toString());
-		//username merchant
-		System.out.println("bu username " + bu.getUsername());
-		o.setUsername(bu.getUsername());
-		o.setStatus(OrderStatusEnum.NEW);
+		try{
+			PaymentResponseDTO response = temp.postForObject("https://api-sandbox.coingate.com/v2/orders", request, PaymentResponseDTO.class);
+			payFormUrl = response.getPayment_url();
+			MyOrder o = new MyOrder (response.getId().toString(), bu.getUsername(), new Date(), null, Double.parseDouble(response.getPrice_amount()), 
+					response.getPrice_currency(), OrderStatusEnum.NEW , uniqueID);
+			MyOrder saved = os.save(o);
+			
+			logger.info(" 6 12 4 0");
+		}catch(HttpStatusCodeException e) {
+			logger.error(" 6 12 4 1");
+		}
 		
-		MyOrder saved = os.save(o);
 		
         return payFormUrl;
     }
@@ -96,17 +103,20 @@ public class BitcoinController {
 		 	MyOrder o = os.findOneByRandomUniqueID(oid);
 		 	if (o == null) {
 		 		System.out.println("Order with this oid does not exists!");
+		 		logger.error(" 6 21 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
 		 	if (o.getStatus() == OrderStatusEnum.CANCELED || o.getStatus() == OrderStatusEnum.PAID) {
 		 		System.out.println("Order with this oid is already canceld or paid!");
+		 		logger.error(" 6 22 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
 		 	BitcoinUser bu = bus.findOneByUsername(o.getUsername());
 		 	if (bu == null) {
 		 		System.out.println("Merchant with this username does not exists!");
+		 		logger.error(" 6 23 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 
@@ -116,12 +126,18 @@ public class BitcoinController {
 			headers.add("Authorization", "Bearer "+bu.getToken());
 			HttpEntity<PaymentResponseDTO> request = new HttpEntity<>(headers);
 			
-		 	ResponseEntity<PaymentResponseDTO> response = temp.exchange("https://api-sandbox.coingate.com/v2/orders/"+o.getPaymentId(), HttpMethod.GET, request, PaymentResponseDTO.class);
-	        if (response.getBody().getStatus().equals("paid")) {
-	        	o.setStatus(OrderStatusEnum.PAID);
-	        	o.setUpdated(new Date());
-	        	os.save(o);
-	        }
+		 	try{
+		 		ResponseEntity<PaymentResponseDTO> response = temp.exchange("https://api-sandbox.coingate.com/v2/orders/"+o.getPaymentId(), HttpMethod.GET, request, PaymentResponseDTO.class);
+		 		if (response.getBody().getStatus().equals("paid")) {
+		        	o.setStatus(OrderStatusEnum.PAID);
+		        	o.setUpdated(new Date());
+		        	os.save(o);
+		        	logger.info(" 6 24 4 0");
+		        }
+		 	}catch(HttpStatusCodeException e) {
+		 		logger.error(" 6 24 4 1");
+		 	}
+	        
 		 	
 		 	return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
 	 }
@@ -132,17 +148,20 @@ public class BitcoinController {
 		 	MyOrder o = os.findOneByRandomUniqueID(oid);
 		 	if (o == null) {
 		 		System.out.println("Order with this oid does not exists!");
+		 		logger.error(" 6 31 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
 		 	if (o.getStatus() == OrderStatusEnum.CANCELED || o.getStatus() == OrderStatusEnum.PAID) {
 		 		System.out.println("Order with this oid is already canceld or paid!");
+		 		logger.error(" 6 32 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
 		 	BitcoinUser bu = bus.findOneByUsername(o.getUsername());
 		 	if (bu == null) {
 		 		System.out.println("Merchant with this username does not exists!");
+		 		logger.error(" 6 33 4 1");
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 
@@ -152,12 +171,19 @@ public class BitcoinController {
 			headers.add("Authorization", "Bearer "+bu.getToken());
 			HttpEntity<PaymentResponseDTO> request = new HttpEntity<>(headers);
 			
-		 	ResponseEntity<PaymentResponseDTO> response = temp.exchange("https://api-sandbox.coingate.com/v2/orders/"+o.getPaymentId(), HttpMethod.GET, request, PaymentResponseDTO.class);
-	        if (response.getBody().getStatus().equals("canceled")) {
-	        	o.setStatus(OrderStatusEnum.CANCELED);
-	        	o.setUpdated(new Date());
-	        	os.save(o);
-	        }
+		 	try{
+		 		ResponseEntity<PaymentResponseDTO> response = temp.exchange("https://api-sandbox.coingate.com/v2/orders/"+o.getPaymentId(), HttpMethod.GET, request, PaymentResponseDTO.class);
+		 		if (response.getBody().getStatus().equals("canceled")) {
+		        	o.setStatus(OrderStatusEnum.CANCELED);
+		        	o.setUpdated(new Date());
+		        	os.save(o);
+		        	logger.error(" 6 34 4 0");
+		        }
+		 		
+		 	}catch(HttpStatusCodeException e) {
+		 		logger.error(" 6 34 4 1");
+		 	}
+	        
 		 	
 		 	return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
 	 }

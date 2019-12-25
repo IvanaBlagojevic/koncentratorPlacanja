@@ -28,6 +28,7 @@ public class BitcoinServiceApplication {
 		System.setProperty("KEY_STORE_ALIAS", "bc");
 		
 		SpringApplication.run(BitcoinServiceApplication.class, args);
+		System.out.print("Bitcoin starts");
 	}
 	
 	@Bean

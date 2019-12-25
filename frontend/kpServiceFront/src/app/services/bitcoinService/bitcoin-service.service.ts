@@ -10,8 +10,8 @@ export class BitcoinServiceService {
 
   constructor(private http : HttpClient) { }
 
-  zuulUrl = "https://localhost:8086/bitcoinService/bitcoin";
-  url = "https://localhost:8088/bitcoin";
+  zuulUrl = "https://localhost:8086/bitcoinService";
+  url = "https://localhost:8090";
 
   bitcoinCreatePayment(paymentInfo : BitcoinDTO): Observable<any>{
     console.log("usao u create bitcoin payment");

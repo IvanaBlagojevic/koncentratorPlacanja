@@ -3,33 +3,33 @@ package com.example.bitcoinService.dto;
 public class PaymentRequestDTO {
 
 	
-	private String merchantOrderId;
+	//private String merchantOrderId;
 	private String merchantEmail; 
 	private double amount;
-    private String currency;
+    //private String currency;
 
     public PaymentRequestDTO() {
     }
     
     
 
-	public PaymentRequestDTO(String merchantOrderId, String merchantEmail, double amount, String currency) {
+	public PaymentRequestDTO(String merchantEmail, double amount) {
 		super();
-		this.merchantOrderId = merchantOrderId;
+		//this.merchantOrderId = merchantOrderId;
 		this.merchantEmail = merchantEmail;
 		this.amount = amount;
-		this.currency = currency;
+		//this.currency = currency;
 	}
 
 
 
-	public String getMerchantOrderId() {
+	/*public String getMerchantOrderId() {
 		return merchantOrderId;
 	}
 
 	public void setMerchantOrderId(String merchantOrderId) {
 		this.merchantOrderId = merchantOrderId;
-	}
+	}*/
 
 	public String getMerchantEmail() {
 		return merchantEmail;
@@ -47,13 +47,13 @@ public class PaymentRequestDTO {
 		this.amount = amount;
 	}
 
-	public String getCurrency() {
+	/*public String getCurrency() {
 		return currency;
 	}
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
-	}
+	}*/
 
 
 	
