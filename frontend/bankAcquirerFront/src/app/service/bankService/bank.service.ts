@@ -8,9 +8,9 @@ import { HttpClient } from '@angular/common/http';
 export class BankService {
 
   constructor(private http:HttpClient) { }
-
+  zuulUrl :"https://localhost:8086/bankService";
   saveData(buyer: ResponseToKP){
-    return this.http.post<ResponseToKP>('https://localhost:8089/payment/saveResponse',buyer);
+    return this.http.post<ResponseToKP>(this.zuulUrl+'/payment/saveResponse',buyer);
   }
 
 }

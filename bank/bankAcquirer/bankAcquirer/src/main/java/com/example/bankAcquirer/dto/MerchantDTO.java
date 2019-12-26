@@ -1,5 +1,9 @@
 package com.example.bankAcquirer.dto;
 
+import javax.validation.constraints.Size;
+
+import com.sun.istack.NotNull;
+
 public class MerchantDTO {
 
 	private Long id;
@@ -7,6 +11,8 @@ public class MerchantDTO {
 	private String merchantId;
 	
 	private String merchantPassword;
+	
+	private String merchantEmail;
 
 	public MerchantDTO() {
 		super();
@@ -35,6 +41,14 @@ public class MerchantDTO {
 
 	public void setMerchantPassword(String merchantPassword) {
 		this.merchantPassword = merchantPassword;
+	}
+
+	public String getMerchantEmail() {
+		return merchantEmail;
+	}
+
+	public void setMerchantEmail(String merchantEmail) {
+		this.merchantEmail = merchantEmail;
 	}
 
 	

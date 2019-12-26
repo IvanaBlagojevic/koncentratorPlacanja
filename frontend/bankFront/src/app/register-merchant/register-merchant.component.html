@@ -6,6 +6,11 @@
                 <form ngNativeValidate id="signup-form" class="signup-form" action="#" (ngSubmit)="sign()" method="POST">
                     <h2 class="form-title">Register merchant</h2>
                     <div class="form-group">
+                        <input type="text" class="form-input" placeholder="Merchant email" [(ngModel)]="merchant.merchantEmail"  name="merchantEmail" id="merchantEmail"
+                            [required]="true" />
+                            
+                    </div>
+                    <div class="form-group">
                         <input type="text" class="form-input" placeholder="Merchant id" [(ngModel)]="merchant.merchantId"  name="merchantId" id="merchantId"
                             [required]="true" />
                             

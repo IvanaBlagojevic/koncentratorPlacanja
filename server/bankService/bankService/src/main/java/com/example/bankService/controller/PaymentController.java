@@ -33,25 +33,9 @@ public class PaymentController {
 	private PaymentService paymentService;
 	
 	
-	@RequestMapping(value = "/add",method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity paying(@Valid @RequestBody PaymentDTO pdto) {
 
-        String paymentUrl = this.paymentService.createPayment(pdto);
 
-        return new ResponseEntity<String>(paymentUrl, HttpStatus.OK);
-    }
-
-	/*@RequestMapping(value = "/saveResponse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ResponseToKPDTO> saveData(@RequestBody ResponseToKPDTO dto) {
-		System.out.println("Response u kp-u ");
-		
-		
-		//ResponseToKP valid = this.paymentService.saveResponse(dto);
-		
-		
-		return new ResponseEntity<ResponseToKPDTO>(dto, HttpStatus.OK);
-	}*/
+	
 	@RequestMapping(value = "/saveResponse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> validate (@Valid @RequestBody ResponseToKPDTO dto, BindingResult bindingResult) {
 		System.out.println("Validacija ");

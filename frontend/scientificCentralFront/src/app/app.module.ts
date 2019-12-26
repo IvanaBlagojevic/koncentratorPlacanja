@@ -8,11 +8,13 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { AppComponent } from './app.component';
 import { PaymentErrorComponent } from './payment-error/payment-error.component';
 import { PaymentSuccessComponent } from './payment-success/payment-success.component';
+import { PaymentFailedComponent } from './payment-failed/payment-failed.component';
 
 const appRoutes: Routes = [
   {path: '', component : MainPageComponent},
   {path: 'error', component : PaymentErrorComponent},
-  {path: 'success', component : PaymentSuccessComponent}
+  {path: 'success', component : PaymentSuccessComponent},
+  {path: 'failed', component : PaymentFailedComponent}
 ]
 
 @NgModule({
@@ -20,7 +22,8 @@ const appRoutes: Routes = [
     AppComponent,
     MainPageComponent,
     PaymentErrorComponent,
-    PaymentSuccessComponent
+    PaymentSuccessComponent,
+    PaymentFailedComponent
   ],
   imports: [
     BrowserModule,

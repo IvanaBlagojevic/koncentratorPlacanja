@@ -8,9 +8,9 @@ import { HttpClient } from '@angular/common/http';
 export class MerchantService {
 
   constructor(private http:HttpClient) { }
-
+  zuulUrl :"https://localhost:8086/bankService";
   createMerchant(merchant: Merchant){
-    return this.http.post('https://localhost:8089/merchant/add/',merchant);
+    return this.http.post(this.zuulUrl+'/merchant/add/',merchant);
   }
 
 }

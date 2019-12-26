@@ -8,4 +8,6 @@ import com.example.bankService.domain.Merchant;
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant, Long> {
 
+	Merchant findByMerchantEmail(String merchantEmail);
+
 }
