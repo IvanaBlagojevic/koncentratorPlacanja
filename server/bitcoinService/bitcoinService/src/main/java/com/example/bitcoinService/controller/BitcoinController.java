@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-//@RequestMapping("bitcoin")
 @CrossOrigin(origins = "https://localhost:1234")
 public class BitcoinController {
 	
@@ -75,8 +74,8 @@ public class BitcoinController {
 		map.put("title", "bitcoin payment");
 		map.put("description", "bitcoin payment");
 		map.put("callback_url","https://localhost:1234");
-		map.put("cancel_url", "https://localhost:1234/bitcoinCancel/"+uniqueID);
-		map.put("success_url", "https://localhost:1234/bitcoinSuccess/"+uniqueID);
+		map.put("cancel_url", "https://localhost:1234/b/bitcoinCancel/"+uniqueID);
+		map.put("success_url", "https://localhost:1234/b/bitcoinSuccess/"+uniqueID);
 		
 		HttpEntity<Map<String,Object>> request = new HttpEntity<>(map,headers);
 		
@@ -86,6 +85,17 @@ public class BitcoinController {
 			MyOrder o = new MyOrder (response.getId().toString(), bu.getUsername(), new Date(), null, Double.parseDouble(response.getPrice_amount()), 
 					response.getPrice_currency(), OrderStatusEnum.NEW , uniqueID);
 			MyOrder saved = os.save(o);
+			
+			RestTemplate toKP = new RestTemplate();
+			HttpHeaders headersToKP = new HttpHeaders();
+			Map<String, Object> mapToKP = new HashMap<String, Object>();
+			mapToKP.put("merchantEmail", pr.getMerchantEmail().toString());
+			mapToKP.put("userEmail", "ivana");
+			mapToKP.put("orderNumberId", response.getId().toString());
+			mapToKP.put("isPaid", false);
+			mapToKP.put("paymentMethod", "Bitcoin");
+			HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
+			toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/create", requesttoKP, PaymentResponseDTO.class);
 			
 			logger.info(" 6 12 4 0");
 		}catch(HttpStatusCodeException e) {
@@ -133,6 +143,12 @@ public class BitcoinController {
 		        	o.setUpdated(new Date());
 		        	os.save(o);
 		        	logger.info(" 6 24 4 0");
+		        	
+		        	RestTemplate toKP = new RestTemplate();
+					HttpHeaders headersToKP = new HttpHeaders();
+					Map<String, Object> mapToKP = new HashMap<String, Object>();
+					HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
+					toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/Bitcoin", requesttoKP, PaymentResponseDTO.class);
 		        }
 		 	}catch(HttpStatusCodeException e) {
 		 		logger.info(" 6 24 4 1");
@@ -177,6 +193,13 @@ public class BitcoinController {
 		        	o.setStatus(OrderStatusEnum.CANCELED);
 		        	o.setUpdated(new Date());
 		        	os.save(o);
+		        	
+		        	RestTemplate toKP = new RestTemplate();
+					HttpHeaders headersToKP = new HttpHeaders();
+					Map<String, Object> mapToKP = new HashMap<String, Object>();
+					HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
+					toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/Bitcoin", requesttoKP, PaymentResponseDTO.class);
+		        	
 		        	logger.info(" 6 34 4 0");
 		        }
 		 		

@@ -65,6 +65,8 @@ public class PaymentController {
         try {
         	if(valid.getStatus().equals("success")) {
         		temp.put(address+"/update/"+valid.getPaymentId()+"/true/bank", null);
+        	}else {
+        		temp.put(address+"/update/"+valid.getPaymentId()+"/false/bank", null);
         	}
             System.out.println("Successfull created payment!");
 			logger.info(" 3 12 4 0");

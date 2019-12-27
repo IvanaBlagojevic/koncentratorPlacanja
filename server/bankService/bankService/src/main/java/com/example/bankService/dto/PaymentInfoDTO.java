@@ -7,7 +7,7 @@ public class PaymentInfoDTO {
     
     private String userEmail;
     
-    private Long orderNumerId;
+    private Long orderNumberId;
     
     private boolean isPaid;
     
@@ -17,11 +17,11 @@ public class PaymentInfoDTO {
     	
     }
     
-	public PaymentInfoDTO( String merchantEmail, String userEmail, Long orderNumerId, boolean isPaid,
+	public PaymentInfoDTO( String merchantEmail, String userEmail, Long orderNumberId, boolean isPaid,
 			String paymentMethod) {
 		this.merchantEmail = merchantEmail;
 		this.userEmail = userEmail;
-		this.orderNumerId = orderNumerId;
+		this.orderNumberId = orderNumberId;
 		this.isPaid = isPaid;
 		this.paymentMethod = paymentMethod;
 	}
@@ -42,12 +42,12 @@ public class PaymentInfoDTO {
 		this.userEmail = userEmail;
 	}
 
-	public Long getOrderNumerId() {
-		return orderNumerId;
+	public Long getOrderNumberId() {
+		return orderNumberId;
 	}
 
-	public void setOrderNumerId(Long orderNumerId) {
-		this.orderNumerId = orderNumerId;
+	public void setOrderNumberId(Long orderNumberId) {
+		this.orderNumberId = orderNumberId;
 	}
 
 	public boolean isPaid() {

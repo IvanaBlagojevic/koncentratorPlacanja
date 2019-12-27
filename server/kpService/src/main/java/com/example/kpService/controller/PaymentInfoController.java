@@ -32,7 +32,6 @@ public class PaymentInfoController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
-	
 	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") boolean  status, @PathVariable("method") String method) {
 
 		

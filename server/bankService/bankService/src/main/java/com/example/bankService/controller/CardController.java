@@ -54,7 +54,7 @@ public class CardController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         PaymentInfoDTO dto = new PaymentInfoDTO();
         dto.setMerchantEmail(pdto.getMerchantEmail());
-        dto.setOrderNumerId(payment.getId());
+        dto.setOrderNumberId(payment.getId());
         dto.setPaid(false);
         dto.setPaymentMethod("bank");
         HttpEntity<PaymentInfoDTO> entity = new HttpEntity<>(dto, headers);

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BitcoinDTO } from 'src/app/model/BitcoinDTO';
 import { Observable } from 'rxjs';
+import { PaymentDTO } from 'src/app/model/PaymentDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,9 @@ export class BitcoinServiceService {
   zuulUrl = "https://localhost:8086/bitcoinService";
   url = "https://localhost:8090";
 
-  bitcoinCreatePayment(paymentInfo : BitcoinDTO): Observable<any>{
+  bitcoinCreatePayment(paymentInfo : PaymentDTO): Observable<any>{
     console.log("usao u create bitcoin payment");
-    console.log(paymentInfo.amount);
-      console.log(paymentInfo.currency);
-      console.log(paymentInfo.merchantEmail);
-      console.log(paymentInfo.merchantOrderId);
-    return this.http.post(this.zuulUrl + "/createPayment", paymentInfo, {responseType: 'text'});
+    return this.http.post(this.url + "/create", paymentInfo, {responseType: 'text'});
   }
 
   bitcoinCompleatePayment(paymentInfo : String){

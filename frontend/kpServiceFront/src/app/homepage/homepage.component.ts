@@ -69,6 +69,12 @@ export class HomepageComponent implements OnInit {
   
   pay(path : String)
   {
+    /*if (path == "Bitcoin") {
+      this.bs.bitcoinCreatePayment(this.payment).subscribe(data=>{
+
+      })
+    }*/
+
     let redirectUrl;
     this.service.payPalCreatePayment(this.payment, path).subscribe(data => {
 

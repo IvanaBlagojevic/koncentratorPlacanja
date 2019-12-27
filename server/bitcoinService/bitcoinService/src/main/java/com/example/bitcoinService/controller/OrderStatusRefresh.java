@@ -1,6 +1,7 @@
 package com.example.bitcoinService.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class OrderStatusRefresh {
 	private static final Logger logger  = LoggerFactory.getLogger(OrderStatusRefresh.class);
 
 	
-	@Scheduled(fixedRate = 60000)
+	@Scheduled(fixedRate = 5000)
 	public void refreshOrderStatus() {
 		
 		List<MyOrder> orders = os.findAll();
@@ -54,6 +55,7 @@ public class OrderStatusRefresh {
 				return;
 			}
 			boolean fleg = false;
+			boolean paid = false;
 			
 			RestTemplate temp = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
@@ -69,6 +71,7 @@ public class OrderStatusRefresh {
 					fleg = true;
 				}else if (response.getBody().getStatus().equals("paid")) {
 					o.setStatus(OrderStatusEnum.PAID);
+					paid = true;
 					fleg = true;
 				}else if (response.getBody().getStatus().equals("expired")) {
 					o.setStatus(OrderStatusEnum.EXPIRED);
@@ -91,6 +94,15 @@ public class OrderStatusRefresh {
 					o.setUpdated(new Date());
 					os.save(o);
 					logger.info(" 6 42 4 0");
+				}
+				RestTemplate toKP = new RestTemplate();
+				HttpHeaders headersToKP = new HttpHeaders();
+				Map<String, Object> mapToKP = new HashMap<String, Object>();
+				HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
+				if (paid == true) {
+					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/Bitcoin", requesttoKP);
+				}else {
+					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/Bitcoin", requesttoKP);
 				}
 			}catch(HttpStatusCodeException e) {
 				logger.info(" 6 42 4 1");

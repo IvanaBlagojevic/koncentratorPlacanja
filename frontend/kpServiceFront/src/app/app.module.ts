@@ -12,9 +12,9 @@ import { PayPalCancelComponent } from './pay-pal-cancel/pay-pal-cancel.component
 
 const appRoutes: Routes = [ {path: ':id1/:id2', component : HomepageComponent},
                             {path : 'ppsuccess', component : PayPalSuccessComponent},
-                            {path : 'bitcoinCancel/:oid', component : BitcoinCancelComponent},
-                            {path : 'bitcoinSuccess/:oid', component : BitcoinSuccessComponent},
-                            {path : 'ppcancel', component : PayPalCancelComponent}
+                            {path : 'ppcancel', component : PayPalCancelComponent},
+                            {path : 'b/bitcoinCancel/:oid', component : BitcoinCancelComponent},
+                            {path : 'b/bitcoinSuccess/:oid', component : BitcoinSuccessComponent}
  ]
 
 @NgModule({

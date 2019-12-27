@@ -14,7 +14,6 @@ public class PaymentRequestDTO {
     
 
 	public PaymentRequestDTO(String merchantEmail, double amount) {
-		super();
 		//this.merchantOrderId = merchantOrderId;
 		this.merchantEmail = merchantEmail;
 		this.amount = amount;
