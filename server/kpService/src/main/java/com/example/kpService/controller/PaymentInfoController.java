@@ -33,7 +33,7 @@ public class PaymentInfoController {
 	}
 	
 	@RequestMapping(value = "/update/{id}/{status}/{method}", method = RequestMethod.PUT)
-	public ResponseEntity<MethodOfPaymentDTO> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") String status, @PathVariable("method") String method) {
+	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") String status, @PathVariable("method") String method) {
 		
 		System.out.println("update method ");
 		PaymentInfo pi = pis.findOneByOrderNumberIdAndPaymentMethod(id,method);

@@ -2,6 +2,8 @@ package com.example.bankAcquirer.controller;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -48,23 +50,31 @@ public class PaymentController {
 	
 	private String addressBankService = "https://localhost:8089/payment/" ;
 	
+	private static final Logger logger  = LoggerFactory.getLogger(PaymentController.class);
+	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> validate ( @RequestBody MerchantDTO dto, BindingResult bindingResult) {
-		System.out.println("Validacija ");
 		if(bindingResult.hasErrors()) {
+			logger.error(" 4 11 4 1");
 			return new ResponseEntity<String>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		boolean valid = merchantService.validate(dto);
-		System.out.println("Validacija "+valid);
+		if(valid==true) {
+			System.out.println("Merchant with this id exists!");
+			logger.info(" 4 12 4 0");
+		}else {
+			System.out.println("Merchant with this id doesn't exists!");
+			logger.info(" 4 12 4 1");
+		}
 		
 		return new ResponseEntity<Boolean>(valid, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/payment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> generatePayment(@RequestBody PaymentDTO payment, BindingResult bindingResult) {
-		System.out.print("pogodio banku");
 		if(bindingResult.hasErrors()) {
+			logger.error(" 4 21 4 1");
 			return new ResponseEntity<String>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
@@ -84,7 +94,11 @@ public class PaymentController {
 		Optional<Payment> payment = paymentService.findByPaymentId(Long.valueOf(id));
 		if(payment.get() != null) {
 			PaymentDTO paymentDTO = new PaymentDTO(payment);
+			logger.info(" 4 31 4 0");
 			return new ResponseEntity<PaymentDTO>(paymentDTO, HttpStatus.OK);
+		}else {
+			System.out.println("Payment with this id does not exists!");
+			logger.error(" 4 31 4 1");
 		}
 		
 		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -94,8 +108,6 @@ public class PaymentController {
 			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ResponseToKPDTO> addBuyerInfo(@RequestBody BuyerInfoDTO dto)
 	{
-		System.out.print(dto.getPaymentId());
-		System.out.print("iznad je vrednsot");
 		BuyerInfo user = new BuyerInfo(dto);
 		user.setPayment(paymentService.findByPaymentId(Long.valueOf(dto.getPaymentId())).get());
 		try {
@@ -109,6 +121,8 @@ public class PaymentController {
 			ResponseToKPDTO isSaved = temp.postForObject(addressBankService+"saveResponse", resDTO, ResponseToKPDTO.class);
 			
 			if(response != null ) {
+				System.out.println("Successfully get response from bank Service!");
+				logger.info(" 4 41 4 0");
 				if(response.getStatus().equals("success")) {
 					resDTO.setUrl(user.getPayment().getSuccessUrl());
 					return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
@@ -119,6 +133,9 @@ public class PaymentController {
 					resDTO.setUrl(user.getPayment().getFailedUrl());
 					return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
 				}
+			}else {
+				System.out.println("Problem in response from bank Service!");
+				logger.error(" 4 41 4 1");
 			}
 		} catch (NotFoundException e) {
 			// TODO Auto-generated catch block

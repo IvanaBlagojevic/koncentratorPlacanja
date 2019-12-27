@@ -155,10 +155,17 @@
     
     <root  level="DEBUG">
          <appender-ref ref="STDOUT"/>
-         appender-ref ref="GELF" />
+         <appender-ref ref="GELF" />
     </root>
 
     <logger name="com.example.bankAcquirer.controller" level="trace" additivity="false">
+        <appender-ref ref="FILE-INFO"/>
+        <appender-ref ref="FILE-ERROR" />
+        <appender-ref ref="FILE-WARN" />
+        <appender-ref ref="FILE-TRACE" />
+        <appender-ref ref="GELF" />
+    </logger>
+    <logger name="com.example.bankAcquirer.service" level="trace" additivity="false">
         <appender-ref ref="FILE-INFO"/>
         <appender-ref ref="FILE-ERROR" />
         <appender-ref ref="FILE-WARN" />

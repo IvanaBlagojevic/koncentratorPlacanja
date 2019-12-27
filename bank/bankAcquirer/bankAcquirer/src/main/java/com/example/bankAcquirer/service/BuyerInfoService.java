@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.OneToOne;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.bankAcquirer.controller.PaymentController;
 import com.example.bankAcquirer.domain.Account;
 import com.example.bankAcquirer.domain.BuyerInfo;
 import com.example.bankAcquirer.domain.Card;
@@ -64,9 +67,12 @@ public class BuyerInfoService {
 	
 	private String addressPCC = "http://localhost:8091/";
 	
+	private static final Logger logger  = LoggerFactory.getLogger(BuyerInfoService.class);
 	
 	public ResponseToKP addNewBuyerInfo(BuyerInfo buyerInfo) throws NotFoundException {
 		if (buyerInfo.getPayment() == null) {
+			System.out.println("Invalid payment!");
+			logger.error(" 4 51 4 1");
 			throw new NotFoundException("Invalid payment!");
 		}
 		
@@ -77,14 +83,16 @@ public class BuyerInfoService {
 		
 		for(int i =0; i < accountsOfThisBank.size(); i++) {
 			if(accountsOfThisBank.get(i).getAccountNumber().equals(buyerInfo.getPan())) {
-				System.out.println("jednaki racuni postojecem");
+				System.out.println("Account is from this bank!");
+				logger.info(" 4 52 4 0");
 				ResponseToKP request = createTransaction(buyerInfo, merchant,accountsOfThisBank.get(i));
 				thisBank = true;
 				return request;
 			}
 		}
 		if(isThisBank(buyerInfo.getPan()) && thisBank==false) {
-			System.out.println("Racun ne postoji u datoj banci");
+			System.out.println("Account should be from this bank, but it does not exists!");
+			logger.info(" 4 52 4 1");
 			ResponseToKP request = createTransaction(buyerInfo, merchant,buyerInfo.getPan());
 			thisBank = true;
 			return request;
@@ -93,6 +101,9 @@ public class BuyerInfoService {
 			Transaction request = createTransactionForPCC(buyerInfo, merchant);
 			InterbankResponseDTO response = requestToPCC(request,buyerInfo);
 			if(response !=null) {
+				System.out.println("PCC find bank by its PANs number1");
+				logger.info(" 4 53 4 0");
+				
 				request.setAccountAccepter(response.getAccountNumber());
 				request.setStatus(response.getStatus());
 				this.transactionRepository.save(request);	
@@ -101,7 +112,7 @@ public class BuyerInfoService {
 				resToKP.setAcquirerTimestamp(response.getAcquirerTimestamp());
 				resToKP.setPaymentId(request.getPayment().getId());
 				resToKP.setStatus(response.getStatus());
-				resToKP.setMerchantOrderId(request.getId());//nisam siguran
+				resToKP.setMerchantOrderId(buyerInfo.getPayment().getMerchantOrderId());//nisam siguran
 				this.responseToKPRepository.save(resToKP);
 				
 				IssuerResponse toSave = new IssuerResponse();
@@ -115,7 +126,8 @@ public class BuyerInfoService {
 				
 				return resToKP;
 			}else {
-				System.out.println("PCC nije pronasao banku na osnovu PAN-a");
+				System.out.println("PCC could not find bank by its PANs number1");
+				logger.info(" 4 53 4 1");
 				ResponseToKP request1 = createTransaction(buyerInfo, merchant,buyerInfo.getPan());
 				return request1;
 			}
@@ -141,7 +153,7 @@ public class BuyerInfoService {
 		resToKP.setAcquirerTimestamp(new Date());
 		resToKP.setPaymentId(transaction.getPayment().getId());
 		resToKP.setStatus(transaction.getStatus());
-		resToKP.setMerchantOrderId(transaction.getId());//nisam siguran
+		resToKP.setMerchantOrderId(buyerInfo.getPayment().getMerchantOrderId());//nisam siguran
 		this.responseToKPRepository.save(resToKP);
 		
 		IssuerResponse toSave = new IssuerResponse();
@@ -189,7 +201,7 @@ public class BuyerInfoService {
 
 		try {
 			InterbankResponseDTO dtoIR = temp.postForObject(addressPCC+"/pcc", entity, InterbankResponseDTO.class);
-			System.out.print("vratio "+ dtoIR.getAccountNumber()+" "+dtoIR.getStatus());
+			System.out.println("PCC bring back this "+ dtoIR.getAccountNumber()+" "+dtoIR.getStatus());
 			return dtoIR;
 		} catch (HttpClientErrorException ex)   {
 		    if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
@@ -251,7 +263,7 @@ public class BuyerInfoService {
 		resToKP.setAcquirerTimestamp(new Date());
 		resToKP.setPaymentId(transaction.getPayment().getId());
 		resToKP.setStatus(transaction.getStatus());
-		resToKP.setMerchantOrderId(transaction.getId());//nisam siguran
+		resToKP.setMerchantOrderId(buyerInfo.getPayment().getMerchantOrderId());//nisam siguran
 		this.responseToKPRepository.save(resToKP);
 		
 		IssuerResponse toSave = new IssuerResponse();

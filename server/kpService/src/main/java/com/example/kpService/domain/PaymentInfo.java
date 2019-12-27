@@ -12,7 +12,7 @@ public class PaymentInfo {
     @Column(nullable = false)
     private String merchantEmail;
     
-    @Column(nullable = false)
+    @Column
     private String userEmail;
     
    // @Column(nullable = false)

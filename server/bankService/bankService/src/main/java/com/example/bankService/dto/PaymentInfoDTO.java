@@ -1,13 +1,9 @@
-package com.example.kpService.dto;
+package com.example.bankService.dto;
 
-import javax.persistence.Column;
-
-import com.example.kpService.domain.MethodOfPayment;
-import com.example.kpService.domain.PaymentInfo;
 
 public class PaymentInfoDTO {
-
-    private String merchantEmail;
+	
+	private String merchantEmail;
     
     private String userEmail;
     
@@ -70,15 +66,5 @@ public class PaymentInfoDTO {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public PaymentInfo convertToDomain() {
-		
-		PaymentInfo method = new PaymentInfo();
-		method.setMerchantEmail(this.merchantEmail);
-		method.setOrderNumerId(this.orderNumerId);
-		method.setPaid(false);
-		method.setPaymentMethod(this.paymentMethod);
-		//method.setUserEmail(this.userEmail);
-		
-		return method;
-	}
+	
 }

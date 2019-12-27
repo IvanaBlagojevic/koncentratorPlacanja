@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.bankService.configuration.AES;
+import com.example.bankService.controller.CardController;
 import com.example.bankService.domain.Merchant;
 import com.example.bankService.domain.Payment;
 import com.example.bankService.domain.ResponseToKP;
@@ -49,31 +52,7 @@ public class PaymentService {
 	
 	private String addressBank = "https://localhost:8090/payment/";
 
-	public String createPayment(PaymentDTO payment) {
-		       
-		payment.setSuccessUrl(address+"success");
-		payment.setErrorUrl(address+"error");
-		payment.setFailedUrl(address+"failed");
-       
-        RestTemplate temp = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<PaymentDTO> entity = new HttpEntity<>(payment, headers);
-        
-        try {
-        	Payment paymentResponse = temp.postForObject(addressBank+"/payment", entity, Payment.class);
-        	//Payment entityResponse = new Payment(paymentResponse);
-            paymentRepository.save(paymentResponse);
-        	//System.out.println("gotov response od banke do kpa"+paymentResponse.getPaymentUrl());
-        	return paymentResponse.getPaymentUrl();//paymentResponse.getPaymentUrl();
-            
-        } catch (HttpStatusCodeException exception) {
-            System.out.println("Error creating payment!");
-        }
-
-        return null;
-    }
+	private static final Logger logger  = LoggerFactory.getLogger(PaymentService.class);
 	
 	public ResponseToKP saveResponse(ResponseToKP entity) 
 	{
@@ -81,10 +60,14 @@ public class PaymentService {
 		return this.responseRepository.save(entity);
 	}
 
-	public String createPayment(@Valid PaymentInfoFromKPDTO pdto) {
+	public Payment createPayment(@Valid PaymentInfoFromKPDTO pdto) {
 		// TODO Auto-generated method stub
 		final String secretKey = "ssshhhhhhhhhhh!!!!";
 		Merchant merchant= this.merchantRepository.findByMerchantEmail(pdto.getMerchantEmail());
+		if(merchant == null) {
+			System.out.println("Merchant with this email doesn't exists!");
+			logger.error(" 3 11 4 1");
+		}
 		List<Payment> listOfPayment = this.paymentRepository.findByMerchantId(pdto.getMerchantId());
 		PaymentDTO payment = new PaymentDTO();
 		payment.setSuccessUrl(address+"success");
@@ -104,13 +87,14 @@ public class PaymentService {
         
         try {
         	Payment paymentResponse = temp.postForObject(addressBank+"/payment", entity, Payment.class);
-        	//Payment entityResponse = new Payment(paymentResponse);
             paymentRepository.save(paymentResponse);
-        	//System.out.println("gotov response od banke do kpa"+paymentResponse.getPaymentUrl());
-        	return paymentResponse.getPaymentUrl();//paymentResponse.getPaymentUrl();
+            System.out.println("Successfull created payment!");
+			logger.info(" 3 12 4 0");
+        	return paymentResponse;
             
         } catch (HttpStatusCodeException exception) {
-            System.out.println("Error creating payment!");
+            System.out.println("Error while creating payment - HttpStatusCodeException!");
+			logger.error(" 3 12 4 1");
         }
 
         return null;

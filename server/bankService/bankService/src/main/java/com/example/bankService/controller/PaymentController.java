@@ -2,8 +2,12 @@ package com.example.bankService.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.bankService.domain.Merchant;
+import com.example.bankService.domain.Payment;
 import com.example.bankService.domain.ResponseToKP;
 import com.example.bankService.dto.MerchantDTO;
 import com.example.bankService.dto.PaymentDTO;
+import com.example.bankService.dto.PaymentInfoDTO;
 import com.example.bankService.dto.ResponseToKPDTO;
 import com.example.bankService.service.MerchantService;
 import com.example.bankService.service.PaymentService;
@@ -32,20 +40,39 @@ public class PaymentController {
 	@Autowired
 	private PaymentService paymentService;
 	
+	private static final Logger logger  = LoggerFactory.getLogger(PaymentController.class);
 	
-
+	private String address ="https://localhost:8086/kpService/paymentinfo";
 
 	
 	@RequestMapping(value = "/saveResponse", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> validate (@Valid @RequestBody ResponseToKPDTO dto, BindingResult bindingResult) {
-		System.out.println("Validacija ");
 		if(bindingResult.hasErrors()) {
+			System.out.println("Binding error!");
+        	logger.error(" 3 31 4 1");
 			return new ResponseEntity<String>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
 		ResponseToKP toSave = new ResponseToKP(dto);
 		ResponseToKP valid = this.paymentService.saveResponse(toSave);
-		System.out.println("Validacija "+valid);
-		
+		if(valid!=null) {
+			System.out.println("Successfully saved data!");
+        	logger.error(" 3 32 4 0");
+		}
+		RestTemplate temp = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        
+        try {
+        	if(valid.getStatus().equals("success")) {
+        		temp.put(address+"/update/"+valid.getPaymentId()+"/true/bank", null);
+        	}
+            System.out.println("Successfull created payment!");
+			logger.info(" 3 12 4 0");
+            
+        } catch (HttpStatusCodeException exception) {
+            System.out.println("Error while creating payment - HttpStatusCodeException!");
+			logger.error(" 3 12 4 1");
+        }
 		return new ResponseEntity<ResponseToKPDTO>(dto,HttpStatus.OK);
 	}
 }

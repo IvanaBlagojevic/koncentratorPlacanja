@@ -2,6 +2,8 @@ package com.example.bankService.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpEntity;
@@ -34,6 +36,8 @@ public class MerchantController {
 	
 	private String address = "https://localhost:8090/payment/";
 	
+	private static final Logger logger  = LoggerFactory.getLogger(MerchantController.class);
+	
 	@RequestMapping(value = "/add",method=RequestMethod.POST,consumes="application/json")
 	public ResponseEntity<?> newUser(@Valid @RequestBody MerchantDTO merchant)
 	{
@@ -48,18 +52,21 @@ public class MerchantController {
         String encryptedString = AES.encrypt(originalString, secretKey) ;
         String decryptedString = AES.decrypt(encryptedString, secretKey) ;
          
-        System.out.println(originalString);
-        System.out.println(encryptedString);
-        System.out.println(decryptedString);
 
         HttpEntity<MerchantDTO> responseMerchant = new HttpEntity<>(merchant ,headers);
         try {
             Boolean valid = temp.postForObject(address+"validate", responseMerchant, Boolean.class);
             if (!valid) {
+            	System.out.println("Merchant data is not valid!");
+            	logger.error(" 3 21 4 1");
                 return new ResponseEntity<>("Merchant data is not valid!", HttpStatus.BAD_REQUEST);
+            }else {
+            	System.out.println("Merchant data is valid!");
+            	logger.error(" 3 21 4 0");
             }
         } catch (HttpStatusCodeException exception) {
             System.out.println("Error validating payment card data!");
+            logger.error(" 3 22 4 1");
         }
         Merchant newMerchant = new Merchant(merchant);
         newMerchant.setMerchantPassword(encryptedString);

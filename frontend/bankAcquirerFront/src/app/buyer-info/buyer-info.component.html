@@ -14,10 +14,11 @@
                             [required]="true" />
                             
                     </div>
+					
                     <div class="form-group">
-                        <input type="Date" class="form-input" placeholder="Date when card expired" [(ngModel)]="buyer.dateTillExpired"  name="dateTillExpired" id="dateTillExpired"
+                        <input type="date" class="form-input"  [(ngModel)]="buyer.dateTillExpired"  name="dateTillExpired" id="dateTillExpired"
                             [required]="true" />
-                            
+						
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-input" placeholder="Security code" [(ngModel)]="buyer.securityCode"  name="securityCode" id="securityCode"

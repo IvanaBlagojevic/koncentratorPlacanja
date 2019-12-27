@@ -19,13 +19,14 @@ export class BuyerInfoComponent implements OnInit {
   constructor(private router: ActivatedRoute,private buyerService: BuyerInfoService, private bankService: BankService) { 
     this.id = this.router.snapshot.params.id
     this.buyer.paymentId=this.id;
-
+	this.buyer.dateTillExpired= new Date(2020,1,1);
   }
 
   ngOnInit() {
   }
 
   sign(){
+    
     this.buyerService.createBuyer(this.buyer).subscribe(
       data =>{
         alert("successfully registered -> "+data.url);
