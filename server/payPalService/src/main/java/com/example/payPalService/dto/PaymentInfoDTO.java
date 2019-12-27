@@ -1,12 +1,15 @@
-package com.example.kpService.dto;
+package com.example.payPalService.dto;
 
 import javax.persistence.Column;
-
-import com.example.kpService.domain.MethodOfPayment;
-import com.example.kpService.domain.PaymentInfo;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 public class PaymentInfoDTO {
 
+
+    private Long id;
+    
     private String merchantEmail;
     
     private String userEmail;
@@ -21,13 +24,22 @@ public class PaymentInfoDTO {
     	
     }
     
-	public PaymentInfoDTO( String merchantEmail, String userEmail, Long orderNumerId, boolean isPaid,
+	public PaymentInfoDTO(String merchantEmail, String userEmail, Long orderNumberId, boolean isPaid,
 			String paymentMethod) {
+		super();
 		this.merchantEmail = merchantEmail;
 		this.userEmail = userEmail;
-		this.orderNumberId = orderNumerId;
+		this.orderNumberId = orderNumberId;
 		this.isPaid = isPaid;
 		this.paymentMethod = paymentMethod;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getMerchantEmail() {
@@ -50,7 +62,7 @@ public class PaymentInfoDTO {
 		return orderNumberId;
 	}
 
-	public void setOrderNumberId(Long orderNumberId) {
+	public void setOrderNumerId(Long orderNumberId) {
 		this.orderNumberId = orderNumberId;
 	}
 
@@ -69,16 +81,6 @@ public class PaymentInfoDTO {
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
-
-	public PaymentInfo convertToDomain() {
-		
-		PaymentInfo method = new PaymentInfo();
-		method.setMerchantEmail(this.merchantEmail);
-		method.setOrderNumberId(this.orderNumberId);
-		method.setPaid(false);
-		method.setPaymentMethod(this.paymentMethod);
-		method.setUserEmail(this.userEmail);
-		
-		return method;
-	}
+    
+    
 }

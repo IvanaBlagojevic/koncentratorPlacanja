@@ -71,7 +71,7 @@ public class PaymentInfo {
 		return orderNumberId;
 	}
 
-	public void setOrderNumerId(Long orderNumberId) {
+	public void setOrderNumberId(Long orderNumberId) {
 		this.orderNumberId = orderNumberId;
 	}
 

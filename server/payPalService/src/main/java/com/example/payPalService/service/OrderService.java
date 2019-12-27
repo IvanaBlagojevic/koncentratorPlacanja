@@ -23,4 +23,9 @@ public class OrderService {
 		
 		return orderRep.findByPaymentId(id);
 	}
+	
+	public Optional<Order> getById(Long id){
+		
+		return orderRep.findById(id);
+	}
 }

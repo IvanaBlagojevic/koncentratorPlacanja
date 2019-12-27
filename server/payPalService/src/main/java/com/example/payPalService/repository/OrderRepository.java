@@ -9,4 +9,7 @@ import com.example.payPalService.domain.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Optional<Order> findByPaymentId(String id);
+	
+	Optional<Order> findById(Long id);
+	
 }

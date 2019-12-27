@@ -46,5 +46,9 @@ public class PayPalController {
 		
 	}
 	
-
+	@RequestMapping(path="/cancel/{oid}", method = RequestMethod.GET, produces = "text/plain")
+	public String setStatusToCanceled(@PathVariable Long oid)
+	{
+		return this.payPalService.changePaymentStatusToCanceled(oid);
+	}
 }

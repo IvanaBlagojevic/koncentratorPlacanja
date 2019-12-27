@@ -23,7 +23,7 @@ public class PaymentInfoController {
 	private PaymentInfoService pis;
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public ResponseEntity<MethodOfPaymentDTO> createPaymentInfo(@RequestBody PaymentInfoDTO dto) {
+	public ResponseEntity<?> createPaymentInfo(@RequestBody PaymentInfoDTO dto) {
 		
 		System.out.println("CREATE method ");
 		PaymentInfo method =  dto.convertToDomain();
@@ -32,12 +32,17 @@ public class PaymentInfoController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/update/{id}/{status}/{method}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") String status, @PathVariable("method") String method) {
+	
+	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") boolean  status, @PathVariable("method") String method) {
+
 		
 		System.out.println("update method ");
 		PaymentInfo pi = pis.findOneByOrderNumberIdAndPaymentMethod(id,method);
-		System.out.print(pi.getPaymentMethod());
+		
+		pi.setPaymentMethod(method);
+		pi.setPaid(status);
+		
+		this.pis.save(pi);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 

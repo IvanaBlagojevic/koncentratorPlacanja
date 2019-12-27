@@ -20,13 +20,18 @@ export class PaymentService {
   //payPalService
   payPalCreatePayment(paymentInfo : PaymentDTO, paymentMethod : String) : Observable<any>{ 
     //ovde sam samo service dodala - proveriti sa Danicom
-    return this.http.post(this.zuul_url  + paymentMethod + "Service" + "/create", paymentInfo, { responseType: 'text'} );
+    return this.http.post(this.zuul_url  + paymentMethod  + "/create", paymentInfo, { responseType: 'text'} );
   }
 
   payPalCompletePayment(paymentId : String, payerId : String, username : String, paymentMethod : String) : Observable<any>{
 
     console.log("pokusava da je pozoveeeee");
     return this.http.get(this.zuul_url + "/" + paymentMethod + "/complete/"+paymentId + "/"+payerId + "/" + username,  { responseType: 'text'} ); 
+  }
+
+  payPalCancelPayment(id : number)
+  {
+    return this.http.get(this.zuul_url + "/payPalService/cancel/"+id, {responseType: 'text'});
   }
 
 }

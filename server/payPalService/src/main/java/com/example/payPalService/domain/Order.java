@@ -15,40 +15,36 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
     private String paymentId;
 	
-	@Column(nullable = false)
-    private String username;
-	
-	@Column(nullable = false)
+	//@Column(nullable = false)
     private double amount;
 	
-	@Column(nullable = false)
-	private OrderStatus state;
+	//@Column(nullable = false)
+	private OrderStatus status;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private Date creationDate;
 	
-	private Date completeDate;
+	private Date updateDate;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
     private String callbackUrl; //podatak o tome kome treba vratiti informaciju nakon placanja, o uspehu/neuspehu
 								//kada se razradi pun krug, ovde treba da stoji putanja do naucne centrale
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String merchant;
 	
 	public Order() {}
-	
-	public Order(String paymentId, String username, double amount, OrderStatus state, Date creationDate,
-			Date completeDate, String callbackUrl, String merchant) {
+
+	public Order(String paymentId, double amount, OrderStatus status, Date creationDate, Date updateDate,
+			String callbackUrl, String merchant) {
 		super();
 		this.paymentId = paymentId;
-		this.username = username;
 		this.amount = amount;
-		this.state = state;
+		this.status = status;
 		this.creationDate = creationDate;
-		this.completeDate = completeDate;
+		this.updateDate = updateDate;
 		this.callbackUrl = callbackUrl;
 		this.merchant = merchant;
 	}
@@ -57,76 +53,53 @@ public class Order {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getPaymentId() {
 		return paymentId;
 	}
 
-
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
 	}
-
-
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 
 	public double getAmount() {
 		return amount;
 	}
 
-
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
-
-	public OrderStatus getState() {
-		return state;
+	public OrderStatus getStatus() {
+		return status;
 	}
 
-
-	public void setState(OrderStatus state) {
-		this.state = state;
+	public void setStatus(OrderStatus status) {
+		this.status = status;
 	}
-
 
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
-
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
-
-	public Date getCompleteDate() {
-		return completeDate;
+	
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 
-
-	public void setCompleteDate(Date completeDate) {
-		this.completeDate = completeDate;
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
-
 
 	public String getCallbackUrl() {
 		return callbackUrl;
 	}
-
 
 	public void setCallbackUrl(String callbackUrl) {
 		this.callbackUrl = callbackUrl;
@@ -139,5 +112,6 @@ public class Order {
 	public void setMerchant(String merchant) {
 		this.merchant = merchant;
 	}
+	
 	
 }

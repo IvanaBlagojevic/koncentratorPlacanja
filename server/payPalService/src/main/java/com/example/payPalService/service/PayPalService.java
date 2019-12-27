@@ -11,8 +11,12 @@ import javax.swing.Spring;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +25,7 @@ import com.example.payPalService.domain.Order;
 import com.example.payPalService.domain.OrderStatus;
 import com.example.payPalService.domain.UserPayPal;
 import com.example.payPalService.dto.PaymentDTO;
+import com.example.payPalService.dto.PaymentInfoDTO;
 import com.example.payPalService.exceptions.BadRequest;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Authorization;
@@ -67,8 +72,11 @@ public class PayPalService {
 		payment.setPayer(payer);
 		payment.setTransactions(transactions);
 		
+		Order order = new Order();
+		this.orderService.saveOrder(order);
+		
 		RedirectUrls redirectUrl = new RedirectUrls();
-		redirectUrl.setCancelUrl("https://localhost:4202/error"); //nazad naucnoj centrali
+		redirectUrl.setCancelUrl("https://localhost:1234/ppcancel?oid="+order.getId()); 
 		redirectUrl.setReturnUrl("https://localhost:1234/ppsuccess?username="+user.getUsername());
 	    payment.setRedirectUrls(redirectUrl);
 	    
@@ -85,10 +93,27 @@ public class PayPalService {
 	    	
 	    	Date today = new Date();
 	    	
-	    	Order order = new Order(createdPayment.getId(),paymentDTO.getMerchantEmail(),paymentDTO.getAmount()
-	    			,OrderStatus.CREATED,today,null,"https://localhost:4202/error",user.getUsername());
+	    	order.setPaymentId(createdPayment.getId());
+	    	order.setMerchant(paymentDTO.getMerchantEmail());
+	    	order.setAmount(paymentDTO.getAmount());
+	    	order.setStatus(OrderStatus.CREATED);
+	    	order.setCreationDate(today);
+	    	order.setCallbackUrl("https://localhost:4202/error");
+	    	Order ret = this.orderService.saveOrder(order);
 	    	
-	    	this.orderService.saveOrder(order);
+	    	//slanje podataka o placanju kpServisu 
+	    	//System.out.println("Broooj " + ret.getId());
+	    	PaymentInfoDTO info = new PaymentInfoDTO(paymentDTO.getMerchantEmail(), "mejl", ret.getId(), false, "PayPal");    	
+	    	RestTemplate template = new RestTemplate();
+	    	HttpHeaders header = new HttpHeaders();
+	    	header.setContentType(MediaType.APPLICATION_JSON);
+	    	HttpEntity<PaymentInfoDTO> request = new HttpEntity<>(info,header);
+	    	
+			try {
+				template.postForEntity("https://localhost:8086/kpService/paymentinfo/create", request, PaymentInfoDTO.class);
+			}catch(HttpStatusCodeException e) {
+				e.printStackTrace();
+			}
 	    	
 	    	if(createdPayment!=null){
 	            List<Links> links = createdPayment.getLinks();
@@ -118,6 +143,7 @@ public class PayPalService {
 		
 		Map<String, Object> response = new HashMap<>();
 		Order order;
+		order = this.orderService.getByPaymentId(idPayment).get();
 		
 		Payment payment = new Payment();
 		payment.setId(idPayment);
@@ -128,24 +154,46 @@ public class PayPalService {
 		try {
 			
 			APIContext context = new APIContext(user.getClientId(),user.getClientSecret(),"sandbox");
-			payment.execute(context, payExecution); //izvrsavanje bi trebalo da je ovoooooo
+			payment.execute(context, payExecution); 
+			//order = this.orderService.getByPaymentId(idPayment).get();
 			
-			order = this.orderService.getByPaymentId(idPayment).get();
-			order.setCompleteDate(new Date());
-			order.setState(OrderStatus.PAYED);
-			
-			this.orderService.saveOrder(order);
-			logger.info("5 2 4 1");
 			
 		}catch(PayPalRESTException e) {
 			logger.info("5 2 4 0");
 			throw new BadRequest("Error happened during payment complete");
 		}
 		
-	    
+		order.setUpdateDate(new Date());
+		order.setStatus(OrderStatus.PAYED);
+		this.orderService.saveOrder(order);
+		
+		//slanje podataka o placanju kpServisu 	    	
+    	RestTemplate template = new RestTemplate();
+    	HttpHeaders header = new HttpHeaders();
+    	header.setContentType(MediaType.APPLICATION_JSON);
+		
+    	try {
+    		template.put("https://localhost:8086/kpService/paymentinfo/update/"+order.getId()+"/true/PayPal", PaymentInfoDTO.class);
+    	}catch(HttpStatusCodeException e)
+    	{
+    		e.printStackTrace();
+    	}
+		
+		logger.info("5 2 4 1");
 	    response.put("redirect_url", "https://localhost:4202/success");
 		
 		return response;
+	}
+	
+	public String changePaymentStatusToCanceled(Long orderId) {
+		
+		Order order = this.orderService.getById(orderId).get();
+		
+		order.setUpdateDate(new Date());
+		order.setStatus(OrderStatus.CANCELED);
+		this.orderService.saveOrder(order);
+		
+		return order.getCallbackUrl();
 	}
 	
 }
