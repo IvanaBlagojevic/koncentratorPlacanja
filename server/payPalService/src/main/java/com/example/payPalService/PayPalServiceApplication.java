@@ -25,6 +25,7 @@ public class PayPalServiceApplication {
 		System.setProperty("KEY_STORE_ALIAS", "pay");
 		
 		SpringApplication.run(PayPalServiceApplication.class, args);
+		System.out.print("PayPal started");
 	}
 	
 	@Bean

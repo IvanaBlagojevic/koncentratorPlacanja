@@ -16,6 +16,7 @@ export class BitcoinCancelComponent implements OnInit {
     if (id != undefined) {
       this.bs.bitcoinCancelPayment(id).subscribe(data=>{
         console.log("bitcoin paymend canceld");
+        window.location.href="https://localhost:4202/error"
       });
     }
   }

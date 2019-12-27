@@ -16,6 +16,7 @@ export class BitcoinSuccessComponent implements OnInit {
     if (id != undefined) {
       this.bs.bitcoinCompleatePayment(id).subscribe(data=>{
         console.log("bitcoin paymend success");
+        window.location.href="https://localhost:4202/success";
       });
     }
     

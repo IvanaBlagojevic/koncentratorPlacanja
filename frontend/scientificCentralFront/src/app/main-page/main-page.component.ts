@@ -18,7 +18,7 @@ export class MainPageComponent implements OnInit {
   constructor(private router: ActivatedRoute, private testService: TestService,
     private paymentService: PaymentService) { 
     this.testService.getTest().subscribe(data=>{
-      alert("uspeh "+data);
+      //alert("uspeh "+data);
     })
   }
 

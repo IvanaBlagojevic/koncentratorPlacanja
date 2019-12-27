@@ -4,3 +4,5 @@ insert into user(name,surname,email) values ('Nikola','Nikolic','nikola@gmail.co
 insert into method_of_payment(name, path) values ('Card','/bank');
 insert into method_of_payment(name, path) values ('PayPal','/payPalService');
 insert into method_of_payment(name, path) values ('Bitcoin','/bitcoin');
+
+insert into payment_info(id,merchant_email,user_email,order_number_id,is_paid,payment_method) values (1,'pera@gmail.com','ivana',25,false,"Bitcoin");

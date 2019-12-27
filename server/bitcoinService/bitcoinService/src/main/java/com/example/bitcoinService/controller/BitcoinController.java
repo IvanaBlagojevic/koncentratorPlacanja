@@ -89,7 +89,7 @@ public class BitcoinController {
 			
 			logger.info(" 6 12 4 0");
 		}catch(HttpStatusCodeException e) {
-			logger.error(" 6 12 4 1");
+			logger.info(" 6 12 4 1");
 		}
 		
 		
@@ -135,7 +135,7 @@ public class BitcoinController {
 		        	logger.info(" 6 24 4 0");
 		        }
 		 	}catch(HttpStatusCodeException e) {
-		 		logger.error(" 6 24 4 1");
+		 		logger.info(" 6 24 4 1");
 		 	}
 	        
 		 	
@@ -177,11 +177,11 @@ public class BitcoinController {
 		        	o.setStatus(OrderStatusEnum.CANCELED);
 		        	o.setUpdated(new Date());
 		        	os.save(o);
-		        	logger.error(" 6 34 4 0");
+		        	logger.info(" 6 34 4 0");
 		        }
 		 		
 		 	}catch(HttpStatusCodeException e) {
-		 		logger.error(" 6 34 4 1");
+		 		logger.info(" 6 34 4 1");
 		 	}
 	        
 		 	

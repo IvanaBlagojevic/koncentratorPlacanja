@@ -38,7 +38,7 @@ public class OrderStatusRefresh {
 	@Autowired
 	BitcoinUserService bus;
 	
-	private static final Logger logger  = LoggerFactory.getLogger(BitcoinController.class);
+	private static final Logger logger  = LoggerFactory.getLogger(OrderStatusRefresh.class);
 
 	
 	@Scheduled(fixedRate = 60000)
@@ -90,10 +90,10 @@ public class OrderStatusRefresh {
 				if (fleg == true) {
 					o.setUpdated(new Date());
 					os.save(o);
-					logger.error(" 6 42 4 0");
+					logger.info(" 6 42 4 0");
 				}
 			}catch(HttpStatusCodeException e) {
-				logger.error(" 6 42 4 1");
+				logger.info(" 6 42 4 1");
 			}
 			
 			

@@ -28,6 +28,7 @@ public class KpServiceApplication {
 		System.setProperty("KEY_STORE_ALIAS", "kp");
 		
 		SpringApplication.run(KpServiceApplication.class, args);
+		System.out.print("KP starts");
 	}
 	
 	
