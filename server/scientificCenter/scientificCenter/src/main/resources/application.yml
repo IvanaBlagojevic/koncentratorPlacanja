@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: scientificCenter  
+  datasource:
+    url: jdbc:mysql://localhost:3306/scientificcenter?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password: sifra
+    driverClassName : com.mysql.jdbc.Driver
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform : org.hibernate.dialect.MySQL5Dialect
+  data:
+    elasticsearch:
+       cluster-name: Cluster
+       cluster-nodes: localhost:9300
+       properties:
+           http:
+              enabled: true
+  http:
+    multipart:
+            max-file-size: 1MB
+            max-request-size: 1MB
+  jackson:
+    serialization:
+        FAIL_ON_EMPTY_BEANS: false 
+ 
+  mail:
+        host: smtp.gmail.com
+        password: Nidza++5++
+        port: 587
+        properties:
+            mail:
+                smtp:
+                    starttls:
+                        enable: true
+        username: petarperic23252@gmail.com
+
+elasticsearch:
+    baseUrl: http://localhost:9200/
+
+camunda:
+    createJournalProcessKey: CreateJournal
+    registrationProcessKey: Registration  
+    
+server:
+  port: 8088
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_CLASSPATH}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    key-alias: scs
+    trust-store: ${KEY_STORE_CLASSPATH_TRUST}
+    trust-store-password: ${KEY_STORE_TRUST_PASSWORD}
+com:
+    example:
+        app:
+            jwtExpiration: 86400
+            jwtExpirationInMs: 3600000
+            jwtSecret: y5oEr+Hczn77f1xoU9vOfw+K  

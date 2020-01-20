@@ -1,0 +1,81 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Scientific central</a>
+    <li class="nav-item" *ngIf="someoneLogged == true">
+            <label id="welcomeLabel">{{email}} </label>
+    </li>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+        <li class="nav-item">
+          <button  *ngIf="someoneLogged != true"  class="nav-link" (click)="startLogin()">Login</button>
+        </li>
+        <li class="nav-item">
+          <button  *ngIf="someoneLogged != true"  class="nav-link" (click)="startRegister()" >Register</button>
+        </li>
+        <li class="nav-item">
+          <button *ngIf="editorLogged == true"   class="nav-link" (click)="startJournal()">Create journal</button>
+        </li>
+       
+        <li class="nav-item">
+          <button *ngIf="someoneLogged == true" class="nav-link" [routerLink]="" (click)="logout()">Logout</button>
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<header>
+	<div class="overlay">
+  <h1>SCIENTIFIC CENTRAL</h1>
+  <p class="card-text"></p>
+  </div>
+    
+</header>
+
+<!-- Page Content -->
+<div class="container py-4 mt-4" *ngIf="someoneLogged == true">
+  <h1>All tasks</h1>
+  <button (click)="getTasks()">Get tasks</button>
+  <div class="row mt-4">
+    <div class="col-lg-3 col-sm-6 mb-4" *ngFor="let task of tasks; let i = index">
+      <div class="card shadow border-0 h-100">
+        
+                <p class="card-text">{{task.name}}</p>
+                <p class="card-text">{{task.assignee}}</p>
+                <div class="row">
+                    <div class="col">
+                            <a id="hrefButton"  (click)="startTask(task.taskId)" class="btn btn-success btn-block">StartTask</a>
+                    </div>
+                  </div>  
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-4 mt-4" *ngIf="someoneLogged == true">
+  <h1>All journals</h1>
+  <button (click)="seeList()">See list</button>
+  <div class="row mt-4">
+    <div class="col-lg-3 col-sm-6 mb-4" *ngFor="let journal of journals; let i = index">
+      <div class="card shadow border-0 h-100">
+        <h4 class="card-title">{{journal.title}}</h4>
+        <p class="card-text">ISSN: {{journal.issn}}</p>
+        <p class="card-text">Price: {{journal.price}}€</p>
+        <div class="row">
+           <div class="col" *ngIf="journal.isOpenAccess == false">
+              <a id="hrefButton"  (click)="buyJournal(journal)" class="btn btn-success btn-block">Buy</a>
+           </div>
+         </div>  
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,5 +10,5 @@ INSERT INTO `payment` (`id`,`amount`,`error_url`,`failed_url`,`merchant_id`,`mer
 
 
 INSERT INTO `card` (`id`, `expiry_date`, `secure_code`, `account_id`,`pan`) VALUES ('1', '2020-01-01 00:00:00', '1234', '1','1111111111111111');
-INSERT INTO `card` (`id`, `expiry_date`,`secure_code`, `account_id`,`pan`) VALUES ('2', '2020-01-01 00:00:00', '5555', '2','2222222222222222');
+INSERT INTO `card` (`id`, `expiry_date`,`secure_code`, `account_id`,`pan`) VALUES ('2', '2020-01-01 00:00:00', '5555', '2','1111112222222222');
 
