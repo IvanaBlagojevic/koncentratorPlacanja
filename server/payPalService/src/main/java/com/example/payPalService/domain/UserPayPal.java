@@ -38,6 +38,12 @@ public class UserPayPal implements Serializable {
 		this.clientSecret = clientSecret;
 	}
 
+	public UserPayPal(String username, String clientId, String clientSecret) {
+		super();
+		this.username = username;
+		this.clientId = clientId;
+		this.clientSecret = clientSecret;
+	}
 
 
 	public Long getId() {

@@ -32,7 +32,10 @@
                 <a class="nav-link" id="home" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Other</a>
+                <a class="nav-link" href="https://localhost:1234/registerCompany">Register company</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://localhost:1234/registerMerchant">Register merchant</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="https://localhost:4202">NC</a>
@@ -51,19 +54,7 @@
               </div>
             </div>
             <div class="col">
-              <div class="row justify-content-center">
-                <div class="col-xl-8 col-md-10">
-                  <form class="position-relative d-block aos-init aos-animate" data-aos="fade-up" method="POST" (ngSubmit)="createPayment()">
-                    <div class="form-group">
-                      <label id = "pay" class="slika">Choose payment method:</label>
-                      <div class="paymentMethod" *ngFor = "let item of paymentMethods"  >
-                        <img  class="slika" id={{item.name}} (click)="pay(item.path)" width="100px" height="100px" src="{{item.img}}" />
-                        <p  class="slika" id = "pay">Pay with {{item.name}}</p>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
+            
             </div>
           </div>
         </div>

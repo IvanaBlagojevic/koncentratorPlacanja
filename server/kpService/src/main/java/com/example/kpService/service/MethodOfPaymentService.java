@@ -29,5 +29,10 @@ public class MethodOfPaymentService {
 		// TODO Auto-generated method stub
 		return this.paymentRepository.findOneById(id);
 	}
+	
+	public MethodOfPayment getOneByName(String name) {
+		
+		return this.paymentRepository.findOneByName(name);
+	}
 
 }

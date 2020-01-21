@@ -16,5 +16,10 @@ public class UserPayPalService {
 		
 		return userRep.findByUsername(username);
 	}
+	
+	public UserPayPal saveUser(UserPayPal user) {
+		
+		return userRep.save(user);
+	}
 
 }

@@ -210,5 +210,17 @@ public class BitcoinController {
 		 	
 		 	return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
 	 }
+	 /////////////////metoda za dodavanje novog user-a, nakon registracije merchant-a u kp-u////////////////
+	 @RequestMapping(
+				path="addUser",
+				method = RequestMethod.POST)
+		public ResponseEntity addNewUser() {
+			
+		
+		 	System.out.println("Dodavanje korisnika u BitcoinController");
+		 
+			return new ResponseEntity<>("User added to bitcoin!",HttpStatus.OK);
+			
+		}
 	
 }

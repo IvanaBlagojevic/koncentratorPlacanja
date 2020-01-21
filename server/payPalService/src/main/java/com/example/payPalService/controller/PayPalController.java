@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.example.payPalService.converter.PayPalConverter;
+import com.example.payPalService.domain.UserPayPal;
 import com.example.payPalService.dto.PaymentDTO;
+import com.example.payPalService.dto.UserPayPalDTO;
 import com.example.payPalService.service.PayPalService;
+import com.example.payPalService.service.UserPayPalService;
 
 @RestController
 @CrossOrigin("https://localhost:1234")
@@ -25,6 +28,12 @@ public class PayPalController {
 	
 	@Autowired
 	private PayPalService payPalService;
+	
+	@Autowired
+	private UserPayPalService userService;
+	
+	@Autowired
+	private PayPalConverter converter;
 	
 	@RequestMapping(path = "/create", method = RequestMethod.POST, produces = "text/plain")
 	@ResponseBody
@@ -50,5 +59,21 @@ public class PayPalController {
 	public String setStatusToCanceled(@PathVariable Long oid)
 	{
 		return this.payPalService.changePaymentStatusToCanceled(oid);
+	}
+	
+	@RequestMapping(
+			path="addUser",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity addNewUser(@RequestBody UserPayPalDTO user) {
+		
+		
+		UserPayPal userP = converter.convert(user);
+		
+		this.userService.saveUser(userP);
+		
+		return new ResponseEntity<>("User added to payPal!",HttpStatus.OK);
+		
 	}
 }

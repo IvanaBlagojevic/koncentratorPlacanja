@@ -12,6 +12,8 @@ public interface MethodOfPaymentRepository extends JpaRepository<MethodOfPayment
 	List<MethodOfPayment> findAll();
 
 	MethodOfPayment findOneById(Long id);
+	
+	MethodOfPayment findOneByName(String name);
 
 }
 
