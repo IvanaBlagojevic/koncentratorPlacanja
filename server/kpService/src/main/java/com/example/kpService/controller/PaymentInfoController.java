@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kpService.domain.MethodOfPayment;
 import com.example.kpService.domain.PaymentInfo;
+import com.example.kpService.domain.PaymentStatus;
 import com.example.kpService.dto.MethodOfPaymentDTO;
 import com.example.kpService.dto.PaymentInfoDTO;
 import com.example.kpService.service.PaymentInfoService;
@@ -31,15 +32,18 @@ public class PaymentInfoController {
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+
 	@RequestMapping(value = "/update/{id}/{status}/{method}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") boolean  status, @PathVariable("method") String method) {
+	public ResponseEntity<?> updatePaymentInfo(@PathVariable("id") Long id, @PathVariable("status") boolean status, @PathVariable("method") String method) {
 
 		
 		System.out.println("update method ");
 		PaymentInfo pi = pis.findOneByOrderNumberIdAndPaymentMethod(id,method);
 		
 		pi.setPaymentMethod(method);
-		pi.setPaid(status);
+		if (status == true) {
+			pi.setPaid(PaymentStatus.PAID);
+		}
 		
 		this.pis.save(pi);
 		return new ResponseEntity<>(HttpStatus.CREATED);

@@ -34,6 +34,16 @@ public class OrderService {
 		// TODO Auto-generated method stub
 		return or.findOneByRandomUniqueID(oid);
 	}
+
+	public MyOrder findOneById(Long oid) {
+		// TODO Auto-generated method stub
+		return or.findOneById(oid);
+	}
+
+	public MyOrder findOneByPaymentId(String string) {
+		// TODO Auto-generated method stub
+		return or.findOneByPaymentId(string);
+	}
 	
 	
 

@@ -5,7 +5,7 @@ insert into method_of_payment(name, path) values ('Card','/bankService');
 insert into method_of_payment(name, path) values ('PayPal','/payPalService');
 insert into method_of_payment(name, path) values ('Bitcoin','/bitcoinService');
 
-insert into payment_info(id,merchant_email,user_email,order_number_id,is_paid,payment_method) values (1,'pera@gmail.com','ivana',25,false,"Bitcoin");
+insert into payment_info(id,merchant_issn,user_email,order_number_id,is_paid,payment_method) values (1,'2222-2222','ivana',25,'PAID',"bitcoinService");
 
 insert into method_of_payment_fields(code, name, type) values ('MERCHANT_ID', 'Merchant id' ,'text');
 insert into method_of_payment_fields(code, name, type) values ('MERCHANT_PASSWORD', 'Merchant password' ,'password');
@@ -32,8 +32,3 @@ insert into merchant(name, username, system_id) values ('Time', '1111-2222', 1);
 insert into merchant_payment_methods(merchant_id, payment_methods_id) values (1,2); --Podrzava PayPal placanje
 insert into merchant_payment_methods(merchant_id, payment_methods_id) values (1,1);
 insert into merchant_payment_methods(merchant_id, payment_methods_id) values (1,3);
-
-
-
-
-

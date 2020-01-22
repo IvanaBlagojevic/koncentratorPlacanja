@@ -22,7 +22,7 @@ export class BuyJournalComponent implements OnInit {
 
     this.issn = this.router.snapshot.params.id1;
     this.amount = this.router.snapshot.params.id2;
-    this.payment.merchantEmail = this.issn;
+    this.payment.merchantIssn = this.issn;
     this.payment.amount = this.amount;
 
     this.paymentService.getMerchantByUsername(this.issn).subscribe(res => {
@@ -55,12 +55,6 @@ export class BuyJournalComponent implements OnInit {
 
   pay(path : String)
   {
-    if (path == "Bitcoin") {
-      this.bs.bitcoinCreatePayment(this.payment).subscribe(data=>{
-
-      })
-    }
-
     let redirectUrl;
     this.paymentService.payPalCreatePayment(this.payment, path).subscribe(data => {
 

@@ -1,4 +1,4 @@
 export class PaymentDTO {
-	merchantEmail : string;
+	merchantIssn : string;
 	amount : number;
 }

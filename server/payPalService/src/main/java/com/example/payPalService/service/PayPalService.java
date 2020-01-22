@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.Spring;
 
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,7 +56,7 @@ public class PayPalService {
 	public Map<String,Object> createPayment(PaymentDTO paymentDTO){
 		
 		//dobavljanje odgovarajuce korisnika
-		UserPayPal user = userService.getUserByUsername(paymentDTO.getMerchantEmail());
+		UserPayPal user = userService.getUserByUsername(paymentDTO.getMerchantIssn());
 		Amount amount = new Amount("USD",Double.toString(paymentDTO.getAmount())); //kreira se objekat koji nosi info o valuti i iznosu
 								
 		
@@ -94,7 +96,7 @@ public class PayPalService {
 	    	Date today = new Date();
 	    	
 	    	order.setPaymentId(createdPayment.getId());
-	    	order.setMerchant(paymentDTO.getMerchantEmail());
+	    	order.setMerchant(paymentDTO.getMerchantIssn());
 	    	order.setAmount(paymentDTO.getAmount());
 	    	order.setStatus(OrderStatus.CREATED);
 	    	order.setCreationDate(today);
@@ -103,7 +105,8 @@ public class PayPalService {
 	    	
 	    	//slanje podataka o placanju kpServisu 
 	    	//System.out.println("Broooj " + ret.getId());
-	    	PaymentInfoDTO info = new PaymentInfoDTO(paymentDTO.getMerchantEmail(), "mejl", ret.getId(), false, "PayPal");    	
+	    	
+	    	PaymentInfoDTO info = new PaymentInfoDTO(paymentDTO.getMerchantIssn(), "mejl", ret.getId(), OrderStatus.CREATED, "payPalService", new Date(), null);    	
 	    	RestTemplate template = new RestTemplate();
 	    	HttpHeaders header = new HttpHeaders();
 	    	header.setContentType(MediaType.APPLICATION_JSON);
@@ -173,7 +176,7 @@ public class PayPalService {
     	header.setContentType(MediaType.APPLICATION_JSON);
 		
     	try {
-    		template.put("https://localhost:8086/kpService/paymentinfo/update/"+order.getId()+"/true/PayPal", PaymentInfoDTO.class);
+    		template.put("https://localhost:8086/kpService/paymentinfo/update/"+order.getId()+"/true/payPalService", PaymentInfoDTO.class);
     	}catch(HttpStatusCodeException e)
     	{
     		e.printStackTrace();
@@ -194,6 +197,35 @@ public class PayPalService {
 		this.orderService.saveOrder(order);
 		
 		return order.getCallbackUrl();
+	}
+
+	public Map<String, Object> getByOrderId(Long oid) {
+		Optional<Order> or = orderService.getById(oid);
+	 	if (or == null) {
+	 		System.out.println("Order with this oid does not exists!");
+	 		return null;
+	 	}
+	 	
+	 	String isPaid="";
+	 	Order o = or.get();
+	 	if (o.getStatus() == OrderStatus.CREATED ) {
+	 		isPaid = "new";
+	 	}else if (o.getStatus() == OrderStatus.PAYED) {
+	 		isPaid = "paid";
+	 	}else if (o.getStatus() == OrderStatus.CANCELED) {
+	 		isPaid = "unfinished";
+	 	}
+	 	
+	 	Map<String, Object> mapToKP = new HashMap<String, Object>();
+		mapToKP.put("merchantIssn", o.getMerchant());
+		mapToKP.put("userEmail", "ivana");								//zakucano
+		mapToKP.put("orderNumberId", o.getPaymentId());
+		mapToKP.put("isPaid", isPaid);
+		mapToKP.put("paymentMethod", "payPalService");
+		mapToKP.put("created", o.getCreationDate());
+		//mapToKP.put("updated", o.getCreated());
+	
+		return mapToKP;
 	}
 	
 }

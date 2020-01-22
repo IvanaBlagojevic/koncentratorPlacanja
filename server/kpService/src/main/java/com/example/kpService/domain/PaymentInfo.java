@@ -1,5 +1,7 @@
 package com.example.kpService.domain;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class PaymentInfo {
     private Long id;
 
     @Column(nullable = false)
-    private String merchantEmail;
+    private String merchantIssn;
     
     @Column
     private String userEmail;
@@ -22,26 +24,37 @@ public class PaymentInfo {
     @Column(nullable = false)
     private Long orderNumberId;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private boolean isPaid;
+    private PaymentStatus isPaid;
     
+    //mora biti naziv mikroservisa da bi bilo generickije
     @Column(nullable = false)
     private String paymentMethod;
+    
+    @Column
+    private Date created;
+
+    @Column
+    private Date updated;
     
     public PaymentInfo() {
     	
     }
-    
-	public PaymentInfo(Long id, String merchantEmail, String userEmail, Long orderNumberId, boolean isPaid,
-			String paymentMethod) {
+
+	public PaymentInfo(String merchantIssn, String userEmail, Long orderNumberId, PaymentStatus isPaid,
+			String paymentMethod, Date created, Date updated) {
 		super();
-		this.id = id;
-		this.merchantEmail = merchantEmail;
+		this.merchantIssn = merchantIssn;
 		this.userEmail = userEmail;
 		this.orderNumberId = orderNumberId;
 		this.isPaid = isPaid;
 		this.paymentMethod = paymentMethod;
+		this.created = created;
+		this.updated = updated;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -50,13 +63,13 @@ public class PaymentInfo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getMerchantEmail() {
-		return merchantEmail;
+	
+	public String getMerchantIssn() {
+		return merchantIssn;
 	}
 
-	public void setMerchantEmail(String merchantEmail) {
-		this.merchantEmail = merchantEmail;
+	public void setMerchantIssn(String merchantIssn) {
+		this.merchantIssn = merchantIssn;
 	}
 
 	public String getUserEmail() {
@@ -75,11 +88,11 @@ public class PaymentInfo {
 		this.orderNumberId = orderNumberId;
 	}
 
-	public boolean isPaid() {
+	public PaymentStatus isPaid() {
 		return isPaid;
 	}
 
-	public void setPaid(boolean isPaid) {
+	public void setPaid(PaymentStatus isPaid) {
 		this.isPaid = isPaid;
 	}
 
@@ -90,6 +103,31 @@ public class PaymentInfo {
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
+
+	public PaymentStatus getIsPaid() {
+		return isPaid;
+	}
+
+	public void setIsPaid(PaymentStatus isPaid) {
+		this.isPaid = isPaid;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
     
+	
     
 }

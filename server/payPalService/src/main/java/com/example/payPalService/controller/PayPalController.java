@@ -1,5 +1,6 @@
 package com.example.payPalService.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.payPalService.converter.PayPalConverter;
+import com.example.payPalService.domain.Order;
 import com.example.payPalService.domain.UserPayPal;
 import com.example.payPalService.dto.PaymentDTO;
 import com.example.payPalService.dto.UserPayPalDTO;
@@ -76,4 +78,16 @@ public class PayPalController {
 		return new ResponseEntity<>("User added to payPal!",HttpStatus.OK);
 		
 	}
+	
+	
+	//za refresh iz kp-a
+	@RequestMapping(value="/getOne/{oid}", method = RequestMethod.GET)
+	 public ResponseEntity<Map<String, Object>> getPayment(@PathVariable("oid") Long oid) {
+		 	System.out.println("usao u getOne payment " + oid);
+		 	
+		 	Map<String, Object> o = payPalService.getByOrderId(oid);
+
+		 	
+		 	return new ResponseEntity<Map<String, Object>>(o, HttpStatus.ACCEPTED);
+	 }
 }

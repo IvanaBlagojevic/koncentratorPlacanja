@@ -17,4 +17,9 @@ public class BitcoinUserService {
 		return bur.findOneByUsername(username);
 	}
 
+	public void save(BitcoinUser bu) {
+		// TODO Auto-generated method stub
+		bur.save(bu);
+	}
+
 }

@@ -16,7 +16,7 @@ public class MyOrder {
     private String paymentId;
 
     @Column(nullable = false)
-    private String username;
+    private String usernameIssn;
 
     @Column(nullable = false)
     private Date created;
@@ -30,6 +30,7 @@ public class MyOrder {
     @Column(nullable = false)
     private String currency;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private OrderStatusEnum status;
     
@@ -41,11 +42,11 @@ public class MyOrder {
 
     public MyOrder() {}
 
-	public MyOrder (String paymentId, String username, Date created, Date updated, double amount, String currency,
+	public MyOrder (String paymentId, String usernameIssn, Date created, Date updated, double amount, String currency,
 			OrderStatusEnum status, String randomUniqueID) {
 		this.paymentId = paymentId;
-		System.out.println("username order" + username);
-		this.username = username;
+		System.out.println("username order" + usernameIssn);
+		this.usernameIssn = usernameIssn;
 		this.created = created;
 		this.updated = updated;
 		this.amount = amount;
@@ -73,12 +74,12 @@ public class MyOrder {
 		this.paymentId = paymentId;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUsernameIssn() {
+		return usernameIssn;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsernameIssn(String usernameIssn) {
+		this.usernameIssn = usernameIssn;
 	}
 
 	public Date getCreated() {

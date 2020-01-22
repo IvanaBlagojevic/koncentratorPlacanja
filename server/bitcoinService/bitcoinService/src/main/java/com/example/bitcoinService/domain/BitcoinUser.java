@@ -9,6 +9,7 @@ public class BitcoinUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	//issn
 	@Column(nullable = false, unique = true)
 	private String username;
 	

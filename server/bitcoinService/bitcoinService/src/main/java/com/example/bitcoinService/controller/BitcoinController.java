@@ -25,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 import com.example.bitcoinService.domain.BitcoinUser;
 import com.example.bitcoinService.domain.MyOrder;
 import com.example.bitcoinService.domain.OrderStatusEnum;
+import com.example.bitcoinService.dto.BitcoinUserDTO;
 import com.example.bitcoinService.dto.OrderPaidDTO;
 import com.example.bitcoinService.dto.PaymentRequestDTO;
 import com.example.bitcoinService.dto.PaymentResponseDTO;
@@ -45,13 +46,49 @@ public class BitcoinController {
 	BitcoinUserService bus;
 	
 	private static final Logger logger  = LoggerFactory.getLogger(BitcoinController.class);
+	
+	 @RequestMapping(value="/getOne/{oid}", method = RequestMethod.GET)
+	 public ResponseEntity<Map<String, Object>> getPayment(@PathVariable("oid") Long oid) {
+		 	System.out.println("usao u getOne payment " + oid);
+		 	MyOrder o = os.findOneByPaymentId(Long.toString(oid));
+		 	if (o == null) {
+		 		System.out.println("Order with this oid does not exists!");
+		 		logger.error(" 6 31 4 1");
+		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		 	}
+		 	
+		
+		 	String isPaid="";
+		 	//NEW, PENDING, CONFIRMING, PAID, INVALID, CANCELED, REFUNDED, EXPIRED - bitcoin statusi
+		 	if (o.getStatus() == OrderStatusEnum.NEW || o.getStatus() == OrderStatusEnum.PENDING || o.getStatus() == OrderStatusEnum.CONFIRMING ) {
+		 		isPaid = "new";
+		 	}else if (o.getStatus() == OrderStatusEnum.PAID) {
+		 		isPaid = "paid";
+		 	}else if (o.getStatus() == OrderStatusEnum.INVALID) {
+		 		isPaid = "invalid";
+		 	}else if (o.getStatus() == OrderStatusEnum.CANCELED || o.getStatus() == OrderStatusEnum.EXPIRED) {
+		 		isPaid = "unfinished";
+		 	}
+	        
+		 	Map<String, Object> mapToKP = new HashMap<String, Object>();
+			mapToKP.put("merchantIssn", o.getUsernameIssn());
+			mapToKP.put("userEmail", "ivana");								//zakucano
+			mapToKP.put("orderNumberId", o.getPaymentId());
+			mapToKP.put("isPaid", isPaid);
+			mapToKP.put("paymentMethod", "bitcoinService");
+			mapToKP.put("created", o.getCreated());
+			//mapToKP.put("updated", o.getCreated());
+			
+		 	
+		 	return new ResponseEntity<Map<String, Object>>(mapToKP, HttpStatus.ACCEPTED);
+	 }
 
 
 	@RequestMapping(value="/create", method = RequestMethod.POST, produces="text/plain")
 	@ResponseBody
     public String send(@RequestBody PaymentRequestDTO pr) {
 		String payFormUrl = "";
-		BitcoinUser bu = bus.findOneByUsername(pr.getMerchantEmail());
+		BitcoinUser bu = bus.findOneByUsername(pr.getMerchantIssn());
 		if (bu == null) {
 			System.out.println("Merchant with this username does not exists!");
 	 		//dodati ko je izvrsio-koji nalog usera 6 1 ko
@@ -89,11 +126,13 @@ public class BitcoinController {
 			RestTemplate toKP = new RestTemplate();
 			HttpHeaders headersToKP = new HttpHeaders();
 			Map<String, Object> mapToKP = new HashMap<String, Object>();
-			mapToKP.put("merchantEmail", pr.getMerchantEmail().toString());
-			mapToKP.put("userEmail", "ivana");
+			mapToKP.put("merchantIssn", pr.getMerchantIssn());
+			mapToKP.put("userEmail", "ivana");								//zakucano
 			mapToKP.put("orderNumberId", response.getId().toString());
-			mapToKP.put("isPaid", false);
-			mapToKP.put("paymentMethod", "Bitcoin");
+			mapToKP.put("isPaid", "CREATED");
+			mapToKP.put("paymentMethod", "bitcoinService");
+			mapToKP.put("created", o.getCreated());
+			//mapToKP.put("updated", o.getCreated());
 			HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
 			toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/create", requesttoKP, PaymentResponseDTO.class);
 			
@@ -123,7 +162,7 @@ public class BitcoinController {
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
-		 	BitcoinUser bu = bus.findOneByUsername(o.getUsername());
+		 	BitcoinUser bu = bus.findOneByUsername(o.getUsernameIssn());
 		 	if (bu == null) {
 		 		System.out.println("Merchant with this username does not exists!");
 		 		logger.error(" 6 23 4 1");
@@ -174,7 +213,7 @@ public class BitcoinController {
 		 		return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 	}
 		 	
-		 	BitcoinUser bu = bus.findOneByUsername(o.getUsername());
+		 	BitcoinUser bu = bus.findOneByUsername(o.getUsernameIssn());
 		 	if (bu == null) {
 		 		System.out.println("Merchant with this username does not exists!");
 		 		logger.error(" 6 33 4 1");
@@ -210,14 +249,18 @@ public class BitcoinController {
 		 	
 		 	return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
 	 }
+	
+	 
 	 /////////////////metoda za dodavanje novog user-a, nakon registracije merchant-a u kp-u////////////////
 	 @RequestMapping(
 				path="addUser",
 				method = RequestMethod.POST)
-		public ResponseEntity addNewUser() {
-			
-		
+		public ResponseEntity addNewUser(@RequestBody BitcoinUserDTO user) {
 		 	System.out.println("Dodavanje korisnika u BitcoinController");
+		 	System.out.println("token " + user.getToken());
+		 	BitcoinUser bu = new BitcoinUser(user.getUsername(), user.getToken());
+		 	
+		 	bus.save(bu);
 		 
 			return new ResponseEntity<>("User added to bitcoin!",HttpStatus.OK);
 			

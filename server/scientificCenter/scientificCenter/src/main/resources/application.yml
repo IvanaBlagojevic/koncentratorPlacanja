@@ -7,9 +7,10 @@ spring:
     password: sifra
     driverClassName : com.mysql.jdbc.Driver
     initialization-mode: always
+     
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      #ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect
   data:
     elasticsearch:
@@ -59,3 +60,4 @@ com:
             jwtExpiration: 86400
             jwtExpirationInMs: 3600000
             jwtSecret: y5oEr+Hczn77f1xoU9vOfw+K  
+            

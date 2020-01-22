@@ -15,4 +15,8 @@ public interface OrderRepository extends JpaRepository<MyOrder, Long> {
 
 	MyOrder findOneByRandomUniqueID(String oid);
 
+	MyOrder findOneById(Long oid);
+
+	MyOrder findOneByPaymentId(String string);
+
 }

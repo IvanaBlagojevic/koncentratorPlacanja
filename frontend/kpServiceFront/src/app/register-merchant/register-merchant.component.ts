@@ -72,10 +72,12 @@ export class RegisterMerchantComponent implements OnInit {
         element.fields.forEach(elementb =>{
           token = elementb.value;
         });
-
-        this.paymentService.addUserInPaymentService(element.path, new UserBitcoinDTO(element.path,token)).subscribe(
+        console.log("username " + this.merchantInfo.username);
+        console.log("token " + token);
+        this.paymentService.addUserInPaymentService(element.path, new UserBitcoinDTO(this.merchantInfo.username,token)).subscribe(
           res =>{
-            
+            alert("Merchant " + this.merchantInfo.merchantName + " registrated!");
+            window.location.href = "https://localhost:1234"; 
           }, err => {
             alert("Error while adding user to bitcoin service");
           })

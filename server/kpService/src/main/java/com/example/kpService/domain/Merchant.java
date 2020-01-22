@@ -24,7 +24,7 @@ public class Merchant {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 20)
 	private String username;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

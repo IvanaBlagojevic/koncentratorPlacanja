@@ -48,7 +48,7 @@ public class OrderStatusRefresh {
 		List<MyOrder> orders = os.findAll();
 		for (MyOrder o : orders) {
 			
-			BitcoinUser bu = bus.findOneByUsername(o.getUsername());
+			BitcoinUser bu = bus.findOneByUsername(o.getUsernameIssn());
 			if (bu == null) {
 				System.out.println("Merchant with this username does not exists!");
 				logger.error(" 6 41 4 1");
@@ -100,9 +100,9 @@ public class OrderStatusRefresh {
 				Map<String, Object> mapToKP = new HashMap<String, Object>();
 				HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
 				if (paid == true) {
-					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/Bitcoin", requesttoKP);
+					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/bitcoinService", requesttoKP);
 				}else {
-					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/Bitcoin", requesttoKP);
+					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/bitcoinService", requesttoKP);
 				}
 			}catch(HttpStatusCodeException e) {
 				logger.info(" 6 42 4 1");

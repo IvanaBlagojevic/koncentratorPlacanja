@@ -28,4 +28,9 @@ public class OrderService {
 		
 		return orderRep.findById(id);
 	}
+
+	public Order findOneByPaymentId(String oid) {
+		// TODO Auto-generated method stub
+		return orderRep.findOneByPaymentId(oid);
+	}
 }
