@@ -55,7 +55,7 @@ export class BuyJournalComponent implements OnInit {
 
   pay(path : String)
   {
-    let redirectUrl;
+    /*let redirectUrl;
     this.paymentService.payPalCreatePayment(this.payment, path).subscribe(data => {
 
       redirectUrl = data;
@@ -64,7 +64,7 @@ export class BuyJournalComponent implements OnInit {
           window.location.href = "" + redirectUrl;
       });
 
-    });
+    });*/
   }
 
 }

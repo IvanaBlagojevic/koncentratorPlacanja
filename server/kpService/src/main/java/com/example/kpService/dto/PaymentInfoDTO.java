@@ -24,13 +24,23 @@ public class PaymentInfoDTO {
 
     private Date updated;
     
+    private String orderNumberNC;
+    
+    private String successURL;
+    
+    private String errorURL;
+    
+    private String failedURL;
+    
+    private Double amount;
+    
     public PaymentInfoDTO() {
     	
     }
     
 
 	public PaymentInfoDTO(String merchantIssn, String userEmail, Long orderNumberId, PaymentStatus isPaid,
-			String paymentMethod, Date created, Date updated) {
+			String paymentMethod, Date created, Date updated, Double amount) {
 		super();
 		this.merchantIssn = merchantIssn;
 		this.userEmail = userEmail;
@@ -39,6 +49,7 @@ public class PaymentInfoDTO {
 		this.paymentMethod = paymentMethod;
 		this.created = created;
 		this.updated = updated;
+		this.amount = amount;
 	}
 
 
@@ -109,6 +120,18 @@ public class PaymentInfoDTO {
 		this.updated = updated;
 	}
 
+	
+	
+	public Double getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+
 	public PaymentInfo convertToDomain() {
 		
 		PaymentInfo method = new PaymentInfo();
@@ -118,7 +141,50 @@ public class PaymentInfoDTO {
 		method.setPaymentMethod(this.paymentMethod);
 		method.setUserEmail(this.userEmail);
 		method.setCreated(this.created);
-		
+		method.setAmount(this.amount);
+		method.setOrderNumberNC(this.orderNumberNC);
 		return method;
 	}
+
+
+	public String getOrderNumberNC() {
+		return orderNumberNC;
+	}
+
+
+	public void setOrderNumberNC(String orderNumberNC) {
+		this.orderNumberNC = orderNumberNC;
+	}
+
+
+	public String getSuccessURL() {
+		return successURL;
+	}
+
+
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
+	}
+
+
+	public String getErrorURL() {
+		return errorURL;
+	}
+
+
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
+	}
+
+
+	public String getFailedURL() {
+		return failedURL;
+	}
+
+
+	public void setFailedURL(String failedURL) {
+		this.failedURL = failedURL;
+	}
+	
+	
 }

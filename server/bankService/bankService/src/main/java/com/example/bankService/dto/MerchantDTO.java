@@ -18,7 +18,7 @@ public class MerchantDTO {
 	
 	@NotNull
 	@Size(min=4, max=20)
-	private String merchantEmail;
+	private String merchantIssn;
 
 	public MerchantDTO() {
 		super();
@@ -49,13 +49,15 @@ public class MerchantDTO {
 		this.merchantPassword = merchantPassword;
 	}
 
-	public String getMerchantEmail() {
-		return merchantEmail;
+	public String getMerchantIssn() {
+		return merchantIssn;
 	}
 
-	public void setMerchantEmail(String merchantEmail) {
-		this.merchantEmail = merchantEmail;
+	public void setMerchantIssn(String merchantIssn) {
+		this.merchantIssn = merchantIssn;
 	}
+
+	
 
 	
 }

@@ -40,4 +40,9 @@ public class PaymentInfoService {
 		return pir.findAllByIsPaid(paid);
 	}
 
+	public PaymentInfo findOneByOrderNumberNC(String orderId) {
+		// TODO Auto-generated method stub
+		return pir.findOneByOrderNumberNC(orderId);
+	}
+
 }

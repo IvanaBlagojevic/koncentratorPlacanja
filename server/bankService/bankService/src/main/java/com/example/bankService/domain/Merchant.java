@@ -18,7 +18,7 @@ public class Merchant {
 	private String merchantId;
 	
 	@Column//(nullable = false) //sa sada
-	private String merchantEmail;
+	private String merchantIssn;
 	
 	@Column(nullable = false)
 	private String merchantPassword;
@@ -34,7 +34,7 @@ public class Merchant {
 		this.id = merchant.getId();
 		this.merchantId= merchant.getMerchantId();
 		this.merchantPassword= merchant.getMerchantPassword();
-		this.merchantEmail = merchant.getMerchantEmail();
+		this.merchantIssn = merchant.getMerchantIssn();
 	}
 
 	public Long getId() {
@@ -61,21 +61,13 @@ public class Merchant {
 		this.merchantPassword = merchantPassword;
 	}
 
-	public String getMerchantEmail() {
-		return merchantEmail;
+	public String getMerchantIssn() {
+		return merchantIssn;
 	}
 
-	public void setMerchantEmail(String merchantEmail) {
-		this.merchantEmail = merchantEmail;
+	public void setMerchantIssn(String merchantIssn) {
+		this.merchantIssn = merchantIssn;
 	}
 
-	
-
-	
-
-	
-
-	
-	
 
 }

@@ -18,11 +18,11 @@ public class PaymentDTO {
 
 	private Date merchantTimestamp;
 	
-	private String successUrl;
+	private String successURL;
 
-	private String failedUrl;
+	private String failedURL;
 
-	private String errorUrl;
+	private String errorURL;
 	
 
 	public PaymentDTO() {
@@ -70,29 +70,31 @@ public class PaymentDTO {
 		this.merchantTimestamp = merchantTimestamp;
 	}
 
-	public String getSuccessUrl() {
-		return successUrl;
+	public String getSuccessURL() {
+		return successURL;
 	}
 
-	public void setSuccessUrl(String successUrl) {
-		this.successUrl = successUrl;
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
 	}
 
-	public String getFailedUrl() {
-		return failedUrl;
+	public String getFailedURL() {
+		return failedURL;
 	}
 
-	public void setFailedUrl(String failedUrl) {
-		this.failedUrl = failedUrl;
+	public void setFailedURL(String failedURL) {
+		this.failedURL = failedURL;
 	}
 
-	public String getErrorUrl() {
-		return errorUrl;
+	public String getErrorURL() {
+		return errorURL;
 	}
 
-	public void setErrorUrl(String errorUrl) {
-		this.errorUrl = errorUrl;
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
 	}
+
+	
 
 	
 	

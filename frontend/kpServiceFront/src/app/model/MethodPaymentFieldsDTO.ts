@@ -2,7 +2,7 @@ export class MethodPaymentFieldsDTO {
     
     id : number;
 	
-	code : MethodOfPaymentFieldName;
+	code : string;
 	
 	name : string;
 	
@@ -12,10 +12,3 @@ export class MethodPaymentFieldsDTO {
     
 }
 
-enum MethodOfPaymentFieldName{
-    MERCHANT_ID,
-    MERCHANT_PASSWORD,
-    TOKEN,
-    CLIENT_ID,
-    CLIENT_PASSWORD
-}

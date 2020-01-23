@@ -17,11 +17,11 @@ public class PaymentDTO {
 
 	private Date merchantTimestamp;
 	
-	private String successUrl;
+	private String successURL;
 
-	private String failedUrl;
+	private String failedURL;
 
-	private String errorUrl;
+	private String errorURL;
 	
 	private String paymentUrl;
 
@@ -38,9 +38,9 @@ public class PaymentDTO {
 		this.amount = payment.get().getAmount();
 		this.merchantOrderId = payment.get().getMerchantOrderId();
 		this.merchantTimestamp = payment.get().getMerchantTimestamp();
-		this.successUrl = payment.get().getSuccessUrl();
-		this.failedUrl = payment.get().getFailedUrl();
-		this.errorUrl = payment.get().getErrorUrl();
+		this.successURL = payment.get().getSuccessUrl();
+		this.failedURL = payment.get().getFailedUrl();
+		this.errorURL = payment.get().getErrorUrl();
 		this.paymentId = payment.get().getPaymentId();
 		this.paymentUrl = payment.get().getPaymentUrl();
 		this.merchantPassword= payment.get().getMerchantPassword();
@@ -55,9 +55,9 @@ public class PaymentDTO {
 		this.amount = amount;
 		this.merchantOrderId = merchantOrderId;
 		this.merchantTimestamp = merchantTimestamp;
-		this.successUrl = successUrl;
-		this.failedUrl = failedUrl;
-		this.errorUrl = errorUrl;
+		this.successURL = successUrl;
+		this.failedURL = failedUrl;
+		this.errorURL = errorUrl;
 		this.paymentUrl = paymentUrl;
 		this.paymentId = paymentId;
 	}
@@ -110,28 +110,30 @@ public class PaymentDTO {
 		this.merchantTimestamp = merchantTimestamp;
 	}
 
-	public String getSuccessUrl() {
-		return successUrl;
+	
+
+	public String getSuccessURL() {
+		return successURL;
 	}
 
-	public void setSuccessUrl(String successUrl) {
-		this.successUrl = successUrl;
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
 	}
 
-	public String getFailedUrl() {
-		return failedUrl;
+	public String getFailedURL() {
+		return failedURL;
 	}
 
-	public void setFailedUrl(String failedUrl) {
-		this.failedUrl = failedUrl;
+	public void setFailedURL(String failedURL) {
+		this.failedURL = failedURL;
 	}
 
-	public String getErrorUrl() {
-		return errorUrl;
+	public String getErrorURL() {
+		return errorURL;
 	}
 
-	public void setErrorUrl(String errorUrl) {
-		this.errorUrl = errorUrl;
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
 	}
 
 	public String getPaymentUrl() {

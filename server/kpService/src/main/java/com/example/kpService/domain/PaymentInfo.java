@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.example.kpService.dto.PaymentInfoDTO;
+
 @Entity
 public class PaymentInfo {
 
@@ -19,9 +21,10 @@ public class PaymentInfo {
     
    // @Column(nullable = false)
    // private Long idNC;
+   
     
     //from mc
-    @Column(nullable = false)
+    @Column
     private Long orderNumberId;
     
     @Enumerated(EnumType.STRING)
@@ -29,7 +32,7 @@ public class PaymentInfo {
     private PaymentStatus isPaid;
     
     //mora biti naziv mikroservisa da bi bilo generickije
-    @Column(nullable = false)
+    @Column
     private String paymentMethod;
     
     @Column
@@ -38,21 +41,26 @@ public class PaymentInfo {
     @Column
     private Date updated;
     
+    @Column(nullable = false)
+    private String orderNumberNC;
+    
+    @Column(nullable = false)
+    private String successURL;
+    
+    @Column(nullable = false)
+    private String errorURL;
+    
+    @Column(nullable = false)
+    private String failedURL;
+    
+    @Column(nullable = false)
+    private Double amount;
+    
     public PaymentInfo() {
     	
     }
 
-	public PaymentInfo(String merchantIssn, String userEmail, Long orderNumberId, PaymentStatus isPaid,
-			String paymentMethod, Date created, Date updated) {
-		super();
-		this.merchantIssn = merchantIssn;
-		this.userEmail = userEmail;
-		this.orderNumberId = orderNumberId;
-		this.isPaid = isPaid;
-		this.paymentMethod = paymentMethod;
-		this.created = created;
-		this.updated = updated;
-	}
+	
 
 
 
@@ -96,6 +104,8 @@ public class PaymentInfo {
 		this.isPaid = isPaid;
 	}
 
+	
+
 	public String getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -127,6 +137,76 @@ public class PaymentInfo {
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
+
+	public String getOrderNumberNC() {
+		return orderNumberNC;
+	}
+
+	public void setOrderNumberNC(String orderNumberNC) {
+		this.orderNumberNC = orderNumberNC;
+	}
+
+	public String getSuccessURL() {
+		return successURL;
+	}
+
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
+	}
+
+	public String getErrorURL() {
+		return errorURL;
+	}
+
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
+	}
+
+	public String getFailedURL() {
+		return failedURL;
+	}
+
+	public void setFailedURL(String failedURL) {
+		this.failedURL = failedURL;
+	}
+
+	
+	 
+	public Double getAmount() {
+		return amount;
+	}
+
+
+
+
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+
+
+
+
+	public PaymentInfoDTO convertToDTO() {
+		// TODO Auto-generated method stub
+		PaymentInfoDTO method = new PaymentInfoDTO();
+		method.setMerchantIssn(this.merchantIssn);
+		method.setOrderNumberId(this.orderNumberId);
+		method.setPaid(this.isPaid);
+		method.setPaymentMethod(this.paymentMethod);
+		method.setUserEmail(this.userEmail);
+		method.setCreated(this.created);
+		method.setUserEmail(this.userEmail);
+		method.setAmount(this.amount);
+		method.setErrorURL(this.errorURL);
+		method.setSuccessURL(this.successURL);
+		method.setFailedURL(this.failedURL);
+		return method;
+	}
+
+	
+
     
 	
     

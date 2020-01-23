@@ -35,13 +35,13 @@ public class Payment {
 	@Column(nullable = false)
 	private Date merchantTimestamp;
 	
-	@Column(nullable = false)
+	@Column//(nullable = false)
 	private String successUrl;
 
-	@Column(nullable = false)
+	@Column//(nullable = false)
 	private String failedUrl;
 
-	@Column(nullable = false)
+	@Column//(nullable = false)
 	private String errorUrl;
 	
 	@Column(nullable = false)
@@ -65,9 +65,9 @@ public class Payment {
 		this.amount = payment.getAmount();
 		this.merchantOrderId = payment.getMerchantOrderId();
 		this.merchantTimestamp = payment.getMerchantTimestamp();
-		this.successUrl = payment.getSuccessUrl();
-		this.failedUrl = payment.getFailedUrl();
-		this.errorUrl = payment.getErrorUrl();
+		this.successUrl = payment.getSuccessURL();
+		this.failedUrl = payment.getFailedURL();
+		this.errorUrl = payment.getErrorURL();
 		this.paymentId = payment.getPaymentId();
 		this.paymentUrl = payment.getPaymentUrl();
 		this.merchantId= payment.getMerchantId();

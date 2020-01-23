@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.bankService.configuration.AES;
 import com.example.bankService.domain.Merchant;
 import com.example.bankService.domain.Payment;
 import com.example.bankService.domain.ResponseToKP;
@@ -34,8 +35,7 @@ import com.example.bankService.service.PaymentService;
 @RequestMapping("payment")
 public class PaymentController {
 	
-	@Autowired
-	private MerchantService merchantService;
+	
 	
 	@Autowired
 	private PaymentService paymentService;
@@ -64,9 +64,9 @@ public class PaymentController {
         
         try {
         	if(valid.getStatus().equals("success")) {
-        		temp.put(address+"/update/"+valid.getPaymentId()+"/true/bank", null);
+        		temp.put(address+"/update/"+valid.getPaymentId()+"/true/bankService", null);
         	}else {
-        		temp.put(address+"/update/"+valid.getPaymentId()+"/false/bank", null);
+        		temp.put(address+"/update/"+valid.getPaymentId()+"/false/bankService", null);
         	}
             System.out.println("Successfull created payment!");
 			logger.info(" 3 12 4 0");
@@ -74,7 +74,10 @@ public class PaymentController {
         } catch (HttpStatusCodeException exception) {
             System.out.println("Error while creating payment - HttpStatusCodeException!");
 			logger.error(" 3 12 4 1");
+			return new ResponseEntity<ResponseToKPDTO>(dto,HttpStatus.BAD_REQUEST);
         }
 		return new ResponseEntity<ResponseToKPDTO>(dto,HttpStatus.OK);
 	}
+	
+	
 }

@@ -1,1 +1,1 @@
-INSERT INTO `merchant` (`id`,`merchant_email`,`merchant_id`,`merchant_password`) VALUES (1,'pera@gmail.com','id','H56sEhdChutZ6jiD5JEypA==');
+INSERT INTO `merchant` (`id`,`merchant_issn`,`merchant_id`,`merchant_password`) VALUES (1,'1111-2222','id','H56sEhdChutZ6jiD5JEypA==');

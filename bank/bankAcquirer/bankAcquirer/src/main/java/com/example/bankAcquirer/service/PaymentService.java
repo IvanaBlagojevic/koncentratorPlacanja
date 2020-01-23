@@ -59,6 +59,7 @@ public class PaymentService {
 		List<Payment> listofAll=paymentRepository.findAll();
 		entity.setPaymentId(Long.valueOf(listofAll.size()+1));
 		entity.setPaymentUrl(this.frontUrl + "payment/" + entity.getPaymentId());
+		
 		Payment savedEntity= this.paymentRepository.save(entity);
 		
 		this.paymentRepository.save(savedEntity);

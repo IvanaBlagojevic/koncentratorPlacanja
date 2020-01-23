@@ -4,6 +4,7 @@ import { PaymentDTO } from '../model/PaymentDTO';
 import { Observable } from 'rxjs';
 import { MethodOfPaymentDTO } from '../model/MethodOfPaymentDTO';
 import { MerchantDTO } from '../model/MerchantDTO';
+import { PaymentInfoDTO } from '../model/PaymentInfoDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,11 @@ export class PaymentService {
     return this.http.get(this.zuul_url + "/kpService/methodOfPayment/getAll")
   }
 
+  //dodavanje novog metoda placanja
+  createMethodOfPayment(paymentInfo : MethodOfPaymentDTO) : Observable<any>{ 
+    return this.http.post(this.zuul_url + "/kpService/methodOfPayment/create",paymentInfo);
+  }
+
   //dobavljanje podrzanih metoda nekog casopisa
   getSupportedPaymentMethods(issn : String) : Observable<any>{
 
@@ -27,9 +33,9 @@ export class PaymentService {
   }
 
   //payPalService
-  payPalCreatePayment(paymentInfo : PaymentDTO, paymentMethod : String) : Observable<any>{ 
+  payPalCreatePayment(paymentInfo : PaymentInfoDTO, paymentMethod : String, orderId: String) : Observable<any>{ 
     //ovde sam samo service dodala - proveriti sa Danicom
-    return this.http.post(this.zuul_url  + paymentMethod  + "/create", paymentInfo, { responseType: 'text'} );
+    return this.http.post(this.zuul_url  + paymentMethod  + "/create/"+orderId, paymentInfo, { responseType: 'text'} );
   }
 
   payPalCompletePayment(paymentId : String, payerId : String, username : String, paymentMethod : String) : Observable<any>{

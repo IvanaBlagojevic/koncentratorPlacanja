@@ -22,6 +22,7 @@ import com.example.kpService.dto.MethodOfPaymentDTO;
 import com.example.kpService.dto.MethodOfPaymentFieldsDTO;
 import com.example.kpService.service.MerchantService;
 import com.example.kpService.service.MerchantSystemService;
+import com.example.kpService.service.PaymentInfoService;
 
 @RestController
 @RequestMapping("merchant")
@@ -36,6 +37,9 @@ public class MerchantController {
 	
 	@Autowired
 	private KpServiceConverter converter;
+	
+	@Autowired
+	private PaymentInfoService pis;
 	
 	@RequestMapping(
 			value = "getMerchant/{id}",

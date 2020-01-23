@@ -77,6 +77,9 @@ public class PaymentController {
 			logger.error(" 4 21 4 1");
 			return new ResponseEntity<String>(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
+		System.out.println(payment.getFailedURL());
+		System.out.println(payment.getSuccessURL());
+		System.out.println(payment.getFailedURL());
 		
 		Payment entity;
 		try {

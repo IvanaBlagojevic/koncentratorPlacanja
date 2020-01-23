@@ -10,7 +10,7 @@ spring:
      
   jpa:
     hibernate:
-      #ddl-auto: create-drop
+      ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect
   data:
     elasticsearch:

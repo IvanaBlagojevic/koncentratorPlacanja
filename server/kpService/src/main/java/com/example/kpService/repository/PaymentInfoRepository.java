@@ -12,6 +12,8 @@ import com.example.kpService.domain.PaymentStatus;
 public interface PaymentInfoRepository extends JpaRepository<PaymentInfo, Long>{
 
 	PaymentInfo findOneByOrderNumberIdAndPaymentMethod(Long id, String method);
+	
+	PaymentInfo findOneByOrderNumberNC(String id);
 
 	List<PaymentInfo> findAllByIsPaidNot(PaymentStatus paid);
 

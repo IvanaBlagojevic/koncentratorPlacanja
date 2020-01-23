@@ -7,14 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.example.kpService.domain.MethodOfPaymentFieldName;
 
 public class MethodOfPaymentFieldsDTO {
 
 	
 	private Long id;
 	
-	private MethodOfPaymentFieldName code;
+	private String code;
 	
 	private String name;
 	
@@ -26,7 +25,7 @@ public class MethodOfPaymentFieldsDTO {
 	
 	
 
-	public MethodOfPaymentFieldsDTO(Long id, MethodOfPaymentFieldName code, String name, String type, String value) {
+	public MethodOfPaymentFieldsDTO(Long id, String code, String name, String type, String value) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -35,7 +34,7 @@ public class MethodOfPaymentFieldsDTO {
 		this.value = value;
 	}
 
-	public MethodOfPaymentFieldsDTO(MethodOfPaymentFieldName code, String name, String type, String value) {
+	public MethodOfPaymentFieldsDTO(String code, String name, String type, String value) {
 		super();
 		this.id = id;
 		this.code = code;
@@ -52,11 +51,11 @@ public class MethodOfPaymentFieldsDTO {
 		this.id = id;
 	}
 
-	public MethodOfPaymentFieldName getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(MethodOfPaymentFieldName code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

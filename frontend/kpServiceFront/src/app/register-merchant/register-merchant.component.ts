@@ -4,6 +4,7 @@ import { MerchantDTO } from '../model/MerchantDTO';
 import { MethodOfPaymentDTO } from '../model/MethodOfPaymentDTO';
 import { UserBitcoinDTO } from '../model/userDTOS/UserBitcoinDTO';
 import { UserPayPalDTO } from '../model/userDTOS/UserPayPalDTO';
+import { UserBankDTO } from '../model/userDTOS/UserBankDTO';
 
 @Component({
   selector: 'app-register-merchant',
@@ -104,9 +105,29 @@ export class RegisterMerchantComponent implements OnInit {
         },err => {
           alert("Error while adding user to paypal service");
         });
-      }else if(element.name == 'Bank')
+      }else if(element.name == 'Card')
       {
         //dodati za bankuuu
+        let merchantId = "";
+        let merchantPassword = "";
+
+        element.fields.forEach(elementP =>{
+          if(elementP.name == 'Merchant id')
+          {
+            merchantId = elementP.value;
+          }else if(elementP.name == 'Merchant password')
+          {
+            merchantPassword = elementP.value;
+          }
+        });
+        console.log(merchantId+","+merchantPassword+","+this.merchantInfo.username)
+        this.paymentService.addUserInPaymentService(element.path,new UserBankDTO(this.merchantInfo.username,merchantId,merchantPassword))
+        .subscribe(res => {
+          alert("Merchant " + this.merchantInfo.merchantName + " registrated!");
+          window.location.href = "https://localhost:1234";
+        },err => {
+          alert("Error while adding user to card service");
+        });
       }
 
     });

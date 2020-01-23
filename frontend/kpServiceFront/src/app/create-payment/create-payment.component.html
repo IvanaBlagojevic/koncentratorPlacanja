@@ -1,0 +1,41 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body class="bg-light">
+        <div class="container p-2">
+            <div class="row ml-1 mr-1">
+                <div class="col-md-4 py-5 bg-info text-white">
+                    <h2>Payment info</h2>
+                    <h5>Journal: {{merchant?.merchantName}}</h5>
+                    <h5>Ammount: {{amount}}</h5>
+                </div>
+                <div class="col-md-8 py-5 border">
+                <h2>Choose payment method:</h2>
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-md-10">
+                    <form class="position-relative d-block aos-init aos-animate" data-aos="fade-up">
+                        <div class="form-group">
+                        <div class="paymentMethod" *ngFor = "let item of merchant.supportedMethods"  >
+                            <img  class="slika" id={{item.name}} (click)="pay(item.path)" width="100px" height="100px" src="{{item.img}}" />
+                            <p  class="slika" id = "pay">Pay with {{item.name}}</p>
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>

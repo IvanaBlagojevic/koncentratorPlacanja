@@ -13,6 +13,8 @@ public class MethodOfPaymentService {
 	
 	@Autowired
     private MethodOfPaymentRepository paymentRepository;
+	
+	
 
     public List<MethodOfPayment> getAllMethodsOfPayment() {
 

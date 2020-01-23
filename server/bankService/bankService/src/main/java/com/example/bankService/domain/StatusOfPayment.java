@@ -1,5 +1,5 @@
 package com.example.bankService.domain;
 
 public enum StatusOfPayment {
-	SUCCESS, ERROR, FAILURE
+	SUCCESS, ERROR, FAILURE, CREATED 
 }

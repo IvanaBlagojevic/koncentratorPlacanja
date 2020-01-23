@@ -6,6 +6,9 @@ import javax.persistence.EnumType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.example.kpService.dto.MethodOfPaymentFieldsDTO;
+
 import javax.persistence.Enumerated;
 
 @Entity
@@ -16,8 +19,7 @@ public class MethodOfPaymentFields {
 	private Long id;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private MethodOfPaymentFieldName code;
+	private String code;
 	
 	@Column(nullable = false)
 	private String name;
@@ -32,12 +34,20 @@ public class MethodOfPaymentFields {
 		return "MethodOfPaymentFields [id=" + id + ", name=" + name + ", type=" + type + "]";
 	}
 
-	public MethodOfPaymentFields(Long id, MethodOfPaymentFieldName code, String name, String type) {
+	public MethodOfPaymentFields(Long id, String code, String name, String type) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.name = name;
 		this.type = type;
+	}
+
+	public MethodOfPaymentFields(MethodOfPaymentFieldsDTO methodOfPaymentFieldsDTO) {
+		// TODO Auto-generated constructor stub
+		//this.id = methodOfPaymentFieldsDTO.getId();
+		this.code = methodOfPaymentFieldsDTO.getCode();
+		this.name = methodOfPaymentFieldsDTO.getName();
+		this.type = methodOfPaymentFieldsDTO.getType();
 	}
 
 	public Long getId() {
@@ -48,11 +58,13 @@ public class MethodOfPaymentFields {
 		this.id = id;
 	}
 
-	public MethodOfPaymentFieldName getCode() {
+	
+
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(MethodOfPaymentFieldName code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 

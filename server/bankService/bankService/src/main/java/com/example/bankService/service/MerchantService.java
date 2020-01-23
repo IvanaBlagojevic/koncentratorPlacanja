@@ -24,4 +24,11 @@ public class MerchantService {
 		return merchantRepository.save(user);
 	}
 
+
+
+	public Merchant findByMerchantId(String merchantId) {
+		// TODO Auto-generated method stub
+		return merchantRepository.findByMerchantId(merchantId);
+	}
+
 }

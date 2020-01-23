@@ -5,10 +5,13 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.example.scientificCenter.dto.TransactionDTO;
+
+@Entity
 public class Transaction {
 	
 	@Id
@@ -19,20 +22,37 @@ public class Transaction {
 	private Long journalId;
 	
 	@Column(nullable = false)
-	private Long buyerId;
+	private String merchantIssn;
+	
+	@Column(nullable = false)
+	private String buyerEmail;
+	
+	@Column(nullable = false)
+	private Double amount;
+	
+	@Column(nullable = false)
+	private String orderId;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TransactionStatus status;
 	
 	@Column(nullable = false)
-	private Long orderId;
+	private String successURL;
+	
+	@Column(nullable = false)
+	private String errorURL;
+	
+	@Column(nullable = false)
+	private String failedURL;
 
 	public Transaction() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 
+	
 	public Long getId() {
 		return id;
 	}
@@ -49,14 +69,7 @@ public class Transaction {
 		this.journalId = journalId;
 	}
 
-	public Long getBuyerId() {
-		return buyerId;
-	}
-
-	public void setBuyerId(Long buyerId) {
-		this.buyerId = buyerId;
-	}
-
+	
 	public TransactionStatus getStatus() {
 		return status;
 	}
@@ -65,15 +78,88 @@ public class Transaction {
 		this.status = status;
 	}
 
-	public Long getOrderId() {
+
+	public String getBuyerEmail() {
+		return buyerEmail;
+	}
+
+
+	public void setBuyerEmail(String buyerEmail) {
+		this.buyerEmail = buyerEmail;
+	}
+
+
+
+
+	public String getMerchantIssn() {
+		return merchantIssn;
+	}
+
+
+
+	public void setMerchantIssn(String merchantIssn) {
+		this.merchantIssn = merchantIssn;
+	}
+
+
+
+	public Double getAmount() {
+		return amount;
+	}
+
+
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+
+	public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(Long orderId) {
+
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+
+
+
+	public String getSuccessURL() {
+		return successURL;
+	}
+
+
+
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
+	}
+
+
+
+	public String getErrorURL() {
+		return errorURL;
+	}
+
+
+
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
+	}
+
+
+
+	public String getFailedURL() {
+		return failedURL;
+	}
+
+
+
+	public void setFailedURL(String failedURL) {
+		this.failedURL = failedURL;
+	}
+
 	
-	
-	
+
 
 }

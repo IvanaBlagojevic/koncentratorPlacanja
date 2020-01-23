@@ -1,5 +1,6 @@
 package com.example.kpService.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.kpService.domain.MethodOfPayment;
+import com.example.kpService.domain.MethodOfPaymentFields;
+import com.example.kpService.domain.PaymentInfo;
 import com.example.kpService.dto.MethodOfPaymentDTO;
+import com.example.kpService.dto.PaymentInfoDTO;
+import com.example.kpService.service.MethodOfPaymentFieldsService;
 import com.example.kpService.service.MethodOfPaymentService;
+import com.example.kpService.service.PaymentInfoService;
 
 
 @RestController
@@ -27,6 +33,11 @@ public class MethodOfPaymentController {
 
 	@Autowired
 	private MethodOfPaymentService paymentServ;
+	@Autowired
+	private MethodOfPaymentFieldsService fieldsSerivce;
+	
+	@Autowired
+	private PaymentInfoService pis;
 	
 	@RequestMapping(value = "/getAll",method=RequestMethod.GET)
 	public ResponseEntity<List<MethodOfPayment>> getAllMethods()
@@ -40,6 +51,13 @@ public class MethodOfPaymentController {
 		
 		System.out.println("CREATE method ");
 		MethodOfPayment method =  dto.convertToDomain();
+		List<MethodOfPaymentFields> fields = new ArrayList<MethodOfPaymentFields>();
+		for(int i=0; i<dto.getFields().size(); i++) {
+			System.out.println("code "+dto.getFields().get(i).getCode());
+			MethodOfPaymentFields field =this.fieldsSerivce.save(new MethodOfPaymentFields(dto.getFields().get(i)));
+			fields.add(field);
+		}
+		method.setFields(fields);
 		paymentServ.save(method);
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);
@@ -51,6 +69,24 @@ public class MethodOfPaymentController {
 		MethodOfPayment method = paymentServ.findOneById(id);
 		RestTemplate rt = new RestTemplate();
 		return rt.getForObject(method.getPath(), String.class);
+	}
+	
+	@RequestMapping(
+			value = "getPaymentInfo/{id}",
+			method = RequestMethod.GET)
+	public ResponseEntity<?> getByUsername(@PathVariable("id") String orderId){
+		System.out.println("pogodio get "+orderId);
+		PaymentInfo payment = this.pis.findOneByOrderNumberNC(orderId);
+		
+		if(payment == null)
+		{
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}else
+		{
+			
+			PaymentInfoDTO paymentDTO = payment.convertToDTO();
+			return new ResponseEntity<>(paymentDTO, HttpStatus.OK);
+		}
 	}
 	
 	

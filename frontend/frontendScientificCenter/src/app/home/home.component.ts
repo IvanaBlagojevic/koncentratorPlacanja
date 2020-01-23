@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { RegistrationService } from '../service/registrationService/registration.service';
 import { JournalService } from '../service/journalService/journal.service';
 import { Journal } from '../model/Journal';
+import { TransactionService } from '../service/transactionService/transaction.service';
+import { Transaction } from '../model/Transaction';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +31,8 @@ export class HomeComponent implements OnInit {
   journals: Journal[];
   
   constructor(private router: ActivatedRoute, private tokenStorage : TokenStorageService,
-    private userServ : UserService, private regService: RegistrationService,private journalService: JournalService) { }
+    private userServ : UserService, private regService: RegistrationService,private journalService: JournalService,
+    private transServ: TransactionService) { }
 
 
   ngOnInit() {
@@ -127,7 +130,20 @@ export class HomeComponent implements OnInit {
   }
 
   buyJournal(journal: Journal){
-    console.log("kupi casopis sa idijem "+journal.id);
-    window.location.href = "https://localhost:1234/journal/"+journal.issn + "/" + journal.price;
+    let transaction = new Transaction();
+    transaction.buyerEmail = this.loggedUser.email;
+    transaction.amount =journal.price;
+    transaction.journalId=journal.id;
+    transaction.merchantIssn=journal.issn;
+    
+    this.transServ.create(transaction).subscribe(
+      data=>{
+        alert("Success "+data.orderId);
+        window.location.href = "https://localhost:1234/createPayment/"+data.orderId;
+      },error =>{alert("Error")}
+      );
+    
+    //console.log("kupi casopis sa idijem "+journal.id);
+    //window.location.href = "https://localhost:1234/journal/"+journal.issn + "/" + journal.price;
   }
 }

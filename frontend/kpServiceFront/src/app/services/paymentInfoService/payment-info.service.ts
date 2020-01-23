@@ -16,4 +16,8 @@ export class PaymentInfoService {
     //ovde sam samo service dodala - proveriti sa Danicom
     return this.http.post(this.zuul_url  +"kpService/paymentinfo/create", paymentInfo);
   }
+
+  getPaymentInfo(id : string) : Observable<any>{ 
+    return this.http.get<PaymentInfoDTO>(this.zuul_url  +"/kpService/methodOfPayment/getPaymentInfo/".concat(id));
+  }
 }

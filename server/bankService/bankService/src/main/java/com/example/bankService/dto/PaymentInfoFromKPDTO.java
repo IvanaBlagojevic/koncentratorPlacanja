@@ -4,7 +4,7 @@ public class PaymentInfoFromKPDTO {
 	
 	private String merchantId;
 	
-	private String merchantEmail;
+	private String merchantIssn;
 	
 	private double amount;
 	
@@ -13,7 +13,7 @@ public class PaymentInfoFromKPDTO {
 	public PaymentInfoFromKPDTO(String merchantId, String merchantEmail, double amount) {
 		super();
 		this.merchantId = merchantId;
-		this.merchantEmail = merchantEmail;
+		this.merchantIssn = merchantEmail;
 		this.amount = amount;
 	}
 
@@ -25,12 +25,14 @@ public class PaymentInfoFromKPDTO {
 		this.merchantId = merchantId;
 	}
 
-	public String getMerchantEmail() {
-		return merchantEmail;
+	
+
+	public String getMerchantIssn() {
+		return merchantIssn;
 	}
 
-	public void setMerchantEmail(String merchantEmail) {
-		this.merchantEmail = merchantEmail;
+	public void setMerchantIssn(String merchantIssn) {
+		this.merchantIssn = merchantIssn;
 	}
 
 	public double getAmount() {

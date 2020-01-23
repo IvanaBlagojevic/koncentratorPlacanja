@@ -1,5 +1,6 @@
 package com.example.kpService.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,7 +19,7 @@ public class MethodOfPaymentDTO {
 
     private String path;
     
-    private List<MethodOfPaymentFieldsDTO>  fields;
+    private List<MethodOfPaymentFieldsDTO>  fields = new ArrayList<MethodOfPaymentFieldsDTO>();
 
 	public MethodOfPaymentDTO() {
 		super();
