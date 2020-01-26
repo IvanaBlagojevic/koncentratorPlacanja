@@ -56,6 +56,7 @@ public class OrderStatusRefresh {
 			}
 			boolean fleg = false;
 			boolean paid = false;
+			boolean cancel = false;
 			
 			RestTemplate temp = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
@@ -69,6 +70,7 @@ public class OrderStatusRefresh {
 				if (response.getBody().getStatus().equals("canceled")) {
 					o.setStatus(OrderStatusEnum.CANCELED);
 					fleg = true;
+					cancel = true;
 				}else if (response.getBody().getStatus().equals("paid")) {
 					o.setStatus(OrderStatusEnum.PAID);
 					paid = true;
@@ -101,7 +103,7 @@ public class OrderStatusRefresh {
 				HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
 				if (paid == true) {
 					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/bitcoinService", requesttoKP);
-				}else {
+				}else if (cancel == true){
 					toKP.put("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/bitcoinService", requesttoKP);
 				}
 			}catch(HttpStatusCodeException e) {

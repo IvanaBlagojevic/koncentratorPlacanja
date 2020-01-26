@@ -113,6 +113,10 @@ export class HomeComponent implements OnInit {
   startLogin(){
     window.location.href="https://localhost:4202/login";
   }
+
+  userTransactions(){
+    window.location.href="https://localhost:4202/myTransactions";
+  }
   startJournal(){
     this.journalService.startProcess(this.email).subscribe(
       data =>{

@@ -5,20 +5,20 @@ public class PaymentRequestDTO {
 	//private String merchantOrderId;
 	private String merchantIssn; 	
 	private double amount;
+	private String successURL;
+	private String errorURL;
     //private String currency;
 
     public PaymentRequestDTO() {
     }
-    
-    
 
-	public PaymentRequestDTO(String merchantIssn, double amount) {
-		//this.merchantOrderId = merchantOrderId;
+
+	public PaymentRequestDTO(String merchantIssn, double amount, String successURL, String errorURL) {
 		this.merchantIssn = merchantIssn;
 		this.amount = amount;
-		//this.currency = currency;
+		this.successURL = successURL;
+		this.errorURL = errorURL;
 	}
-
 
 
 	/*public String getMerchantOrderId() {
@@ -44,6 +44,32 @@ public class PaymentRequestDTO {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
+
+
+	public String getSuccessURL() {
+		return successURL;
+	}
+
+
+
+	public void setSuccessURL(String successURL) {
+		this.successURL = successURL;
+	}
+
+
+
+	public String getErrorURL() {
+		return errorURL;
+	}
+
+
+
+	public void setErrorURL(String errorURL) {
+		this.errorURL = errorURL;
+	}
+	
+	
 
 	/*public String getCurrency() {
 		return currency;

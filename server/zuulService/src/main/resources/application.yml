@@ -15,11 +15,13 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: https://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URI:https://localhost:8761/eureka}
+    registerWithEureka: true   #dodala
+    fetchRegistry: true         #dodala
   instance:
     hostname: localhost
     nonSecurePortEnabled: false
-    prefer-ip-address: false
+    prefer-ip-address: false      #izmenila bilo false
     securePortEnabled: true
     securePort: ${server.port}
  
@@ -47,6 +49,8 @@ hystrix:
             timeoutInMilliseconds: 600000
                
 ribbon:
+  eureka:            #dodala
+     enabled : true #dodala
   ReadTimeout: 600000
       
    

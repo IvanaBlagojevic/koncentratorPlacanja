@@ -27,6 +27,8 @@ public class TransactionDTO {
 	
 	private String merchantIssn;
 	
+	private JournalDTO journal;
+	
 	public TransactionDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -168,6 +170,20 @@ public class TransactionDTO {
 
 	public void setJournalId(Long journalId) {
 		this.journalId = journalId;
+	}
+
+
+
+
+	public JournalDTO getJournal() {
+		return journal;
+	}
+
+
+
+
+	public void setJournal(JournalDTO journal) {
+		this.journal = journal;
 	}
 
 	

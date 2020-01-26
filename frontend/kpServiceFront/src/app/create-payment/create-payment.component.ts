@@ -68,12 +68,6 @@ export class CreatePaymentComponent implements OnInit {
 
   pay(path : String)
   {
-    if (path == "Bitcoin") {
-      this.bs.bitcoinCreatePayment(this.payment).subscribe(data=>{
-
-      })
-    }
-
     let redirectUrl;
     console.log(this.paymentInfo.errorURL);
     console.log(this.paymentInfo.successURL);

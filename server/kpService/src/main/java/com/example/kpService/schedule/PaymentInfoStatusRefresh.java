@@ -10,6 +10,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 @Component
 public class PaymentInfoStatusRefresh {
 
+	/*@Autowired
+	@LoadBalanced
+	private RestTemplate restTemplate;*/
+	
 	@Autowired
 	PaymentInfoService pis;
 	
@@ -40,13 +45,17 @@ public class PaymentInfoStatusRefresh {
 		
 		List<PaymentInfo> orders = pis.findAllByIsPaid(PaymentStatus.CREATED);
 		for (PaymentInfo o : orders) {
-			if(o.getCreated()!=null) {
-				String method = o.getPaymentMethod();
+			String method = o.getPaymentMethod();
+			if (method != null) {
+				
 				System.out.println("Metod placanja " + method);
 				
 				long MAX_DURATION = MILLISECONDS.convert(30, MINUTES);
 				Date now = new Date();
-				long duration = now.getTime() - o.getCreated().getTime();
+				long duration = 0;
+				if(o.getCreated()!=null) {
+					duration = now.getTime() - o.getCreated().getTime();
+				}
 				System.out.println("duration " + duration);
 	
 				if (duration >= MAX_DURATION) {
@@ -84,10 +93,6 @@ public class PaymentInfoStatusRefresh {
 				
 				pis.save(o);
 			}
-			
 		}
-		
-		
-		
 	}
 }

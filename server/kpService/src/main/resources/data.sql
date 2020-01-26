@@ -5,8 +5,6 @@ insert into method_of_payment(name, path) values ('Card','/bankService');
 insert into method_of_payment(name, path) values ('PayPal','/payPalService');
 insert into method_of_payment(name, path) values ('Bitcoin','/bitcoinService');
 
---insert into payment_info(id,merchant_issn,user_email,order_number_id,is_paid,payment_method) values (1,'2222-2222','ivana',25,'PAID',"bitcoinService");
-
 insert into method_of_payment_fields(code, name, type) values ('MERCHANT_ID', 'Merchant id' ,'text');
 insert into method_of_payment_fields(code, name, type) values ('MERCHANT_PASSWORD', 'Merchant password' ,'password');
 insert into method_of_payment_fields(code, name, type) values ('TOKEN', 'Token' ,'text');

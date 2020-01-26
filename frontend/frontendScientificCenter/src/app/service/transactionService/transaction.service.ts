@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { create } from 'domain';
 import { Transaction } from 'src/app/model/Transaction';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class TransactionService {
     
     create(transaction : Transaction){
       return this.http.post<Transaction>(this.url+'transaction/create',transaction);
+    }
+
+    get():Observable<any>{
+      return this.http.get(this.url+'transaction/get');
     }
     
 }

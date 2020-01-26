@@ -1,3 +1,5 @@
+import { Journal } from './Journal';
+
 export class Transaction{
     journalId: Int16Array;
 
@@ -17,5 +19,7 @@ export class Transaction{
     failedURL: String;
     
     merchantIssn: String
+
+    journal: Journal;
 }
 

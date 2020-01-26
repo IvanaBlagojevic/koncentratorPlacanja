@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,7 +27,6 @@ import com.example.bitcoinService.domain.BitcoinUser;
 import com.example.bitcoinService.domain.MyOrder;
 import com.example.bitcoinService.domain.OrderStatusEnum;
 import com.example.bitcoinService.dto.BitcoinUserDTO;
-import com.example.bitcoinService.dto.OrderPaidDTO;
 import com.example.bitcoinService.dto.PaymentRequestDTO;
 import com.example.bitcoinService.dto.PaymentResponseDTO;
 import com.example.bitcoinService.services.BitcoinUserService;
@@ -44,6 +44,15 @@ public class BitcoinController {
 	
 	@Autowired
 	BitcoinUserService bus;
+	
+	/*@Autowired
+	@LoadBalanced
+	private RestTemplate restTemplate;
+	
+	
+	private String address ="https://kpService/paymentinfo";*/
+	
+	private String address ="https://localhost:8086/kpService/paymentinfo";
 	
 	private static final Logger logger  = LoggerFactory.getLogger(BitcoinController.class);
 	
@@ -84,9 +93,9 @@ public class BitcoinController {
 	 }
 
 
-	@RequestMapping(value="/create", method = RequestMethod.POST, produces="text/plain")
+	@RequestMapping(value="/create/{orderId}", method = RequestMethod.POST, produces="text/plain")
 	@ResponseBody
-    public String send(@RequestBody PaymentRequestDTO pr) {
+    public String send(@PathVariable String orderId, @RequestBody PaymentRequestDTO pr) {
 		String payFormUrl = "";
 		BitcoinUser bu = bus.findOneByUsername(pr.getMerchantIssn());
 		if (bu == null) {
@@ -111,8 +120,8 @@ public class BitcoinController {
 		map.put("title", "bitcoin payment");
 		map.put("description", "bitcoin payment");
 		map.put("callback_url","https://localhost:1234");
-		map.put("cancel_url", "https://localhost:1234/b/bitcoinCancel/"+uniqueID);
-		map.put("success_url", "https://localhost:1234/b/bitcoinSuccess/"+uniqueID);
+		map.put("cancel_url", pr.getErrorURL());
+		map.put("success_url", pr.getSuccessURL());
 		
 		HttpEntity<Map<String,Object>> request = new HttpEntity<>(map,headers);
 		
@@ -134,7 +143,7 @@ public class BitcoinController {
 			mapToKP.put("created", o.getCreated());
 			//mapToKP.put("updated", o.getCreated());
 			HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
-			toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/create", requesttoKP, PaymentResponseDTO.class);
+			toKP.postForEntity(address + "/create/"+orderId+"/", requesttoKP, PaymentResponseDTO.class);
 			
 			logger.info(" 6 12 4 0");
 		}catch(HttpStatusCodeException e) {
@@ -187,7 +196,7 @@ public class BitcoinController {
 					HttpHeaders headersToKP = new HttpHeaders();
 					Map<String, Object> mapToKP = new HashMap<String, Object>();
 					HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
-					toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/true/Bitcoin", requesttoKP, PaymentResponseDTO.class);
+					toKP.postForEntity(address+"/update/"+o.getPaymentId()+"/true/bitcoinService", requesttoKP, PaymentResponseDTO.class);
 		        }
 		 	}catch(HttpStatusCodeException e) {
 		 		logger.info(" 6 24 4 1");
@@ -237,7 +246,7 @@ public class BitcoinController {
 					HttpHeaders headersToKP = new HttpHeaders();
 					Map<String, Object> mapToKP = new HashMap<String, Object>();
 					HttpEntity<Map<String,Object>> requesttoKP = new HttpEntity<>(mapToKP, headersToKP);
-					toKP.postForEntity("https://localhost:8086/kpService/paymentinfo/update/"+o.getPaymentId()+"/false/Bitcoin", requesttoKP, PaymentResponseDTO.class);
+					toKP.postForEntity(address+"/update/"+o.getPaymentId()+"/false/bitcoinService", requesttoKP, PaymentResponseDTO.class);
 		        	
 		        	logger.info(" 6 34 4 0");
 		        }

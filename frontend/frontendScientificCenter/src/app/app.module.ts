@@ -16,6 +16,8 @@ import { PaymentErrorComponent } from './payment-error/payment-error.component';
 import { PaymentSuccessComponent } from './payment-success/payment-success.component';
 import { PaymentFailedComponent } from './payment-failed/payment-failed.component';
 import { TestPageComponent } from './test-page/test-page.component';
+import { UserTransactionsComponent } from './user-transactions/user-transactions.component';
+import { MatTableModule } from '@angular/material';
 
 const appRoutes: Routes = [
   {path: 'register', component : RegistrationComponent},
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
   {path: 'testPayment', component : TaskComponent},
   {path: 'error', component : PaymentErrorComponent},
   {path: 'success', component : PaymentSuccessComponent},
-  {path: 'failed', component : PaymentFailedComponent}
+  {path: 'failed', component : PaymentFailedComponent},
+  {path: 'myTransactions', component : UserTransactionsComponent}
   ]
 
 @NgModule({
@@ -40,7 +43,8 @@ const appRoutes: Routes = [
     PaymentErrorComponent,
     PaymentSuccessComponent,
     PaymentFailedComponent,
-    TestPageComponent
+    TestPageComponent,
+    UserTransactionsComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +52,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule,
     MultiSelectAllModule,
     RouterModule.forRoot(
       appRoutes,

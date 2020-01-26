@@ -172,7 +172,7 @@ private String buyerEmail;
 		PaymentInfo payment = new PaymentInfo();
 		payment.setErrorURL(this.errorURL);
 		payment.setFailedURL(this.failedURL);
-		payment.setIsPaid(PaymentStatus.CREATED);
+		payment.setIsPaid(this.status);
 		payment.setOrderNumberNC(this.orderId);
 		payment.setSuccessURL(this.successURL);
 		payment.setUserEmail(this.buyerEmail);
