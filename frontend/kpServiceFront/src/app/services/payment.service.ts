@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MethodOfPaymentDTO } from '../model/MethodOfPaymentDTO';
 import { MerchantDTO } from '../model/MerchantDTO';
 import { PaymentInfoDTO } from '../model/PaymentInfoDTO';
+import { SubscriptionDTO } from '../model/SubscriptionDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -64,4 +65,19 @@ export class PaymentService {
     return this.http.get(this.zuul_url + "/kpService/merchant/getMerchant/"+username);
   }
 
+  createSubscription(subDTO : SubscriptionDTO){
+
+    return this.http.post(this.zuul_url + "/kpService/sub/save",subDTO);
+  }
+
+  subscribeToJournal(issn : String, planId : String, email : String) : Observable<any>{
+
+    return this.http.get(this.zuul_url + "/kpService/sub/subscribeTo/"+issn+"/"+planId+"/"+email+"/", { responseType: 'text'});
+  }
+
+  redirectAfterSubAgreement(username : String, url : String, token : String) : Observable<any>{
+
+    return this.http.get(this.zuul_url + "/payPalService/activateAgreement?username="+username+
+    "&callbackUrl="+url+"&token="+token);
+  }
 }

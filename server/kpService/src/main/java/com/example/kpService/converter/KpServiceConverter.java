@@ -10,9 +10,12 @@ import com.example.kpService.domain.Merchant;
 import com.example.kpService.domain.MerchantSystem;
 import com.example.kpService.domain.MethodOfPayment;
 import com.example.kpService.domain.MethodOfPaymentFields;
+import com.example.kpService.domain.SubscriptionPlan;
 import com.example.kpService.dto.MerchantSubmissionDTO;
+import com.example.kpService.dto.MerchantSystemDTO;
 import com.example.kpService.dto.MethodOfPaymentDTO;
 import com.example.kpService.dto.MethodOfPaymentFieldsDTO;
+import com.example.kpService.dto.SubscriptionParamsDTO;
 import com.example.kpService.service.MerchantSystemService;
 import com.example.kpService.service.MethodOfPaymentService;
 
@@ -37,13 +40,16 @@ public class KpServiceConverter {
 			
 		}
 		
-		return new Merchant(dto.getMerchantName(), dto.getUsername(), company, payments);
+		return new Merchant(dto.getCompanyName(), dto.getUsername(), company, payments);
 	}
 	
 	public MerchantSubmissionDTO convert(Merchant merchant) {
 		
 		return new MerchantSubmissionDTO(merchant.getSystem().getSystemName(), 
-				merchant.getName(), merchant.getUsername(), this.convertMethods(merchant.getPaymentMethods()));
+				merchant.getName(), merchant.getUsername(), 
+				this.convert(merchant.getSystem()),
+				this.convertMethods(merchant.getPaymentMethods()),
+				this.convertSubscriptions(merchant.getSubscriptions()));
 	}
 	
 	
@@ -52,6 +58,10 @@ public class KpServiceConverter {
 		return new MethodOfPaymentDTO(method.getId(), method.getName(), method.getPath(), this.convertFields(method.getFields()));
 	}
 	
+	public MerchantSystemDTO convert(MerchantSystem sys) {
+		
+		return new MerchantSystemDTO(sys.getId(), sys.getSystemName(), sys.getFrontUrl(), sys.getBackUrl());
+	}
 	
 	public MethodOfPaymentFieldsDTO convert(MethodOfPaymentFields field)
 	{
@@ -80,6 +90,19 @@ public class KpServiceConverter {
 		for(MethodOfPaymentFields field : list)
 		{
 			ret.add(this.convert(field));
+		}
+		
+		return ret;
+	}
+	
+	public List<SubscriptionParamsDTO> convertSubscriptions(List<SubscriptionPlan> subs){
+		
+		List<SubscriptionParamsDTO> ret = new ArrayList<SubscriptionParamsDTO>();
+		
+		for(SubscriptionPlan s : subs) {
+			
+			ret.add(new SubscriptionParamsDTO(s.getId(),s.getMerchant().getUsername(),s.getPeriod(),s.getFrequency(),s.getPrice(), s.getPlanId()));
+			
 		}
 		
 		return ret;

@@ -21,6 +21,12 @@ public class MerchantSystem {
 	@Column(nullable = false)
 	private String systemName;
 	
+	@Column(nullable = false)
+	private String frontUrl;
+	
+	@Column(nullable = false)
+	private String backUrl;
+	
 	@OneToMany(mappedBy="system",fetch = FetchType.LAZY)
 	private List<Merchant> merchants = new ArrayList<Merchant>();
 	
@@ -28,10 +34,12 @@ public class MerchantSystem {
 	
 	public MerchantSystem() {}
 
-	public MerchantSystem(Long id, String systemName, List<Merchant> merchants) {
+	public MerchantSystem(Long id, String systemName, String frontUrl, String backUrl, List<Merchant> merchants) {
 		super();
 		this.id = id;
 		this.systemName = systemName;
+		this.frontUrl = frontUrl;
+		this.backUrl = backUrl;
 		this.merchants = merchants;
 	}
 
@@ -49,6 +57,22 @@ public class MerchantSystem {
 
 	public void setSystemName(String systemName) {
 		this.systemName = systemName;
+	}
+
+	public String getFrontUrl() {
+		return frontUrl;
+	}
+
+	public void setFrontUrl(String frontUrl) {
+		this.frontUrl = frontUrl;
+	}
+
+	public String getBackUrl() {
+		return backUrl;
+	}
+
+	public void setBackUrl(String backUrl) {
+		this.backUrl = backUrl;
 	}
 
 	public List<Merchant> getMerchants() {

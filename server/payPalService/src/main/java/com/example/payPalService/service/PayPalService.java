@@ -1,11 +1,17 @@
 package com.example.payPalService.service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TimeZone;
+
 
 import javax.swing.Spring;
 
@@ -22,21 +28,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-
+import com.example.payPalService.domain.AgreementForBilling;
+import com.example.payPalService.domain.BillingPlanType;
+import com.example.payPalService.domain.CurrencyEnum;
 import com.example.payPalService.domain.Order;
 import com.example.payPalService.domain.OrderStatus;
+import com.example.payPalService.domain.PlanForBilling;
 import com.example.payPalService.domain.UserPayPal;
+import com.example.payPalService.dto.BillingPlanDTO;
 import com.example.payPalService.dto.PaymentDTO;
 import com.example.payPalService.dto.PaymentInfoDTO;
 import com.example.payPalService.exceptions.BadRequest;
+import com.paypal.api.payments.Agreement;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.Authorization;
+import com.paypal.api.payments.ChargeModels;
+import com.paypal.api.payments.Currency;
 import com.paypal.api.payments.Details;
 import com.paypal.api.payments.Links;
+import com.paypal.api.payments.MerchantPreferences;
+import com.paypal.api.payments.Patch;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentDefinition;
 import com.paypal.api.payments.PaymentExecution;
+import com.paypal.api.payments.Plan;
 import com.paypal.api.payments.RedirectUrls;
+import com.paypal.api.payments.ShippingAddress;
 import com.paypal.api.payments.Transaction;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -50,6 +68,12 @@ public class PayPalService {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private PlanForBillingService planService;
+	
+	@Autowired
+	private AgreementForBillingService agrService;
 	
 	private static final Logger logger  = LoggerFactory.getLogger(PayPalService.class);
 	
@@ -228,5 +252,290 @@ public class PayPalService {
 		return mapToKP;
 	}
 	
+	public String subscribeToJournal(BillingPlanDTO planDTO, String issn) {
+		
+		return null;
+		
+	}
+	
+	public String createBillingPlan(UserPayPal user) {
+		
+		try {
+
+			APIContext context = new APIContext(user.getClientId(), user.getClientSecret(), "sandbox");
+
+
+				Plan plan = new Plan();
+				plan.setName("Billing plan for subscription for " + user.getUsername());
+				plan.setDescription("Billing plan");
+				plan.setType("INFINITE"); //zakucano za sada
+
+				//payment_definitions
+				PaymentDefinition paymentDefinition = new PaymentDefinition();
+				paymentDefinition.setName("Regular Payments");
+				paymentDefinition.setType("REGULAR");
+				paymentDefinition.setFrequency("MONTH"); //uplata na mesecnom nivou
+				paymentDefinition.setFrequencyInterval("2"); //placanje na svaka dva meseca
+				paymentDefinition.setCycles("0");  // broj krugova nisam sigurna sta predstavlja jos uvek
+
+				//currency
+				Currency currency = new Currency();
+				currency.setCurrency("USD");
+				currency.setValue(Double.toString(1.0));
+				paymentDefinition.setAmount(currency);
+
+//				//charge_models
+//				ChargeModels chargeModels = new com.paypal.api.payments.ChargeModels();
+//				chargeModels.setType("SHIPPING");
+//				chargeModels.setAmount(currency);
+//				List<ChargeModels> chargeModelsList = new ArrayList<ChargeModels>();
+//				chargeModelsList.add(chargeModels);
+//				paymentDefinition.setChargeModels(chargeModelsList);
+
+				List<PaymentDefinition> paymentDefinitionList = new ArrayList<PaymentDefinition>();
+				paymentDefinitionList.add(paymentDefinition);
+				plan.setPaymentDefinitions(paymentDefinitionList);
+
+				//merchant_preferences
+				MerchantPreferences merchantPreferences = new MerchantPreferences();
+				merchantPreferences.setSetupFee(currency);
+				merchantPreferences.setSetupFee(currency);
+				merchantPreferences.setCancelUrl("https://localhost:1234/cancel"); //url koji se poziva ako dodje do prekida
+				merchantPreferences.setReturnUrl("https://localhost:1234/activateAgreement?username="+user.getUsername() + "&callbakUrl=https://localhost:4202?returnUrl=https://localhost:4202");	//url koji se poziva nakon uspesnos, ovde setovati url za nc
+				merchantPreferences.setMaxFailAttempts("0");
+				merchantPreferences.setAutoBillAmount("YES");				//automatska naplata
+				merchantPreferences.setInitialFailAmountAction("CONTINUE");	//sta raditi prilikom otkaza
+				plan.setMerchantPreferences(merchantPreferences);
+
+				//dodavanje plana
+				Plan createdPlan = plan.create(context);
+				PlanForBilling planEntity = new PlanForBilling();
+
+				//aktiviranje plana
+				List<Patch> patchRequestList = new ArrayList<Patch>();
+				Map<String, String> value = new HashMap<String, String>();
+				value.put("state", "ACTIVE");
+
+				Patch patch = new Patch();
+				patch.setPath("/");
+				patch.setValue(value);
+				patch.setOp("replace");
+				patchRequestList.add(patch);
+
+				createdPlan.update(context, patchRequestList);
+
+				return this.createAgreement(createdPlan, context);
+
+		} catch(PayPalRESTException e) {
+			e.printStackTrace();
+		} 
+
+		return "Error";
+
+	}
+	
+	public String createAgreement(Plan plan, APIContext context) {
+		
+		try {
+			//Create BillingAgreement
+			Agreement agreement = new Agreement();
+			agreement.setName("Base PaypalAgreement");
+			agreement.setDescription("Basic PaypalAgreement");
+			agreement.setStartDate("2020-01-25T9:45:04Z");
+
+			// Set plan ID
+			Plan plan1 = new Plan();
+			plan1.setId(plan.getId());
+			agreement.setPlan(plan1);
+
+			// Add payer details
+			Payer payer = new Payer();
+			payer.setPaymentMethod("paypal");
+			agreement.setPayer(payer);
+
+			agreement = agreement.create(context);
+
+			for (Links links : agreement.getLinks()) {
+				if ("approval_url".equals(links.getRel())) {
+					return links.getHref();
+				}
+			}
+			
+			
+		} catch(PayPalRESTException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return "Error";
+	}
+	
+	
+	//novaaaaaaa
+	public String createPlan(BillingPlanDTO planDTO) {
+		
+		UserPayPal user = userService.getUserByUsername(planDTO.getMerchantUsername());
+		
+		try {
+
+			APIContext context = new APIContext(user.getClientId(), user.getClientSecret(), "sandbox");
+
+
+				Plan plan = new Plan();
+				plan.setName("Billing plan for subscription for " + user.getUsername());
+				plan.setDescription("Billing plan");
+				plan.setType("INFINITE"); //zakucano za sada
+
+				//payment_definitions
+				PaymentDefinition paymentDefinition = new PaymentDefinition();
+				paymentDefinition.setName("Regular Payments");
+				paymentDefinition.setType("REGULAR");
+				paymentDefinition.setFrequency(planDTO.getType()); 
+				paymentDefinition.setFrequencyInterval(Integer.toString(planDTO.getFrequency())); 
+				paymentDefinition.setCycles("0");  // broj krugova nisam sigurna sta predstavlja jos uvek
+
+				//currency
+				Currency currency = new Currency();
+				currency.setCurrency("USD");
+				currency.setValue(Double.toString(planDTO.getAmount()));
+				paymentDefinition.setAmount(currency);
+
+//				//charge_models
+//				ChargeModels chargeModels = new com.paypal.api.payments.ChargeModels();
+//				chargeModels.setType("SHIPPING");
+//				chargeModels.setAmount(currency);
+//				List<ChargeModels> chargeModelsList = new ArrayList<ChargeModels>();
+//				chargeModelsList.add(chargeModels);
+//				paymentDefinition.setChargeModels(chargeModelsList);
+
+				List<PaymentDefinition> paymentDefinitionList = new ArrayList<PaymentDefinition>();
+				paymentDefinitionList.add(paymentDefinition);
+				plan.setPaymentDefinitions(paymentDefinitionList);
+				
+
+				//merchant_preferences
+				MerchantPreferences merchantPreferences = new MerchantPreferences();
+				merchantPreferences.setSetupFee(currency);
+				merchantPreferences.setSetupFee(currency);
+				merchantPreferences.setCancelUrl("https://localhost:1234/cancel"); //url koji se poziva ako dodje do prekida
+				//setovanje url-a koji se gadja tek nakon potvrde samog ugovora
+		
+				//merchantPreferences.setReturnUrl("https://localhost:8086/payPalService/activateAgreement?username="
+				//		+ user.getUsername() + "&callbackUrl=" + planDTO.getCallbackAgreementUrl()); //Ako je uspesno, ici na aktivaciju 
+				
+				merchantPreferences.setReturnUrl("https://localhost:1234/subSuccess?username="
+								+ user.getUsername() + "&callbackUrl=" + planDTO.getCallbackAgreementUrl());
+						
+				merchantPreferences.setMaxFailAttempts("0");
+				merchantPreferences.setAutoBillAmount("YES");				//automatska naplata
+				merchantPreferences.setInitialFailAmountAction("CONTINUE");	//sta raditi prilikom otkaza
+				plan.setMerchantPreferences(merchantPreferences);
+
+				//dodavanje plana
+				Plan createdPlan = plan.create(context);
+				PlanForBilling planEntity = new PlanForBilling(planDTO.getType(),"INFINITE",createdPlan.getId(),false);
+				PlanForBilling retPlan = planService.savePlan(planEntity);
+				
+				//aktiviranje plana
+				List<Patch> patchRequestList = new ArrayList<Patch>();
+				Map<String, String> value = new HashMap<String, String>();
+				value.put("state", "ACTIVE");
+
+				Patch patch = new Patch();
+				patch.setPath("/");
+				patch.setValue(value);
+				patch.setOp("replace");
+				patchRequestList.add(patch);
+
+				createdPlan.update(context, patchRequestList);
+				retPlan.setActive(true);
+				planService.savePlan(retPlan);
+				
+				return planDTO.getCallbackPlanUrl() +"/" + createdPlan.getId();
+		} catch(PayPalRESTException e) {
+			e.printStackTrace();
+			return "Error";
+		} 
+		
+	}
+	
+	//nova takodje za aktivaciju 
+	public String createUserAgreement(String planId, UserPayPal user)
+	{
+		
+		try {
+			//Create BillingAgreement
+			Agreement agreement = new Agreement();
+			agreement.setName("Base PaypalAgreement");
+			agreement.setDescription("Basic PaypalAgreement");
+			agreement.setStartDate("2020-02-10T9:45:04Z");
+
+			// Set plan ID
+			Plan plan1 = new Plan();
+			plan1.setId(planId);
+			agreement.setPlan(plan1);
+
+			// Add payer details
+			Payer payer = new Payer();
+			payer.setPaymentMethod("paypal");
+			agreement.setPayer(payer);
+
+			APIContext context = new APIContext(user.getClientId(), user.getClientSecret(), "sandbox");
+			agreement = agreement.create(context);
+
+			for (Links links : agreement.getLinks()) {
+				if ("approval_url".equals(links.getRel())) {
+					return links.getHref();
+				}
+			}
+			
+			
+		} catch(PayPalRESTException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return "Error";
+		
+	}
+	
+	public void activateAgreement(String token, String callbackUrl, String username) {
+
+		UserPayPal user = userService.getUserByUsername(username);
+		System.out.println("Aktivacija");
+		
+		if(user != null)
+		{
+			APIContext context = new APIContext(user.getClientId(), user.getClientSecret(), "sandbox");
+
+			Agreement agreement =  new Agreement();
+			agreement.setToken(token);
+
+			Agreement activeAgreement;
+			try {
+				activeAgreement = agreement.execute(context, agreement.getToken());
+
+				RestTemplate rt = new RestTemplate();
+				try {
+					//Kp azuriranje info
+					ResponseEntity<String> res = rt.getForEntity(callbackUrl + "/" + activeAgreement.getId(), String.class);
+					agrService.saveAgr(new AgreementForBilling(activeAgreement.getId(), user.getUsername()));
+					
+				} catch (HttpStatusCodeException exception) {
+					System.out.println("Greska prilikom javaljanja kpu!");
+				}
+
+			} catch (PayPalRESTException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
 }
 

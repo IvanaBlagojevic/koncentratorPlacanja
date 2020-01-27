@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.payPalService.converter.PayPalConverter;
 import com.example.payPalService.domain.Order;
 import com.example.payPalService.domain.UserPayPal;
+import com.example.payPalService.dto.BillingAgreementDTO;
+import com.example.payPalService.dto.BillingPlanDTO;
 import com.example.payPalService.dto.PaymentDTO;
 import com.example.payPalService.dto.UserPayPalDTO;
 import com.example.payPalService.service.PayPalService;
 import com.example.payPalService.service.UserPayPalService;
+import com.paypal.api.payments.MerchantInfo;
 
 @RestController
 @CrossOrigin("https://localhost:1234")
@@ -78,7 +81,7 @@ public class PayPalController {
 		return new ResponseEntity<>("User added to payPal!",HttpStatus.OK);
 		
 	}
-	
+
 	
 	//za refresh iz kp-a
 	@RequestMapping(value="/getOne/{oid}", method = RequestMethod.GET)
@@ -90,4 +93,55 @@ public class PayPalController {
 		 	
 		 	return new ResponseEntity<Map<String, Object>>(o, HttpStatus.ACCEPTED);
 	 }
+
+	@RequestMapping(
+			value="/createPlan",
+			method = RequestMethod.POST)
+	public ResponseEntity createBillingPlan(@RequestBody BillingPlanDTO planDTO) {
+		
+		String ret = payPalService.createPlan(planDTO);
+		
+		if(!ret.equals("Error"))
+		{
+			return new ResponseEntity<>( ret, HttpStatus.OK);
+		}else
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(
+			value="/createAgreement",
+			method = RequestMethod.POST,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity createAgreement(@RequestBody BillingAgreementDTO agrDTO) {
+		
+		
+		UserPayPal user = userService.getUserByUsername(agrDTO.getMerchantUsername());
+		
+		String ret =  payPalService.createUserAgreement(agrDTO.getPlanId(), user);
+		
+		if(ret.equals("Error"))
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}else
+		{
+			return new ResponseEntity<>(ret, HttpStatus.OK);
+		}
+	}
+	
+	@RequestMapping(
+			value="/activateAgreement",
+			method = RequestMethod.GET)
+	public ResponseEntity activateAgr(@RequestParam("token") String token,@RequestParam("username")String username
+										,@RequestParam("callbackUrl")String callbackUrl) {
+		
+		System.out.println("Aktivacijaa ");
+		payPalService.activateAgreement(token, callbackUrl, username);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+
 }

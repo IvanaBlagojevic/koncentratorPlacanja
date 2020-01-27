@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Merchant {
@@ -24,8 +25,8 @@ public class Merchant {
 	@Column(nullable = false)
 	private String name;
 	
-	@Column(nullable = false, unique = true, length = 20)
 
+	@Column(nullable = false)
 	private String username;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -34,17 +35,22 @@ public class Merchant {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<MethodOfPayment> paymentMethods;
 	
+	@OneToMany(mappedBy = "merchant", fetch = FetchType.LAZY)
+	private List<SubscriptionPlan> subscriptions = new ArrayList<SubscriptionPlan>();
+	
 	public Merchant() {}
 
-	public Merchant(Long id, String name, String username, MerchantSystem system, List<MethodOfPayment> paymentMethods) {
+	public Merchant(Long id, String name, String username, MerchantSystem system, List<MethodOfPayment> paymentMethods
+			) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.username = username;
 		this.system = system;
 		this.paymentMethods = paymentMethods;
+//		this.subscriptions = subscriptions;
 	}
-	
+
 	public Merchant(String name, String username, MerchantSystem system, List<MethodOfPayment> paymentMethods) {
 		super();
 		this.id = id;
@@ -70,7 +76,6 @@ public class Merchant {
 		this.name = name;
 	}
 
-
 	public String getUsername() {
 		return username;
 	}
@@ -94,5 +99,14 @@ public class Merchant {
 	public void setPaymentMethods(List<MethodOfPayment> paymentMethods) {
 		this.paymentMethods = paymentMethods;
 	}
+
+	public List<SubscriptionPlan> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(List<SubscriptionPlan> subscriptions) {
+		this.subscriptions = subscriptions;
+	}
 	
+
 }

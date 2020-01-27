@@ -1,6 +1,10 @@
 package com.example.scientificCenter.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.scientificCenter.domain.Journal;
+import com.example.scientificCenter.domain.Subscription;
 
 public class JournalDTO {
 	
@@ -17,6 +21,10 @@ public class JournalDTO {
 	private Boolean isOpenAccess;
 	
 	private Double price;
+	
+	private int suscriptionNum;
+	
+	private List<SubscriptionDTO> subscriptions = new ArrayList<SubscriptionDTO>();
 	//private Editor editorInChief;
 	
 	//private Set<Paper> papers = new HashSet<Paper>();
@@ -28,9 +36,8 @@ public class JournalDTO {
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-
-	public JournalDTO(Long id, String title, String issn, Boolean isActivated, Boolean isOpenAccess, Double price) {
+	public JournalDTO(Long id, String title, String issn, Boolean isActivated, Boolean isOpenAccess, Double price,
+			int suscriptionNum, List<SubscriptionDTO> subscriptions) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -38,9 +45,9 @@ public class JournalDTO {
 		this.isActivated = isActivated;
 		this.isOpenAccess = isOpenAccess;
 		this.price = price;
+		this.suscriptionNum = suscriptionNum;
+		this.subscriptions = subscriptions;
 	}
-
-
 
 	public JournalDTO(Journal journal) {
 		// TODO Auto-generated constructor stub
@@ -50,6 +57,11 @@ public class JournalDTO {
 		this.isActivated = journal.getIsActivated();
 		this.isOpenAccess = journal.getIsOpenAccess();
 		this.price = journal.getPrice();
+		this.suscriptionNum = journal.getSubscriptionNum();
+		
+		for(Subscription s : journal.getSubscriptions()) {
+			this.subscriptions.add(new SubscriptionDTO(s));
+		}
 	}
 
 	public Long getId() {
@@ -99,9 +111,14 @@ public class JournalDTO {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	
-	
+
+	public int getSuscriptionNum() {
+		return suscriptionNum;
+	}
+
+	public void setSuscriptionNum(int suscriptionNum) {
+		this.suscriptionNum = suscriptionNum;
+	}
 	
 
 }

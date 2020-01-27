@@ -83,7 +83,17 @@
            <div class="col" *ngIf="journal.isOpenAccess == false">
               <a id="hrefButton"  (click)="buyJournal(journal)" class="btn btn-success btn-block">Buy</a>
            </div>
-         </div>  
+         </div>
+         <div class="row">
+          <div class="col">
+             <a id="subButton"  (click)="subscribe(journal)" class="btn btn-success btn-block" *ngIf="journal.suscriptionNum > 0 && userLogged == true">Subscribe</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+             <a id="unSubButton"  (click)="unsubscribe(journal)" class="btn btn-success btn-block" *ngIf="userLogged == true">Unsubscribe</a>
+          </div>
+        </div>    
       </div>
     </div>
   </div>

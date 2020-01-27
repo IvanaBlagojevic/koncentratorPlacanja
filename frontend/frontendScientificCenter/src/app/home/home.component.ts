@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   roles: string[];
   loggedUser : User;
   recenzentLogged: boolean = false;
+  userLogged : boolean = false;
   tasks: any;
   journals: Journal[];
   
@@ -63,6 +64,8 @@ export class HomeComponent implements OnInit {
             this.editorLogged = true;
           }else if(element.name === "ROLE_RECENZENT"){
             this.recenzentLogged = true;
+          }else if(element.name === "ROLE_USER"){
+            this.userLogged = true;
           }
         });
       });
@@ -128,6 +131,20 @@ export class HomeComponent implements OnInit {
     this.journalService.getAll().subscribe(
       data=>{
         this.journals=data;
+
+        this.journals.forEach(element =>{
+
+          if(element.subscriptions != null)
+          {
+            element.subscriptions.forEach(element2 =>{
+              if(element2.email == this.email)
+              { 
+                element.canSubscribe = false;
+              }
+            });
+          }
+           
+        });
         console.log(this.journals);
       }
     )
@@ -150,4 +167,14 @@ export class HomeComponent implements OnInit {
     //console.log("kupi casopis sa idijem "+journal.id);
     //window.location.href = "https://localhost:1234/journal/"+journal.issn + "/" + journal.price;
   }
+
+  subscribe(journal : Journal){
+    
+    window.location.href = "https://localhost:1234/subscription/"+journal.issn + "/" + this.email;
+  }
+
+  unsubscribe(journal : Journal){
+
+  }
+
 }

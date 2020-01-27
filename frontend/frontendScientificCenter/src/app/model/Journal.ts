@@ -1,3 +1,5 @@
+import { Subscription } from './Subscription';
+
 export class Journal{
     
     id: Int16Array;
@@ -11,4 +13,10 @@ export class Journal{
 	isOpenAccess: Boolean;
 	
 	price: Float32Array;
+
+	suscriptionNum : number;
+
+	subscriptions : Array<Subscription>;
+
+	canSubscribe : boolean = true;
 }

@@ -1,4 +1,6 @@
 import { MethodOfPaymentDTO } from './MethodOfPaymentDTO';
+import { SubscriptionDTO } from './SubscriptionDTO';
+import { MerchantSystemDTO } from './MerchantSystemDTO';
 
 export class MerchantDTO {
 
@@ -6,6 +8,7 @@ export class MerchantDTO {
     companyName : string;
     merchantName : string;
     username : string;
+    SCsystem : MerchantSystemDTO;
     supportedMethods : Array<MethodOfPaymentDTO>;
-
+    subscriptions : Array<SubscriptionDTO>;
 }

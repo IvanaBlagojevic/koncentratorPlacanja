@@ -51,4 +51,5 @@ export class JournalService {
   getAll() {
     return this.http.get<Journal[]>(this.url+'journal/journals') as Observable<any>
   }
+
 }

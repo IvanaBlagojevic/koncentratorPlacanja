@@ -2,7 +2,9 @@ package com.example.kpService.dto;
 
 import java.util.List;
 
+import com.example.kpService.domain.MerchantSystem;
 import com.example.kpService.domain.MethodOfPayment;
+import com.example.kpService.domain.SubscriptionPlan;
 
 public class MerchantSubmissionDTO {
 
@@ -12,17 +14,23 @@ public class MerchantSubmissionDTO {
 	
 	private String username;
 	
+	private MerchantSystemDTO SCsystem;
+	
 	private List<MethodOfPaymentDTO> supportedMethods;
+	
+	private List<SubscriptionParamsDTO> subscriptions;
 	
 	public MerchantSubmissionDTO() {}
 
-	public MerchantSubmissionDTO(String companyName, String merchantName, String username,
-			List<MethodOfPaymentDTO> supportedMethods) {
+	public MerchantSubmissionDTO(String companyName, String merchantName, String username, MerchantSystemDTO SCsystem,
+			List<MethodOfPaymentDTO> supportedMethods, List<SubscriptionParamsDTO> subscriptions) {
 		super();
 		this.companyName = companyName;
 		this.merchantName = merchantName;
 		this.username = username;
+		this.SCsystem = SCsystem;
 		this.supportedMethods = supportedMethods;
+		this.subscriptions = subscriptions;
 	}
 
 	public String getCompanyName() {
@@ -48,6 +56,14 @@ public class MerchantSubmissionDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
+	public MerchantSystemDTO getSCsystem() {
+		return SCsystem;
+	}
+
+	public void setSCsystem(MerchantSystemDTO sCsystem) {
+		SCsystem = sCsystem;
+	}
 
 	public List<MethodOfPaymentDTO> getSupportedMethods() {
 		return supportedMethods;
@@ -55,6 +71,14 @@ public class MerchantSubmissionDTO {
 
 	public void setSupportedMethods(List<MethodOfPaymentDTO> supportedMethods) {
 		this.supportedMethods = supportedMethods;
+	}
+
+	public List<SubscriptionParamsDTO> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(List<SubscriptionParamsDTO> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 	
 }

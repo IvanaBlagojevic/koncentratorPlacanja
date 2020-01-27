@@ -24,6 +24,7 @@ INSERT INTO `user` (`activated`, `city`, `country`, `email`, `is_recenzent`, `na
 insert into user_roles(user_id,role_id) values (1,1);
 insert into user_roles(user_id,role_id) values (2,2);
 insert into user_roles(user_id,role_id) values (3,2);
+insert into user_roles(user_id,role_id) values (3,4); --dana ima dve uloge
 insert into user_roles(user_id,role_id) values (4,2);
 insert into user_roles(user_id,role_id) values (5,3);
 insert into user_roles(user_id,role_id) values (6,3);
@@ -53,6 +54,8 @@ INSERT INTO `user_areas` (`user_id`, `areas_id`) VALUES ('3', '2');
 INSERT INTO `user_areas` (`user_id`, `areas_id`) VALUES ('4', '1');
 INSERT INTO `user_areas` (`user_id`, `areas_id`) VALUES ('4', '2');
 
-INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`) VALUES (true, false, '1111-2222', 'Time', '5','2.5');
-INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`) VALUES (true, false, '2222-2222', 'Architectural digest', '6','1.5');
-INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`) VALUES (true, false, '3333-2222', 'National geographic', '7','2.0');
+INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`, subscription_num) VALUES (true, false, '1111-2222', 'Time', '5','2.5', 1);
+INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`, subscription_num) VALUES (true, false, '2222-2222', 'Architectural digest', '6','1.5', 0);
+INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`, subscription_num) VALUES (true, false, '3333-2222', 'National geographic', '7','2.0', 0);
+
+insert into subscription(active, frequency,price,type,journal_id,user_id) values (true, 1, 3, 1, 1, 3);

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,16 +34,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.scientificCenter.domain.Editor;
 import com.example.scientificCenter.domain.Journal;
 import com.example.scientificCenter.domain.Recenzent;
 import com.example.scientificCenter.domain.ScientificArea;
+import com.example.scientificCenter.domain.User;
 import com.example.scientificCenter.dto.FormFieldsDTO;
 import com.example.scientificCenter.dto.FormSubmissionDTO;
 import com.example.scientificCenter.dto.JournalDTO;
 import com.example.scientificCenter.dto.TaskDTO;
 import com.example.scientificCenter.dto.UserEditorDTO;
+import com.example.scientificCenter.security.JwtProvider;
 import com.example.scientificCenter.service.JournalService;
 import com.example.scientificCenter.service.ScientificAreaService;
 import com.example.scientificCenter.service.UserService;
@@ -65,7 +72,6 @@ public class JournalController {
 	
 	@Autowired
 	private JournalService journalService;
-	
 	
 	@Autowired
 	TaskService taskService;
@@ -291,6 +297,8 @@ public class JournalController {
 		
     }
 	
+	
+	
 	private HashMap<String, Object> mapListToDto(List<FormSubmissionDTO> list)
 	{
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -300,5 +308,5 @@ public class JournalController {
 		
 		return map;
 	}
-
+	
 }

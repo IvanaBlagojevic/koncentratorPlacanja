@@ -1,5 +1,6 @@
 package com.example.scientificCenter.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,13 +51,17 @@ public class Journal {
 	@OneToOne(fetch = FetchType.EAGER)
 	private Editor editorInChief;
 	
-	
+	@Column(nullable = false)
+	private int subscriptionNum;
 
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<Paper> papers = new HashSet<Paper>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<MethodOfPayment> methodOfPayment =new HashSet<MethodOfPayment>();
+	
+	@OneToMany(mappedBy="journal",fetch = FetchType.LAZY)
+	private List<Subscription> subscriptions = new ArrayList<Subscription>();
 	
 	public Journal() {
 		super();
@@ -111,8 +116,6 @@ public class Journal {
 		this.editorInChief = editorInChief;
 	}
 
-	
-
 	public Set<Paper> getPapers() {
 		return papers;
 	}
@@ -121,14 +124,20 @@ public class Journal {
 		this.papers = papers;
 	}
 
-	
-
 	public Double getPrice() {
 		return price;
 	}
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public int getSubscriptionNum() {
+		return subscriptionNum;
+	}
+
+	public void setSubscriptionNum(int subscriptionNum) {
+		this.subscriptionNum = subscriptionNum;
 	}
 
 	public Set<MethodOfPayment> getMethodOfPayment() {
@@ -146,8 +155,13 @@ public class Journal {
 	public void setIsActivated(Boolean isActivated) {
 		this.isActivated = isActivated;
 	}
-	
-	
-	
 
+	public List<Subscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+	public void setSubscriptions(List<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
+	}
+	
 }

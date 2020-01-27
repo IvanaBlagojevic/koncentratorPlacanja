@@ -73,6 +73,7 @@ export class RegisterMerchantComponent implements OnInit {
         element.fields.forEach(elementb =>{
           token = elementb.value;
         });
+<<<<<<< Updated upstream
         console.log("username " + this.merchantInfo.username);
         console.log("token " + token);
         this.paymentService.addUserInPaymentService(element.path, new UserBitcoinDTO(this.merchantInfo.username,token)).subscribe(
@@ -82,6 +83,15 @@ export class RegisterMerchantComponent implements OnInit {
           }, err => {
             alert("Error while adding user to bitcoin service");
           })
+=======
+
+        // this.paymentService.addUserInPaymentService(element.path, new UserBitcoinDTO(element.path,token)).subscribe(
+        //   res =>{
+            
+        //   }, err => {
+        //     alert("Error while adding user to bitcoin service");
+        //   })
+>>>>>>> Stashed changes
 
       }else if(element.name == 'PayPal')
       {

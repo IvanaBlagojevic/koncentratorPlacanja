@@ -14,6 +14,9 @@ import { RegisterCompanyComponent } from './register-company/register-company.co
 import { BuyJournalComponent } from './buy-journal/buy-journal.component';
 import { RegisterMethodOfPaymentComponent } from './register-method-of-payment/register-method-of-payment.component';
 import { CreatePaymentComponent } from './create-payment/create-payment.component';
+import { JournalSubscriptionComponent } from './journal-subscription/journal-subscription.component';
+import { CreateSubscriptionDetailsComponent } from './create-subscription-details/create-subscription-details.component';
+import { SubSuccessComponent } from './sub-success/sub-success.component';
 
 //':id1/:id2' - id1 - issn, id2 - cena
 const appRoutes: Routes = [ {path: '', component : HomepageComponent},
@@ -25,7 +28,10 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
                             {path : 'registerMerchant', component : RegisterMerchantComponent},
                             {path : 'journal/:id1/:id2', component : BuyJournalComponent},
                             {path : 'registerMethodOfPayment', component : RegisterMethodOfPaymentComponent},
-                            {path : 'createPayment/:id', component : CreatePaymentComponent}
+                            {path : 'createPayment/:id', component : CreatePaymentComponent},
+                            {path : 'subscription/:id1/:id2', component : JournalSubscriptionComponent},
+                            {path : 'subDetails', component : CreateSubscriptionDetailsComponent},
+                            {path : 'subSuccess', component : SubSuccessComponent}
  ]
 
 @NgModule({
@@ -40,7 +46,10 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
     RegisterCompanyComponent,
     BuyJournalComponent,
     RegisterMethodOfPaymentComponent,
-    CreatePaymentComponent
+    CreatePaymentComponent,
+    JournalSubscriptionComponent,
+    CreateSubscriptionDetailsComponent,
+    SubSuccessComponent
   ],
   imports: [
     BrowserModule,

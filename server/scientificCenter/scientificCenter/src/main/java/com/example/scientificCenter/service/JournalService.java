@@ -77,6 +77,11 @@ public class JournalService {
 		// TODO Auto-generated method stub
 		this.recenzentRepository.save(recenzent);
 	}
+	
+	public Journal getJournalById(Long id) {
+		
+		return this.journalRepository.findOneById(id);
+	}
 
 	public Optional<Journal> findOneById(Long journalId) {
 		// TODO Auto-generated method stub

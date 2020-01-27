@@ -23,9 +23,8 @@ public class JwtProvider {
 
 	 	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-	 	@Autowired
-	    private HttpServletRequest request;
-	    
+	 	private HttpServletRequest request;
+
 	 	@Value("${com.example.app.jwtSecret}")
 	    private String jwtSecret;
 
@@ -63,6 +62,23 @@ public class JwtProvider {
 	        
 	        return false;
 	    }
+	    
+	    public String getEmailLoggedUser() {
+			
+			String header = request.getHeader("Authorization");
+			
+			if(header != null)
+			{
+				String parts[] = header.split(" "); 
+				
+				String email = this.getUserNameFromJwtToken(parts[1]);  
+				
+				return email;  
+			}else
+			{
+				return null;
+			}
+		}
 	    
 	    public String getUserNameFromJwtToken(String token) {
 	        return Jwts.parser()
