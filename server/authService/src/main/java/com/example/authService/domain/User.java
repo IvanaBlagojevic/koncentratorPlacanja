@@ -1,8 +1,10 @@
 package com.example.authService.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.*;
+
 
 @Entity
 public class User{
@@ -20,8 +22,28 @@ public class User{
     @Column(nullable = false)
     private String email;
     
-    public User() {}
+    @Column(nullable = false)
+    private String password;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="user_roles", 
+			joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+		    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	public Set<UserRole> roles;
+    
+   
+	public User() {}
 
+	
+	 public Set<UserRole> getRoles() {
+			return roles;
+		}
+
+		public void setRoles(Set<UserRole> roles) {
+			this.roles = roles;
+		}
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -53,6 +75,18 @@ public class User{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
 
     
 }

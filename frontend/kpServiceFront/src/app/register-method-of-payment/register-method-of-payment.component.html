@@ -38,9 +38,11 @@
                         <div class="form-group"   *ngFor ='let m of methodsFields; let i = index'>
                             
                             <div class="form-group"  >
+                                <label for="input_lname">Enter code:</label>
                                 <input type="text" name="code{{i}}" class="form-control" placeholder="Enter code" [(ngModel)]="m.code">
+                                <label for="input_lname">Enter name:</label>
                                 <input type="text" name="name{{i}}" class="form-control" placeholder="Enter name" [(ngModel)]="m.name">
-                                <label for="input_lname">Enter type</label>
+                                <label for="input_lname">Enter type:</label>
                                 <select  class="form-control"  name="type{{i}}"  [(ngModel)]="m.type">
                                     <option *ngFor="let t of types" [value]="t">
                                         {{t}}

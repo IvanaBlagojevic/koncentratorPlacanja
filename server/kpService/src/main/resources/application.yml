@@ -57,3 +57,5 @@ management:
     web:
       exposure:
         include: ["health", "info", "refresh"]
+security:
+  require-ssl: true

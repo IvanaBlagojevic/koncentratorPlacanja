@@ -31,20 +31,28 @@
               <li class="nav-item active">
                 <a class="nav-link" id="home" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
+              <!--<li class="nav-item">
+                <a class="nav-link" *ngIf="adminLogged == true"  href="https://localhost:1234/registerCompany">Register company</a>
+              </li>-->
               <li class="nav-item">
-                <a class="nav-link" href="https://localhost:1234/registerCompany">Register company</a>
+                <a class="nav-link"  *ngIf="adminLogged == false" href="https://localhost:1234/registerMerchant">Register merchant</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="https://localhost:1234/registerMerchant">Register merchant</a>
+                <a class="nav-link" *ngIf="adminLogged == true" href="https://localhost:1234/registerMethodOfPayment">Register method of payment</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="https://localhost:1234/registerMethodOfPayment">Register method of payment</a>
+              <li>
+                  <a class="nav-link" *ngIf="adminLogged == false" href="https://localhost:1234/subDetails">Add subscription details</a>
               </li>
-                  <a class="nav-link" href="https://localhost:1234/subDetails">Add subscription details</a>
-                </li>
               <li class="nav-item">
                 <a class="nav-link" href="https://localhost:4202">NC</a>
               </li>
+              <li class="nav-item">
+                <a *ngIf="someoneLogged == false" class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a *ngIf="someoneLogged == true" class="nav-link" [routerLink]="" (click)="logout()">Logout</a>
+              </li>
+              
             </ul>
           </div>
         </div>

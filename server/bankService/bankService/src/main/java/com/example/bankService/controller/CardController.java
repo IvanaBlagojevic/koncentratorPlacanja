@@ -132,7 +132,7 @@ public class CardController {
 	 @RequestMapping(value="/getOne/{oid}", method = RequestMethod.GET)
 	 public ResponseEntity<Map<String, Object>> getPayment(@PathVariable("oid") Long oid) {
 		 	System.out.println("usao u getOne payment " + oid);
-		 	Optional<Payment> o = this.paymentService.findOneById(oid);
+		 	Optional<Payment> o = this.paymentService.findOneByPaymentId(oid.toString());
 		 	if (o.isPresent()) {
 		 		System.out.println("Order with this oid does not exists!");
 		 		logger.error(" 6 31 4 1");
@@ -146,7 +146,7 @@ public class CardController {
 		 		isPaid = "new";
 		 	}else if (o.get().getStatus() == StatusOfPayment.SUCCESS ) {
 		 		isPaid = "paid";
-		 	}else if (o.get().getStatus() == StatusOfPayment.ERROR || o.get().getStatus() == StatusOfPayment.FAILURE ) {
+		 	}else if (o.get().getStatus() == StatusOfPayment.ERROR || o.get().getStatus() == StatusOfPayment.FAILED ) {
 		 		isPaid = "invalid";
 		 	}
 	        

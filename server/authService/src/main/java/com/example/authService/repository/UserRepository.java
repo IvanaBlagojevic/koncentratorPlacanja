@@ -10,6 +10,8 @@ import com.example.authService.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	List<User> findAllByEmail(String email);
 	
+	Optional<User> findByEmail(String email);
+
+
 }

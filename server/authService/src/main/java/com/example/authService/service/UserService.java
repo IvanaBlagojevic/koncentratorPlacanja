@@ -16,21 +16,26 @@ import com.example.authService.repository.UserRepository;
 public class UserService {
 
 	@Autowired
-	private UserRepository userRepository;
+    private UserRepository repository;
 	
-	@Value("${user-email}")
-	private String email;
-	
-	
-	public User addNewUser(User user) 
-	{
-		
-		return userRepository.save(user);
+	public List<User> findAll() {
+		// TODO Auto-generated method stub
+		return repository.findAll();
 	}
 	
-	public List<User> findUserByEmail()
-	{
-		System.out.println("Trazi se korisnik sa emailom: " + email);
-		return userRepository.findAllByEmail(email);
+	public User save(User user) {
+		return repository.save(user);
+	}
+
+	
+
+	public void delete(User user) {
+		// TODO Auto-generated method stub
+		repository.delete(user);
+	}
+
+	public Optional<User> getByEmail(String email) {
+		// TODO Auto-generated method stub
+		return repository.findByEmail(email);
 	}
 }

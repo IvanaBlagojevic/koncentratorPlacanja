@@ -46,11 +46,26 @@ public class ZuulServiceApplication {
 		args.setEurekaJerseyClient(builder.build());
 		return args;
 	}
+
 	
 	/*@Bean
 	@LoadBalanced
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
 	}*/
+
+
+/*
+	
+	@Bean
+	 public RestTemplate template() throws Exception{
+		 RestTemplate template = new RestTemplate();
+		 return template;
+	 }
+	
+	@Bean
+   public ZuulFiltering simpleFilter() {
+     return new ZuulFiltering();
+   }*/
 
 }

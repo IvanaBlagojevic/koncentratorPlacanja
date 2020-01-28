@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/megatravel?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/authService?useSSL=false&createDatabaseIfNotExist=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: sifra
     driverClassName : com.mysql.jdbc.Driver
     initialization-mode: always
   jpa:
     hibernate:
-      #ddl-auto: create-drop
+      ddl-auto: create-drop
     database-platform : org.hibernate.dialect.MySQL5Dialect  
     
 server:
@@ -44,10 +44,17 @@ eureka:
 #    leaseRenewalIntervalInSeconds: 10 # intervalSeconds between subsequent heartbeats sent to Eureka server
 #    leaseExpirationDurationInSeconds: 20 # time that Eureka server waits since it received last heartbeat before it can evict this instance
 
-user-email: "marko@google.com" 
+
 
 management:
   endpoints:
     web:
       exposure:
         include: ["health", "info", "refresh"]
+        
+com:
+    example:
+        app:
+            jwtExpiration: 8640000
+            jwtExpirationInMs: 360000000
+            jwtSecret: y5oEr+Hczn77f1xoU9vOfw+K 

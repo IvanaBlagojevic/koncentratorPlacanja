@@ -112,4 +112,9 @@ public class PaymentService {
 		return this.paymentRepository.findById(id);
 	}
 
+	public Optional<Payment> findOneByPaymentId(String paymentId) {
+		// TODO Auto-generated method stub
+		return this.paymentRepository.findOneByPaymentId(paymentId);
+	}
+
 }

@@ -117,25 +117,28 @@ public class PaymentController {
 			ResponseToKP response =buyerInfoService.addNewBuyerInfo(user);
 			ResponseToKPDTO resDTO = new ResponseToKPDTO(response);
 			RestTemplate temp = new RestTemplate();
-			//HttpHeaders headers = new HttpHeaders();
-			//headers.setContentType(MediaType.APPLICATION_JSON);
-			//HttpEntity<ResponseToKPDTO> entity = new HttpEntity<>(resDTO ,headers);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 			
-			ResponseToKPDTO isSaved = temp.postForObject(addressBankService+"saveResponse", resDTO, ResponseToKPDTO.class);
+			
+			
 			
 			if(response != null ) {
 				System.out.println("Successfully get response from bank Service!");
 				logger.info(" 4 41 4 0");
 				if(response.getStatus().equals("success")) {
 					resDTO.setUrl(user.getPayment().getSuccessUrl());
-					return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
+				
 				}else if(response.getStatus().equals("error")) {
 					resDTO.setUrl(user.getPayment().getErrorUrl());
-					return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
+					
 				}else {
 					resDTO.setUrl(user.getPayment().getFailedUrl());
-					return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
+					
 				}
+				HttpEntity<ResponseToKPDTO> entity = new HttpEntity<>(resDTO ,headers);
+				ResponseToKPDTO isSaved = temp.postForObject(addressBankService+"saveResponse", entity, ResponseToKPDTO.class);
+				return new ResponseEntity<ResponseToKPDTO>(resDTO, HttpStatus.OK);
 			}else {
 				System.out.println("Problem in response from bank Service!");
 				logger.error(" 4 41 4 1");

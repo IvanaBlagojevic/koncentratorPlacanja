@@ -17,7 +17,8 @@ import { CreatePaymentComponent } from './create-payment/create-payment.componen
 import { JournalSubscriptionComponent } from './journal-subscription/journal-subscription.component';
 import { CreateSubscriptionDetailsComponent } from './create-subscription-details/create-subscription-details.component';
 import { SubSuccessComponent } from './sub-success/sub-success.component';
-
+import { httpInterceptorProviders } from './auth/auth-interceptor';
+import { LoginComponent } from './login/login.component';
 //':id1/:id2' - id1 - issn, id2 - cena
 const appRoutes: Routes = [ {path: '', component : HomepageComponent},
                             {path : 'ppsuccess', component : PayPalSuccessComponent},
@@ -31,7 +32,8 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
                             {path : 'createPayment/:id', component : CreatePaymentComponent},
                             {path : 'subscription/:id1/:id2', component : JournalSubscriptionComponent},
                             {path : 'subDetails', component : CreateSubscriptionDetailsComponent},
-                            {path : 'subSuccess', component : SubSuccessComponent}
+                            {path : 'subSuccess', component : SubSuccessComponent},
+                            {path : 'login', component : LoginComponent}
  ]
 
 @NgModule({
@@ -49,7 +51,8 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
     CreatePaymentComponent,
     JournalSubscriptionComponent,
     CreateSubscriptionDetailsComponent,
-    SubSuccessComponent
+    SubSuccessComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
       {enableTracing : true}
     ),
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

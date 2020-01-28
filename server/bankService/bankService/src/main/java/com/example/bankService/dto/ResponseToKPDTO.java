@@ -27,8 +27,7 @@ public class ResponseToKPDTO {
 	@Size(min=2, max=20)
 	private String status;
 	
-	@NotNull
-	@Size(min=4, max=20)
+	
 	private String url;
 	
 	
