@@ -98,9 +98,10 @@ public class TransactionController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<TransactionDTO>> getAllForBuyer()  {
-		String userEmail = jwtProvider.getUsernameLoggedUser();
+	@RequestMapping(value = "/get/{email}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<TransactionDTO>> getAllForBuyer(@PathVariable("email") String email)  {
+		String userEmail = email;
+		//String userEmail = jwtProvider.getUsernameLoggedUser();
 		System.out.println("userEmail " + userEmail);
 		
 		List<Transaction> transactions = transactionService.findAllByBuyerEmailAndStatus(userEmail, TransactionStatus.CREATED);

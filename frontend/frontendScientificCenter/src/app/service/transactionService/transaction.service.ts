@@ -17,8 +17,8 @@ export class TransactionService {
       return this.http.post<Transaction>(this.url+'transaction/create',transaction);
     }
 
-    get():Observable<any>{
-      return this.http.get(this.url+'transaction/get');
+    get(email : any):Observable<any>{
+      return this.http.get(this.url+'transaction/get/'+email);
     }
     
 }

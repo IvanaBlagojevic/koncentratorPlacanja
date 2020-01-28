@@ -77,7 +77,7 @@ public class PayPalService {
 	
 	private static final Logger logger  = LoggerFactory.getLogger(PayPalService.class);
 	
-	public Map<String,Object> createPayment(PaymentDTO paymentDTO){
+	public Map<String,Object> createPayment(PaymentDTO paymentDTO, String orderId){
 		
 		//dobavljanje odgovarajuce korisnika
 		UserPayPal user = userService.getUserByUsername(paymentDTO.getMerchantIssn());
@@ -137,7 +137,7 @@ public class PayPalService {
 	    	HttpEntity<PaymentInfoDTO> request = new HttpEntity<>(info,header);
 	    	
 			try {
-				template.postForEntity("https://localhost:8086/kpService/paymentinfo/create", request, PaymentInfoDTO.class);
+				template.postForEntity("https://localhost:8086/kpService/paymentinfo/create/"+orderId+"/", request, PaymentInfoDTO.class);
 			}catch(HttpStatusCodeException e) {
 				e.printStackTrace();
 			}

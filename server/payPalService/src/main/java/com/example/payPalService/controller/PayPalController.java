@@ -40,11 +40,11 @@ public class PayPalController {
 	@Autowired
 	private PayPalConverter converter;
 	
-	@RequestMapping(path = "/create", method = RequestMethod.POST, produces = "text/plain")
+	@RequestMapping(path = "/create/{orderId}", method = RequestMethod.POST, produces = "text/plain")
 	@ResponseBody
-	public String createPayment(@RequestBody PaymentDTO payment){
+	public String createPayment(@PathVariable String orderId, @RequestBody PaymentDTO payment){
 		
-		Map<String, Object> response = payPalService.createPayment(payment);
+		Map<String, Object> response = payPalService.createPayment(payment, orderId);
 		
 		
 		return  (String)response.get("redirect_url");
