@@ -81,6 +81,7 @@ public class PaymentController {
 	        		payment.get().setStatus(StatusOfPayment.FAILED);
 	        		temp.put(address+"/update/"+valid.getPaymentId()+"/false/bankService", null);
 	        	}
+	        	this.paymentService.save(payment.get());
 	            System.out.println("Successfull created payment!");
 				logger.info(" 3 12 4 0");
 	            

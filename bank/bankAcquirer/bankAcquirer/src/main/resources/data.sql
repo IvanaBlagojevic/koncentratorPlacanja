@@ -1,4 +1,4 @@
-INSERT INTO `merchant` (`id`,`merchant_id`,`merchant_password`) VALUES (1,'id','pass');
+INSERT INTO `merchant` (`id`,`merchant_id`,`merchant_password`, `account_id`) VALUES (1,'id','pass','4');
 
 INSERT INTO `account` (`id`,`account_number`,`amount`) VALUES (1,'1111111111111111',50000);
 INSERT INTO `account` (`id`,`account_number`,`amount`) VALUES (2,'1111112222222222',70000);

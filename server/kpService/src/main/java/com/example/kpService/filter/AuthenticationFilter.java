@@ -25,7 +25,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		System.out.println("Token: "+httpRequest.getHeader("Authorization"));
+		//System.out.println("Token: "+httpRequest.getHeader("Authorization"));
 		/*String username = httpRequest.getHeader("Email");
 		String permissions = httpRequest.getHeader("Permissions");
 		System.out.println("Email korisnika: " + username);

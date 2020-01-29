@@ -104,7 +104,8 @@ public class BuyerInfoService {
 				System.out.println("PCC find bank by its PANs number1");
 				logger.info(" 4 53 4 0");
 				
-				request.setAccountAccepter(response.getAccountNumber());
+				request.setAccountPayer(response.getAccountNumber());
+				request.setAccountAccepter(merchant.getAccount().getAccountNumber());
 				request.setStatus(response.getStatus());
 				this.transactionRepository.save(request);	
 				ResponseToKP resToKP= new ResponseToKP();
@@ -124,9 +125,14 @@ public class BuyerInfoService {
 				toSave.setTransactionStatus(response.getStatus());
 				this.issuerRepository.save(toSave);
 				
+				if(response.getStatus().equals("success")) {
+					Account accountMerchant = merchant.getAccount();
+					accountMerchant.setAmount(merchant.getAccount().getAmount()+buyerInfo.getPayment().getAmount());
+					this.accountRepository.save(accountMerchant);
+				}
 				return resToKP;
 			}else {
-				System.out.println("PCC could not find bank by its PANs number1");
+				System.out.println("PCC could not find bank by its PANs number!");
 				logger.info(" 4 53 4 1");
 				ResponseToKP request1 = createTransaction(buyerInfo, merchant,buyerInfo.getPan());
 				return request1;
@@ -139,7 +145,7 @@ public class BuyerInfoService {
 	private ResponseToKP createTransaction(BuyerInfo buyerInfo, Merchant merchant, String pan) {
 		// TODO Auto-generated method stub
 		Transaction transaction = new Transaction();
-		//transaction.setAccountAccepter(pan);
+		transaction.setAccountAccepter(merchant.getAccount().getAccountNumber());
 		transaction.setAccountPayer(pan);
 		transaction.setPayment(buyerInfo.getPayment());
 		transaction.setTimestamp(new Date());
@@ -224,7 +230,7 @@ public class BuyerInfoService {
 	private ResponseToKP createTransaction(BuyerInfo buyerInfo, Merchant merchant, Account account) {
 		// TODO Auto-generated method stub
 		Transaction transaction = new Transaction();
-		transaction.setAccountAccepter(account.getAccountNumber());
+		transaction.setAccountAccepter(merchant.getAccount().getAccountNumber());
 		transaction.setAccountPayer(account.getAccountNumber());
 		transaction.setPayment(buyerInfo.getPayment());
 		transaction.setTimestamp(new Date());
@@ -245,6 +251,9 @@ public class BuyerInfoService {
 					transaction.setStatus("success");
 					//na kraju oduzeti novac sa racuna
 					account.setAmount(account.getAmount()-buyerInfo.getPayment().getAmount());
+					Account accountMerchant = merchant.getAccount();
+					accountMerchant.setAmount(merchant.getAccount().getAmount()+buyerInfo.getPayment().getAmount());
+					this.accountRepository.save(accountMerchant);
 					this.accountRepository.save(account);
 				}else {
 					transaction.setStatus("error");

@@ -9,6 +9,6 @@ INSERT INTO `payment` (`id`,`amount`,`error_url`,`failed_url`,`merchant_id`,`mer
 INSERT INTO `payment` (`id`,`amount`,`error_url`,`failed_url`,`merchant_id`,`merchant_order_id`,`merchant_password`,`merchant_timestamp`,`payment_id`,`payment_url`,`status`,`success_url`) VALUES (2,5000,'http://localhost:4200/error','http://localhost:4200/failed','id',2,'pass','2019-11-12 23:28:57',2,'http://localhost:4201/payment/2',NULL,'http://localhost:4200/success');
 
 
-INSERT INTO `card` (`id`, `expiry_date`, `secure_code`, `account_id`,`pan`) VALUES ('1', '2020-01-01 00:00:00', '5555', '1','2222222222222222');
-INSERT INTO `card` (`id`, `expiry_date`,`secure_code`, `account_id`,`pan`) VALUES ('2', '2020-01-01 00:00:00', '1234', '2','2222221111111111');
+INSERT INTO `card` (`id`, `expiry_date`, `secure_code`, `account_id`,`pan`) VALUES ('1', '2020-03-03 00:00:00', '5555', '1','2222222222222222');
+INSERT INTO `card` (`id`, `expiry_date`,`secure_code`, `account_id`,`pan`) VALUES ('2', '2020-03-03 00:00:00', '1234', '2','2222221111111111');
 

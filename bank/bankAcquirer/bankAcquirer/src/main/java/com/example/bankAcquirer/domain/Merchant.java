@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.example.bankAcquirer.dto.MerchantDTO;
 
@@ -26,6 +27,8 @@ public class Merchant {
 	@Column(nullable = false)
 	private String merchantPassword;
 	
+	@OneToOne
+	private Account account;
 
 	public Merchant() {
 		super();
@@ -61,6 +64,14 @@ public class Merchant {
 
 	public void setMerchantPassword(String merchantPassword) {
 		this.merchantPassword = merchantPassword;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	

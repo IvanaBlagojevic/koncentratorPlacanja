@@ -12,4 +12,11 @@ export class PaymentFailedComponent implements OnInit {
   ngOnInit() {
   }
 
+  home(){
+    
+    window.location.href="https://localhost:4202";
+    
+    
+  }
+
 }

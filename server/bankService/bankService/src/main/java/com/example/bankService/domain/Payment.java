@@ -44,6 +44,7 @@ public class Payment {
 	@Column(nullable = false)
 	private String paymentId;
 	
+	@Enumerated(EnumType.STRING)
 	@Column
 	private StatusOfPayment status; // true - success, false - abortion
 

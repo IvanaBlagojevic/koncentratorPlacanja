@@ -129,6 +129,17 @@ export class RegisterMerchantComponent implements OnInit {
         },err => {
           alert("Error while adding user to card service");
         });
+      }else {
+        
+
+        this.paymentService.addUserInPaymentService(element.path,element)
+        .subscribe(res => {
+          alert("Merchant " + this.merchantInfo.merchantName + " registrated!");
+          window.location.href = "https://localhost:1234";
+        },err => {
+          alert("Error while adding user to  service");
+        });
+
       }
 
     });

@@ -62,6 +62,12 @@ public class PaymentService {
 		
 		return this.responseRepository.save(entity);
 	}
+	
+	public Payment save(Payment entity) 
+	{
+		
+		return this.paymentRepository.save(entity);
+	}
 
 	public Payment createPayment( @Valid PaymentInfoDTO pdto) {
 		// TODO Auto-generated method stub
