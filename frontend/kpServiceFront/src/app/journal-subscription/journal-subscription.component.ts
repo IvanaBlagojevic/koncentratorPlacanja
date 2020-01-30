@@ -2,7 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentService } from '../services/payment.service';
 import { MerchantDTO } from '../model/MerchantDTO';
-import { SubscriptionDTO } from '../model/SubscriptionDTO';
+import { SubscriptionPlanDTO } from '../model/SubscriptionPlanDTO';
 
 @Component({
   selector: 'app-journal-subscription',
@@ -23,7 +23,6 @@ export class JournalSubscriptionComponent implements OnInit {
     this.paymentService.getMerchantByUsername(this.issn).subscribe(res => {
 
       this.merchant = res;
-      console.log("Sub num " + this.merchant.subscriptions.length);
     }, err => {
      // alert("Error");
     });
@@ -33,15 +32,16 @@ export class JournalSubscriptionComponent implements OnInit {
   ngOnInit() {
   }
 
-  subscribe(s : SubscriptionDTO){
+  subscribe(s : SubscriptionPlanDTO){
     console.log("TUUUUUU ");
     this.paymentService.subscribeToJournal(s.merchantUsername,s.planId,this.email).subscribe(res=>{
       console.log("Res: " + res);
-      this.zone.runOutsideAngular(() => {
-        window.location.href = "" + res;
-      });
+       this.zone.runOutsideAngular(() => {
+         window.location.href = "" + res;
+       });
     }, err =>{
       alert("Error while subscribing to journal");
     });
+    
   }
 }

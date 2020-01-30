@@ -1,6 +1,6 @@
 package com.example.kpService.dto;
 
-public class SubscriptionParamsDTO {
+public class SubscriptionPlanParamsDTO {
 
 	private Long id;
 	
@@ -14,10 +14,10 @@ public class SubscriptionParamsDTO {
 	
 	private String planId;
 	
-	public SubscriptionParamsDTO() {}
+	public SubscriptionPlanParamsDTO() {}
 	
 	
-	public SubscriptionParamsDTO(Long id, String merchantUsername, String subPeriod, int frequency, double subPrice,
+	public SubscriptionPlanParamsDTO(Long id, String merchantUsername, String subPeriod, int frequency, double subPrice,
 			String planId) {
 		super();
 		this.id = id;
@@ -28,7 +28,7 @@ public class SubscriptionParamsDTO {
 		this.planId = planId;
 	}
 
-	public SubscriptionParamsDTO(String merchantUsername, String subPeriod, int frequency, double subPrice,
+	public SubscriptionPlanParamsDTO(String merchantUsername, String subPeriod, int frequency, double subPrice,
 			String planId) {
 		super();
 		this.id = id;

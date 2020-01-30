@@ -8,5 +8,5 @@ import com.example.payPalService.domain.AgreementForBilling;
 @Repository
 public interface AgreementForBillingRepository extends JpaRepository<AgreementForBilling, Long> {
 
-	
+	AgreementForBilling findByAgreementId(String id);
 }

@@ -36,4 +36,9 @@ public class SubscriptionPlanService {
 		
 		return subRepository.findByPlanId(idP);
 	}
+	
+	public SubscriptionPlan getByPeriodFrequencyAndMerchant(String period, int f, Long id) {
+		
+		return subRepository.findByPeriodAndFrequencyAndMerchantId(period, f, id);
+	}
 }

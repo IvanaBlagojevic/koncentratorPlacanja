@@ -22,8 +22,6 @@ public class JournalDTO {
 	
 	private Double price;
 	
-	private int suscriptionNum;
-	
 	private List<SubscriptionDTO> subscriptions = new ArrayList<SubscriptionDTO>();
 	//private Editor editorInChief;
 	
@@ -37,7 +35,7 @@ public class JournalDTO {
 	}
 	
 	public JournalDTO(Long id, String title, String issn, Boolean isActivated, Boolean isOpenAccess, Double price,
-			int suscriptionNum, List<SubscriptionDTO> subscriptions) {
+			 List<SubscriptionDTO> subscriptions) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -45,7 +43,6 @@ public class JournalDTO {
 		this.isActivated = isActivated;
 		this.isOpenAccess = isOpenAccess;
 		this.price = price;
-		this.suscriptionNum = suscriptionNum;
 		this.subscriptions = subscriptions;
 	}
 
@@ -57,7 +54,6 @@ public class JournalDTO {
 		this.isActivated = journal.getIsActivated();
 		this.isOpenAccess = journal.getIsOpenAccess();
 		this.price = journal.getPrice();
-		this.suscriptionNum = journal.getSubscriptionNum();
 		
 		for(Subscription s : journal.getSubscriptions()) {
 			this.subscriptions.add(new SubscriptionDTO(s));
@@ -112,13 +108,12 @@ public class JournalDTO {
 		this.price = price;
 	}
 
-	public int getSuscriptionNum() {
-		return suscriptionNum;
+	public List<SubscriptionDTO> getSubscriptions() {
+		return subscriptions;
 	}
 
-	public void setSuscriptionNum(int suscriptionNum) {
-		this.suscriptionNum = suscriptionNum;
+	public void setSubscriptions(List<SubscriptionDTO> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
-	
 
 }

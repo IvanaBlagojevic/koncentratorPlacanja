@@ -19,12 +19,17 @@ public class AgreementForBilling {
     @Column(nullable = false)
     private String username;
     
+    @Column(nullable = false)
+    private String token;
+    
     public AgreementForBilling() {}
 
-	public AgreementForBilling( String agreementId, String username) {
+	public AgreementForBilling(String agreementId, String username, String token) {
 		super();
+		this.id = id;
 		this.agreementId = agreementId;
 		this.username = username;
+		this.token = token;
 	}
 
 	public Long getId() {
@@ -50,6 +55,13 @@ public class AgreementForBilling {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-    
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
     
 }

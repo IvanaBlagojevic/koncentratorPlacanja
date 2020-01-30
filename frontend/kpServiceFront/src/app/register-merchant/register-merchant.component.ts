@@ -84,6 +84,8 @@ export class RegisterMerchantComponent implements OnInit {
             alert("Error while adding user to bitcoin service");
           })
 
+        
+
       }else if(element.name == 'PayPal')
       {
         let clientId = "";

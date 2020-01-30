@@ -15,4 +15,7 @@ public interface SubscriptionPlanRepository extends JpaRepository<SubscriptionPl
 	SubscriptionPlan findByMerchantIdAndPlanId(Long idM, String idP);
 	
 	SubscriptionPlan findByPlanId(String planId);
+	
+	SubscriptionPlan findByPeriodAndFrequencyAndMerchantId(String period, int f ,Long idM);
+	
 }

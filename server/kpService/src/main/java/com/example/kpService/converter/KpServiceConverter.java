@@ -10,14 +10,16 @@ import com.example.kpService.domain.Merchant;
 import com.example.kpService.domain.MerchantSystem;
 import com.example.kpService.domain.MethodOfPayment;
 import com.example.kpService.domain.MethodOfPaymentFields;
+import com.example.kpService.domain.Subscription;
 import com.example.kpService.domain.SubscriptionPlan;
 import com.example.kpService.dto.MerchantSubmissionDTO;
 import com.example.kpService.dto.MerchantSystemDTO;
 import com.example.kpService.dto.MethodOfPaymentDTO;
 import com.example.kpService.dto.MethodOfPaymentFieldsDTO;
-import com.example.kpService.dto.SubscriptionParamsDTO;
+import com.example.kpService.dto.SubscriptionPlanParamsDTO;
 import com.example.kpService.service.MerchantSystemService;
 import com.example.kpService.service.MethodOfPaymentService;
+import com.example.kpService.dto.SubscriptionDTO;
 
 @Component
 public class KpServiceConverter {
@@ -40,7 +42,7 @@ public class KpServiceConverter {
 			
 		}
 		
-		return new Merchant(dto.getCompanyName(), dto.getUsername(), company, payments);
+		return new Merchant(dto.getMerchantName(), dto.getUsername(), company, payments);
 	}
 	
 	public MerchantSubmissionDTO convert(Merchant merchant) {
@@ -69,6 +71,19 @@ public class KpServiceConverter {
 	}
 	
 	
+	public SubscriptionDTO convert(Subscription s) {
+		
+		return new SubscriptionDTO(
+				s.getMerchantUsername(), 
+				s.getType(), 
+				s.getPriceAmount(), 
+				s.getPlanId(), 
+				s.isActive(), 
+				s.getAgreementId(), 
+				s.getSubEmail());
+				
+	}
+	
 	public List<MethodOfPaymentDTO> convertMethods(List<MethodOfPayment> list){
 	
 		List<MethodOfPaymentDTO> ret = new ArrayList<MethodOfPaymentDTO>();
@@ -95,13 +110,13 @@ public class KpServiceConverter {
 		return ret;
 	}
 	
-	public List<SubscriptionParamsDTO> convertSubscriptions(List<SubscriptionPlan> subs){
+	public List<SubscriptionPlanParamsDTO> convertSubscriptions(List<SubscriptionPlan> subs){
 		
-		List<SubscriptionParamsDTO> ret = new ArrayList<SubscriptionParamsDTO>();
+		List<SubscriptionPlanParamsDTO> ret = new ArrayList<SubscriptionPlanParamsDTO>();
 		
 		for(SubscriptionPlan s : subs) {
 			
-			ret.add(new SubscriptionParamsDTO(s.getId(),s.getMerchant().getUsername(),s.getPeriod(),s.getFrequency(),s.getPrice(), s.getPlanId()));
+			ret.add(new SubscriptionPlanParamsDTO(s.getId(),s.getMerchant().getUsername(),s.getPeriod(),s.getFrequency(),s.getPrice(), s.getPlanId()));
 			
 		}
 		

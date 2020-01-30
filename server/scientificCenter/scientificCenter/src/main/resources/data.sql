@@ -58,4 +58,6 @@ INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `edito
 INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`, subscription_num) VALUES (true, false, '2222-2222', 'Architectural digest', '6','1.5', 0);
 INSERT INTO `journal` (`is_activated`, `is_open_access`, `issn`, `title`, `editor_in_chief_id`, `price`, subscription_num) VALUES (true, false, '3333-2222', 'National geographic', '7','2.0', 0);
 
-insert into subscription(active, frequency,price,type,journal_id,user_id) values (true, 1, 3, 1, 1, 3);
+
+insert into subscription (active,frequency,price,type,journal_id,user_id) values (true, 1, 1, 0, 1, 3);
+insert into subscription (active,frequency,price,type,journal_id,user_id) values (true, 1, 6, 0, 2, 3);

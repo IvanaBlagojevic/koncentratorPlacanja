@@ -17,6 +17,9 @@ public class Subscription { //ova klasa predstavlja finalnu preplatu
 	private String merchantUsername;
 	
 	@Column(nullable = false)
+	private String type;
+	
+	@Column(nullable = false)
 	private double priceAmount;
 	
 	@Column(nullable = false)
@@ -36,10 +39,11 @@ public class Subscription { //ova klasa predstavlja finalnu preplatu
 		
 	}
 	
-	public Subscription(String merchantUsername, double priceAmount, String planId, boolean active,
+	public Subscription(String merchantUsername, String type ,double priceAmount, String planId, boolean active,
 			String agreementId, String subEmail) {
 		super();
 		this.merchantUsername = merchantUsername;
+		this.type = type;
 		this.priceAmount = priceAmount;
 		this.planId = planId;
 		this.active = active;
@@ -102,6 +106,14 @@ public class Subscription { //ova klasa predstavlja finalnu preplatu
 
 	public void setSubEmail(String subEmail) {
 		this.subEmail = subEmail;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }

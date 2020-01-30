@@ -2,8 +2,10 @@ export class Subscription{
         id : number;
 		type : SubscriptionType;
 		frequency : number;
-		price : number;
-		email : string;
+        price : number;
+        active : boolean;
+        userEmail : string;
+        journalIssn : string;
 }
 
 enum SubscriptionType{

@@ -1,4 +1,4 @@
-export class SubscriptionDTO {
+export class SubscriptionPlanDTO {
 	id : number;
     merchantUsername : String;
 	subPeriod : String;

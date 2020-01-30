@@ -19,6 +19,8 @@ import { CreateSubscriptionDetailsComponent } from './create-subscription-detail
 import { SubSuccessComponent } from './sub-success/sub-success.component';
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { LoginComponent } from './login/login.component';
+import { CancelSubscriptionComponent } from './cancel-subscription/cancel-subscription.component';
+
 //':id1/:id2' - id1 - issn, id2 - cena
 const appRoutes: Routes = [ {path: '', component : HomepageComponent},
                             {path : 'ppsuccess', component : PayPalSuccessComponent},
@@ -33,7 +35,8 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
                             {path : 'subscription/:id1/:id2', component : JournalSubscriptionComponent},
                             {path : 'subDetails', component : CreateSubscriptionDetailsComponent},
                             {path : 'subSuccess', component : SubSuccessComponent},
-                            {path : 'login', component : LoginComponent}
+                            {path : 'login', component : LoginComponent},
+                            {path : 'cancelSub/:id1/:id2', component : CancelSubscriptionComponent}
  ]
 
 @NgModule({
@@ -52,7 +55,8 @@ const appRoutes: Routes = [ {path: '', component : HomepageComponent},
     JournalSubscriptionComponent,
     CreateSubscriptionDetailsComponent,
     SubSuccessComponent,
-    LoginComponent
+    LoginComponent,
+    CancelSubscriptionComponent
   ],
   imports: [
     BrowserModule,

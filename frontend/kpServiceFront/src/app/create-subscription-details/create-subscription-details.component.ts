@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SubscriptionDTO } from '../model/SubscriptionDTO';
+import { SubscriptionPlanDTO } from '../model/SubscriptionPlanDTO';
 import { PaymentService } from '../services/payment.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { PaymentService } from '../services/payment.service';
 })
 export class CreateSubscriptionDetailsComponent implements OnInit {
 
-  private subscriptionDTO = new SubscriptionDTO();
+  private subscriptionDTO = new SubscriptionPlanDTO();
 
   constructor(private paymentService : PaymentService) { }
 

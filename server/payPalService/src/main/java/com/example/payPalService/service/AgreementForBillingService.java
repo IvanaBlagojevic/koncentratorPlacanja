@@ -16,4 +16,9 @@ public class AgreementForBillingService {
 		
 		return agrRepository.save(agr);
 	}
+	
+	public AgreementForBilling getById(String id) {
+		
+		return agrRepository.findByAgreementId(id);
+	}
 }

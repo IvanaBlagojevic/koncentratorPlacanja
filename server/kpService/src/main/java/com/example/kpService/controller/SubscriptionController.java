@@ -25,7 +25,8 @@ import com.example.kpService.domain.SubscriptionPeriod;
 import com.example.kpService.domain.SubscriptionPlan;
 import com.example.kpService.dto.BillingAgreementDTO;
 import com.example.kpService.dto.BillingPlanDTO;
-import com.example.kpService.dto.SubscriptionParamsDTO;
+import com.example.kpService.dto.SubscriptionDTO;
+import com.example.kpService.dto.SubscriptionPlanParamsDTO;
 import com.example.kpService.dto.SubscriptionSCenterDTO;
 import com.example.kpService.service.MerchantService;
 import com.example.kpService.service.SubscriptionPlanService;
@@ -54,13 +55,36 @@ public class SubscriptionController {
 	
 	
 	@RequestMapping(
+			value="/getSubscription/{id1}")
+	public ResponseEntity<SubscriptionDTO> getSubByMecrhantUsername(@PathVariable("id1")String username) {
+	
+		Subscription subsciption = subService.getByMerchantUsername(username);
+		
+		if(subsciption == null)
+		{
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}else
+		{
+			return new ResponseEntity<>(converter.convert(subsciption), HttpStatus.OK);
+		}
+	}
+	
+	
+	@RequestMapping(
 			value="/save",
 			method = RequestMethod.POST)
-	public ResponseEntity saveSubscriptionPlan(@RequestBody SubscriptionParamsDTO subDTO) {
+	public ResponseEntity saveSubscriptionPlan(@RequestBody SubscriptionPlanParamsDTO subDTO) {
 	
 		Merchant merchant = merchantService.getByUsername(subDTO.getMerchantUsername());
 		
 		if(merchant == null)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		//provera da li postoji plan za casopis za istim odabranim periodom i frekvencijom?
+		SubscriptionPlan sp = subPlanService.getByPeriodFrequencyAndMerchant(subDTO.getSubPeriod(), subDTO.getFrequency(), merchant.getId());
+		if(sp != null)
 		{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -76,13 +100,21 @@ public class SubscriptionController {
 		HttpHeaders header = new HttpHeaders();
 		header.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<BillingPlanDTO> entity = new HttpEntity<BillingPlanDTO>(plan, header);
-		String  ret = template.postForObject(this.zuulUrl + "payPalService/createPlan",entity,String.class);
 		
-		RestTemplate template2 = new RestTemplate();
+		try {
+			
+			String  ret = template.postForObject(this.zuulUrl + "payPalService/createPlan",entity,String.class);
+			RestTemplate template2 = new RestTemplate();
+			template2.getForEntity(ret, null, String.class); 
+			return new ResponseEntity<>(HttpStatus.OK);
+			
+		}catch(HttpStatusCodeException e)
+		{
+			System.out.println("Greska prilikom kreiranja plana u PayPal servisu");
+			
+		}
 		
-		template2.getForEntity(ret, null, String.class); 
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
 	@RequestMapping(
@@ -129,12 +161,11 @@ public class SubscriptionController {
 			value="/subscribeTo/{id}/{id2}/{id3}/",
 			method = RequestMethod.GET,  produces = "text/plain")
 	public String subscribeToJournal(@PathVariable("id") String username, @PathVariable("id2") String planId, @PathVariable("id3") String subEmail) {
-		
+		System.out.println("Preplati seee");
 		Merchant m = merchantService.getByUsername(username);
 		
 		if(m == null)
 		{
-			
 			return null;
 		}
 		
@@ -144,10 +175,19 @@ public class SubscriptionController {
 		if(sub == null)
 		{
 			return null;
+			
 		}else
 		{
-			Subscription subscription =  new Subscription(m.getUsername(),sub.getPrice(),planId,false,null,subEmail);
-			subService.saveSub(subscription);
+			//provera da li je isti korisnik vec preplacen
+			Subscription subRet = subService.getByMerchantSubsciberAndActivity(username, subEmail, true);
+			
+			if(subRet != null) //korisnik vec ima aktivan ugovor!
+			{
+				return null;
+			}
+			
+			Subscription subscription =  new Subscription(m.getUsername(),sub.getPeriod(),sub.getPrice(),planId,false,null,subEmail);
+			subService.saveSub(subscription); 
 			
 			String ret="";
 				
@@ -185,6 +225,49 @@ public class SubscriptionController {
 		}
 		
 		
+	}
+	
+	@RequestMapping(
+			value="/unsubscribe/{id1}/{id2}/{id3}/",
+			method = RequestMethod.GET, 
+			produces = "text/plain")
+	public String cancelSubscribe(@PathVariable("id1")String username, @PathVariable("id2") String agreementId, @PathVariable("id3") String subEmail) {
+		
+		Merchant merchant = merchantService.getByUsername(username);
+		if(merchant == null)
+		{
+			return null;
+		}
+		
+		Subscription sub = subService.getByAgrIdAndSubscriberEmail(agreementId, subEmail);
+		if(sub == null)
+		{
+			return null;
+		}
+		
+		RestTemplate template = new RestTemplate();
+		//PayPal otkaz ugovora
+		try {
+			template.getForEntity(this.zuulUrl + "/payPalService/cancelAgreement/"+agreementId+"/"+username, null, String.class);
+		}catch(HttpStatusCodeException e)
+		{
+			System.out.println("Greska prilikom gadjanja payPal-a za otkazivanje preplate");
+		}
+		
+		sub.setActive(false);
+		subService.saveSub(sub);
+		
+		//azurirace se svakako automatski za minut, tako da ovo ne mora
+		//azuriranje info u NC
+		try {
+			template.getForEntity(merchant.getSystem().getBackUrl()+"/subscription/unsubscribe/" + username + "/"+ subEmail, null, String.class);
+		}catch(HttpStatusCodeException ex)
+		{
+			System.out.println("Greska prilikom azuriranja info o otkazu preplate u NC");
+		}
+		
+		String retUrl = merchant.getSystem().getFrontUrl();
+		return retUrl;
 	}
 	
 	public SubscriptionPeriod convertToEnum(String s) {

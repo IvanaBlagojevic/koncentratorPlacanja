@@ -133,15 +133,26 @@ export class HomeComponent implements OnInit {
         this.journals=data;
 
         this.journals.forEach(element =>{
-
+          console.log("Element " + element.title + " , sub: " + element.subscriptions.length);
           if(element.subscriptions != null)
           {
+            element.canSubscribe = true;
+            element.canUnsubscribe = false;
             element.subscriptions.forEach(element2 =>{
-              if(element2.email == this.email)
+              if(element2.userEmail == this.email && element2.active == true)
               { 
                 element.canSubscribe = false;
+                element.canUnsubscribe = true;
+              }else if(element2.userEmail == this.email && element2.active == false)
+              {
+                element.canSubscribe = true;
+                element.canUnsubscribe = false;
               }
             });
+          }else
+          {
+            element.canSubscribe = true;
+            element.canUnsubscribe = false;
           }
            
         });
@@ -175,6 +186,7 @@ export class HomeComponent implements OnInit {
 
   unsubscribe(journal : Journal){
 
+    window.location.href= "https://localhost:1234/cancelSub/"+journal.issn + "/" + this.email;
   }
 
 }

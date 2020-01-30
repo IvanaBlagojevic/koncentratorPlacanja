@@ -18,12 +18,12 @@ public class MerchantSubmissionDTO {
 	
 	private List<MethodOfPaymentDTO> supportedMethods;
 	
-	private List<SubscriptionParamsDTO> subscriptions;
+	private List<SubscriptionPlanParamsDTO> subscriptions;
 	
 	public MerchantSubmissionDTO() {}
 
 	public MerchantSubmissionDTO(String companyName, String merchantName, String username, MerchantSystemDTO SCsystem,
-			List<MethodOfPaymentDTO> supportedMethods, List<SubscriptionParamsDTO> subscriptions) {
+			List<MethodOfPaymentDTO> supportedMethods, List<SubscriptionPlanParamsDTO> subscriptions) {
 		super();
 		this.companyName = companyName;
 		this.merchantName = merchantName;
@@ -73,11 +73,11 @@ public class MerchantSubmissionDTO {
 		this.supportedMethods = supportedMethods;
 	}
 
-	public List<SubscriptionParamsDTO> getSubscriptions() {
+	public List<SubscriptionPlanParamsDTO> getSubscriptions() {
 		return subscriptions;
 	}
 
-	public void setSubscriptions(List<SubscriptionParamsDTO> subscriptions) {
+	public void setSubscriptions(List<SubscriptionPlanParamsDTO> subscriptions) {
 		this.subscriptions = subscriptions;
 	}
 	

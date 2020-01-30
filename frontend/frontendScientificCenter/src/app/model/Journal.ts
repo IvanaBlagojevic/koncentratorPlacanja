@@ -18,5 +18,7 @@ export class Journal{
 
 	subscriptions : Array<Subscription>;
 
-	canSubscribe : boolean = true;
+	canSubscribe : boolean;
+
+	canUnsubscribe : boolean;
 }

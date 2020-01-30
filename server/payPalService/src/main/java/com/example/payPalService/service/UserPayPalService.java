@@ -1,5 +1,7 @@
 package com.example.payPalService.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ public class UserPayPalService {
 	@Autowired
 	private UserPayPalRepository userRep;
 	
-	public UserPayPal getUserByUsername(String username) {
+	public Optional<UserPayPal> getUserByUsername(String username) {
 		
 		return userRep.findByUsername(username);
 	}
