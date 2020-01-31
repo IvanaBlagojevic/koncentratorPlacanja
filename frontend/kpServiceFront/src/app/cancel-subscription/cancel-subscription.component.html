@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label for="input_fname">Subscriber: {{subscription.subEmail}}</label>
                     </div>        
-                    <button class="btn btn-primary" id="id" (click)="unsubscribe(subscription)">Cancel subcription</button>
+                    <button class="btn btn-primary" id="id" (click)="unsubscribe(subscription)" *ngIf="subscription.active == true">Cancel subcription</button>
                    
                 </div>
             </div>

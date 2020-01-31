@@ -100,7 +100,7 @@ public class SubscriptionController {
 			
 		}
 		
-		Subscription sub = subService.getByJournalAndUser(journal.getId(), user.get().getId());
+		Subscription sub = subService.getActiveSubByJournalAndUser(journal.getId(), user.get().getId(),false);
 		
 		if(sub == null)
 		{
@@ -130,7 +130,7 @@ public class SubscriptionController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		Subscription sub = subService.getByJournalAndUser(journal.getId(), user.get().getId());
+		Subscription sub = subService.getActiveSubByJournalAndUser(journal.getId(), user.get().getId(), true);
 		if(sub == null)
 		{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -159,7 +159,7 @@ public class SubscriptionController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 				
-		Subscription sub = subService.getByJournalAndUser(j.getId(), user.get().getId());
+		Subscription sub = subService.getActiveSubByJournalAndUser(j.getId(), user.get().getId(),true);
 		if(sub == null)
 		{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

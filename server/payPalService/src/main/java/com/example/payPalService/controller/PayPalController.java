@@ -171,7 +171,27 @@ public class PayPalController {
 	@GetMapping(path = "/getAgrStatus/{id1}/{id2}", produces = "text/plain")
 	public @ResponseBody String getAggrDetails(@PathVariable("id1") String agrId, @PathVariable("id2") String username) {
 		System.out.println("Pogodio proveru statusa za " + agrId + " , " + username);
-		Optional<UserPayPal> user = userService.getUserByUsername(username);
+		
+		if(agrId != null && username != null)
+		{
+			Optional<UserPayPal> user = userService.getUserByUsername(username);
+			
+
+			APIContext context = new APIContext(user.get().getClientId(), user.get().getClientSecret(), "sandbox");
+			Agreement agr = new Agreement();
+			try {
+				
+				Agreement activeAgreement = agr.get(context,agrId);
+				System.out.println("status: " + activeAgreement.getState());
+				return activeAgreement.getState();
+				
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return "Glupost";
+		}else
+			return "Glupost";
 		
 //		if(!user.isPresent())
 //		{
@@ -184,19 +204,6 @@ public class PayPalController {
 //			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //		}
 		
-		APIContext context = new APIContext(user.get().getClientId(), user.get().getClientSecret(), "sandbox");
-		Agreement agr = new Agreement();
-		try {
-			
-			Agreement activeAgreement = agr.get(context,agrId);
-			System.out.println("status: " + activeAgreement.getState());
-			return activeAgreement.getState();
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "Glupost";
 	}
 	
 }

@@ -136,7 +136,7 @@ public class SubscriptionController {
 		
 		SubscriptionPlan plan = subPlanService.getById(subId);
 		
-		Subscription subscription = subService.getByPlanId(plan.getPlanId());
+		Subscription subscription = subService.getSubByPlanId(plan.getPlanId(), false);
 		
 		subscription.setAgreementId(agreementId);
 		subscription.setActive(true);

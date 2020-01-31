@@ -21,9 +21,9 @@ public class SubscriptionService {
 		return subRepository.save(s);
 	}
 	
-	public Subscription getByPlanId(String planId) {
+	public List<Subscription> getByPlanId(String planId) {
 		
-		return subRepository.findByPlanId(planId);
+		return (List<Subscription>) subRepository.findAllByPlanId(planId);
 	}
 	
 	public Subscription getByMerchantUsername(String username) {
@@ -54,5 +54,10 @@ public class SubscriptionService {
 	public Subscription getByMerchantAndActivity(String username, boolean activity) {
 		
 		return subRepository.findByMerchantUsernameAndActive(username, activity);
+	}
+	
+	public Subscription getSubByPlanId(String planId, boolean active) {
+		
+		return subRepository.findByPlanIdAndActive(planId, active);
 	}
 }

@@ -33,9 +33,8 @@ export class JournalSubscriptionComponent implements OnInit {
   }
 
   subscribe(s : SubscriptionPlanDTO){
-    console.log("TUUUUUU ");
     this.paymentService.subscribeToJournal(s.merchantUsername,s.planId,this.email).subscribe(res=>{
-      console.log("Res: " + res);
+      //console.log("Res: " + res);
        this.zone.runOutsideAngular(() => {
          window.location.href = "" + res;
        });

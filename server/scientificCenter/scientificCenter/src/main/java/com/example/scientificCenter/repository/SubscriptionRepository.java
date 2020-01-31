@@ -10,7 +10,7 @@ import com.example.scientificCenter.domain.Subscription;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
-	 Subscription findByJournalIdAndUserId(Long jId, Long uId);
+	 Subscription findByJournalIdAndUserIdAndActive(Long jId, Long uId, boolean active);
 	 
 	 List<Subscription> findAllByJournalId(Long id);
 	 

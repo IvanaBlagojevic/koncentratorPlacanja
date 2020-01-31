@@ -19,9 +19,9 @@ public class SubscriptionService {
 		return subRepository.save(sub);
 	}
 	
-	public Subscription getByJournalAndUser(Long jId,Long uId) {
+	public Subscription getActiveSubByJournalAndUser(Long jId,Long uId, boolean active) {
 		
-		return subRepository.findByJournalIdAndUserId(jId, uId);
+		return subRepository.findByJournalIdAndUserIdAndActive(jId, uId, active);
 	}
 	
 	public List<Subscription> getByJournalId(Long id){
