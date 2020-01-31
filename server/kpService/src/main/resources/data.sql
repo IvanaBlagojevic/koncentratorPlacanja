@@ -42,8 +42,8 @@ INSERT INTO `payment_info`(`amount`,`created`,`errorurl`,`failedurl`,`is_paid`,`
 '1111-2222',NULL,'00c6f74a-30e7-4579-868c-4067d788ce47',NULL,'https://localhost:4202/success',NULL,'ljuba@gmail.com');
 
 --vec preplaceni korisnici
-insert into subscription(active,agreement_id,merchant_username,plan_id,price_amount,sub_email, type) values (true, "I-LR9TUN6NLUT5", "1111-2222", "P-7AJ82571DF828421A7C2QQHI", 1, "dana@gmail.com", "DAY");
-insert into subscription(active,agreement_id,merchant_username,plan_id,price_amount,sub_email, type) values (true, "I-P7VE39HH6X8C", "2222-2222", "P-9HT753127D157811R7C2WK3A", 6, "dana@gmail.com", "DAY");
+insert into subscription(active,agreement_id,merchant_username,plan_id,price_amount,sub_email, type) values (true, "I-1L0NU5JWX8K5", "1111-2222", "P-7AJ82571DF828421A7C2QQHI", 1, "dana@gmail.com", "DAY");
+insert into subscription(active,agreement_id,merchant_username,plan_id,price_amount,sub_email, type) values (true, "I-N61AN65R3BGN", "2222-2222", "P-9HT753127D157811R7C2WK3A", 6, "dana@gmail.com", "DAY");
 
 
 

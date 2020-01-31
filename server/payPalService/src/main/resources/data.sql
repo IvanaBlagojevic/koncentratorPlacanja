@@ -6,5 +6,5 @@ insert into plan_for_billing(active,frequency,plan_id,type) values (true,"INFINI
 insert into plan_for_billing(active,frequency,plan_id,type) values (true,"INFINITE","P-9HT753127D157811R7C2WK3A","DAY");
 
 --kreirani ugovori(preplata obavljena)
-insert into agreement_for_billing(agreement_id,username,token) values ("I-LR9TUN6NLUT5", "1111-2222","EC-41747559HT622801L");
-insert into agreement_for_billing(agreement_id,username,token) values ("I-YN5GCB2YVVAP", "2222-2222","EC-01E24115B6435270A");
+insert into agreement_for_billing(agreement_id,username,token) values ("I-1L0NU5JWX8K5", "1111-2222","EC-77F96609X62847633");
+insert into agreement_for_billing(agreement_id,username,token) values ("I-N61AN65R3BGN", "2222-2222","EC-2BT17450JP788143W");
