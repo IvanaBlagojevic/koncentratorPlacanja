@@ -78,7 +78,7 @@ public class TransactionController {
 		transaction.setSuccessURL("https://localhost:4202/success");///"+tDTO.getOrderId());
 		transaction.setStatus(TransactionStatus.CREATED);
 		transaction.setMerchantIssn(tDTO.getMerchantIssn());
-		this.transactionService.save(transaction);
+		
 		
 		RestTemplate temp = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -89,10 +89,11 @@ public class TransactionController {
         try {
         	temp.postForObject(address+"/createFromNC", dto, Transaction.class);
             System.out.println("Successfull created payment!");
+            this.transactionService.save(transaction);
             
         } catch (HttpStatusCodeException exception) {
             System.out.println("Error while creating payment - HttpStatusCodeException!");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
 		
 		return new ResponseEntity<>(dto, HttpStatus.OK);

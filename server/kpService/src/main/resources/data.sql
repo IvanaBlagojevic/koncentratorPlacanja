@@ -38,8 +38,8 @@ insert into subscription_plan(frequency,period,plan_id,price,merchant_id) values
 
 
 
-INSERT INTO `payment_info`(`amount`,`created`,`errorurl`,`failedurl`,`is_paid`,`merchant_issn`,`order_number_id`,`order_numbernc`,`payment_method`,`successurl`,`updated`,`user_email`) VALUES (2.5,NULL,'https://localhost:4202/error','https://localhost:4202/failed','CREATED',
-'1111-2222',NULL,'00c6f74a-30e7-4579-868c-4067d788ce47',NULL,'https://localhost:4202/success',NULL,'ljuba@gmail.com');
+--INSERT INTO `payment_info`(`amount`,`created`,`errorurl`,`failedurl`,`is_paid`,`merchant_issn`,`order_number_id`,`order_numbernc`,`payment_method`,`successurl`,`updated`,`user_email`) VALUES (2.5,NULL,'https://localhost:4202/error','https://localhost:4202/failed','CREATED',
+--'1111-2222',NULL,'00c6f74a-30e7-4579-868c-4067d788ce47',NULL,'https://localhost:4202/success',NULL,'ljuba@gmail.com');
 
 --vec preplaceni korisnici
 insert into subscription(active,agreement_id,merchant_username,plan_id,price_amount,sub_email, type) values (true, "I-1L0NU5JWX8K5", "1111-2222", "P-7AJ82571DF828421A7C2QQHI", 1, "dana@gmail.com", "DAY");

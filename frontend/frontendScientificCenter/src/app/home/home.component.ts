@@ -128,23 +128,28 @@ export class HomeComponent implements OnInit {
   }
 
   seeList(){
+    console.log("ivana");
     this.journalService.getAll().subscribe(
       data=>{
         this.journals=data;
 
         this.journals.forEach(element =>{
-          console.log("Element " + element.title + " , sub: " + element.subscriptions.length);
+          console.log("SUBS"+element.subscriptions);
           if(element.subscriptions != null)
           {
+            console.log("Element " + element.title + " , sub: " + element.subscriptions.length);
+            
             element.canSubscribe = true;
             element.canUnsubscribe = false;
             element.subscriptions.forEach(element2 =>{
+              console.log("ACTIVE STATUS" + element2.active);
               if(element2.userEmail == this.email && element2.active == true)
               { 
                 element.canSubscribe = false;
                 element.canUnsubscribe = true;
               }else if(element2.userEmail == this.email && element2.active == false)
               {
+               
                 element.canSubscribe = true;
                 element.canUnsubscribe = false;
               }
@@ -172,7 +177,7 @@ export class HomeComponent implements OnInit {
       data=>{
         alert("Success "+data.orderId);
         window.location.href = "https://localhost:1234/createPayment/"+data.orderId;
-      },error =>{alert("Error")}
+      },error =>{this.handleError(error)}
       );
     
     //console.log("kupi casopis sa idijem "+journal.id);
@@ -187,6 +192,16 @@ export class HomeComponent implements OnInit {
   unsubscribe(journal : Journal){
 
     window.location.href= "https://localhost:1234/cancelSub/"+journal.issn + "/" + this.email;
+  }
+
+  handleError(err: HttpErrorResponse) {
+    
+    if(err.status === 503){
+      alert('This magazine does not have any available payment methods!');
+    }else{
+      alert("Error");
+    }
+    
   }
 
 }

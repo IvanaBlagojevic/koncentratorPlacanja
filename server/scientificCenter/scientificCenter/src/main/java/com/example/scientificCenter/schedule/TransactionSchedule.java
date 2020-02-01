@@ -42,10 +42,10 @@ public class TransactionSchedule {
 					
 					ResponseEntity<JsonNode> response = toKP.exchange("https://localhost:8086/"+ "kpService/paymentinfo" + "/getOne/"+t.getOrderId(),HttpMethod.GET, requesttoKP, JsonNode.class);
 					JsonNode map = response.getBody();
-					System.out.println("odgovor " + map);
+					//System.out.println("odgovor " + map);
 			
 					String compare = map.get("isPaid").asText();
-					System.out.println("compare " + compare);
+					//System.out.println("compare " + compare);
 					TransactionStatus set = transactionService.findStatus(compare);
 					if (set!=null) {
 						t.setStatus(set);

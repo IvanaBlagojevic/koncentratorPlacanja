@@ -24,6 +24,7 @@ import com.example.kpService.dto.MerchantSubmissionDTO;
 import com.example.kpService.dto.MethodOfPaymentDTO;
 import com.example.kpService.dto.PaymentInfoDTO;
 import com.example.kpService.dto.TransactionDTO;
+import com.example.kpService.service.MerchantService;
 import com.example.kpService.service.PaymentInfoService;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -33,6 +34,9 @@ public class PaymentInfoController {
 	
 	@Autowired
 	private PaymentInfoService pis;
+	
+	@Autowired
+	private MerchantService ms;
 	
 	@RequestMapping(value = "/create/{orderId}/", method = RequestMethod.POST)
 	public ResponseEntity<?> createPaymentInfo(@PathVariable String orderId,@RequestBody PaymentInfoDTO dto) {
@@ -79,10 +83,17 @@ public class PaymentInfoController {
 	public ResponseEntity<?> createPaymentInfoFromNC(@RequestBody TransactionDTO dto) {
 		
 		System.out.println("CREATE method ");
-		PaymentInfo method =  dto.convertToDomain();
-		pis.save(method);
+		Merchant m  = ms.getByUsername(dto.getMerchantIssn());
+		if (m!=null) {
+			PaymentInfo method =  dto.convertToDomain();
+			pis.save(method);
+			
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		
 	}
 	
 	@RequestMapping(value = "/getOne/{orderId}", method = RequestMethod.GET)
